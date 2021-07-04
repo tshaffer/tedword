@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import * as path from 'path';
 
+import { pusher } from '../app';
+
 export function getIndex(request: Request, response: Response) {
   console.log('getIndex invoked');
   const pathToIndex = path.join(__dirname, '../../public', 'index.html');
@@ -25,4 +27,16 @@ export function getBundleMap(request: Request, response: Response) {
   const pathToBundleMap = path.join(__dirname, '../../public', 'build', 'bundle.js.map');
   console.log(pathToBundleMap)
   response.sendFile(pathToBundleMap);
+}
+
+export function cellChange(request: Request, response: Response) {
+  console.log('cellChange invoked');
+  console.log(request.body);
+  const { row, col, typedChar } = request.body;
+  pusher.trigger('puzzle', 'cell-change', {
+    row,
+    col,
+    typedChar,
+  });
+  response.sendStatus(200);
 }

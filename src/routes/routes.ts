@@ -4,6 +4,7 @@ import {
   getCSS,
   getBundle,
   getBundleMap,
+  cellChange,
  } from '../controllers';
 
 export class Routes {
@@ -18,5 +19,6 @@ export class Routes {
     app.get('/css/app.css', getCSS);
     app.get('/build/bundle.js', getBundle);
     app.get('/build/bundle.js.map', getBundleMap);
+    app.post('/cellChange', cellChange);
   }
 }

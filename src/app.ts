@@ -1,15 +1,14 @@
 import express from 'express';
-// import cors from 'cors';
+import cors from 'cors';
 // import cookieParser from 'cookie-parser';
-// import { readConfig } from './config';
-// import { spotifyApiConfiguration } from './config';
+import { readConfig } from './config';
 
-// import { SpotifyWebApi } from './webApiHelpers';
+const bodyParser = require('body-parser');
+const Pusher = require('pusher');
 
 import { Routes } from './routes/routes';
-// import spotifyApiRouter from './routes/spotifyApi';
 
-// export let spotifyWebApi: SpotifyWebApi;
+export let pusher: any;
 
 class App {
 
@@ -18,26 +17,27 @@ class App {
 
   constructor() {
 
-    // readConfig('/Users/tedshaffer/Documents/Projects/spotify-2/src/config/config.env');
+    readConfig('/Users/tedshaffer/Documents/Projects/tedword/src/config/config.env');
 
-    // spotifyWebApi = new SpotifyWebApi({
-    //   redirectUri: spotifyApiConfiguration.DEFAULT_REDIRECT_URI,
-    //   clientId: spotifyApiConfiguration.CLIENT_ID,
-    //   clientSecret: spotifyApiConfiguration.CLIENT_SECRET,
-    // })
+    pusher = new Pusher({
+      appId: process.env.PUSHER_APP_ID,
+      key: process.env.PUSHER_APP_KEY,
+      secret: process.env.PUSHER_APP_SECRET,
+      cluster: process.env.PUSHER_APP_CLUSTER,
+      encrypted: true,
+    });
 
     this.app = express();
     this.config();
 
     this.app.use(express.static(__dirname + '/public'));
-    // .use(cors())
-    // .use(cookieParser());
-
+    this.app.use(cors());
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    
     this.route.routes(this.app);
     // this.app.use('/api/v1', spotifyApiRouter);
 
-    console.log('__dirname');
-    console.log(__dirname);
   }
 
   private config(): void {
@@ -47,7 +47,6 @@ class App {
     }
     this.app.set('port', port);
   }
-
 }
 
 export default new App().app;
