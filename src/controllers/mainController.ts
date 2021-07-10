@@ -32,8 +32,9 @@ export function getBundleMap(request: Request, response: Response) {
 export function cellChange(request: Request, response: Response) {
   console.log('cellChange invoked');
   console.log(request.body);
-  const { row, col, typedChar } = request.body;
+  const { user, row, col, typedChar } = request.body;
   pusher.trigger('puzzle', 'cell-change', {
+    user,
     row,
     col,
     typedChar,
