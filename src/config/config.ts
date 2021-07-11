@@ -12,6 +12,7 @@ export const readConfig = (pathToConfigFile: string): void => {
 
     if (!isNil(parsedConfig)) {
       tedwordConfiguration = {
+        MONGO_URI: parsedConfig.MONGO_URI,
         PUSHER_APP_ID: parsedConfig.PUSHER_APP_ID,
         PUSHER_APP_KEY: parsedConfig.PUSHER_APP_ID,
         PUSHER_APP_SECRET: parsedConfig.PUSHER_APP_ID,

@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import connectDB from './config/db';
+
 // import cookieParser from 'cookie-parser';
 import { readConfig } from './config';
 
@@ -7,6 +9,8 @@ const bodyParser = require('body-parser');
 const Pusher = require('pusher');
 
 import { Routes } from './routes/routes';
+
+import usersRouter from './routes/users';
 
 export let pusher: any;
 
@@ -18,6 +22,8 @@ class App {
   constructor() {
 
     readConfig('/Users/tedshaffer/Documents/Projects/tedword/src/config/config.env');
+
+    connectDB();
 
     pusher = new Pusher({
       appId: process.env.PUSHER_APP_ID,
@@ -36,7 +42,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     
     this.route.routes(this.app);
-    // this.app.use('/api/v1', spotifyApiRouter);
+    this.app.use('/api/v1', usersRouter);
 
   }
 

@@ -1,0 +1,24 @@
+export interface BoardEntity {
+  id: string;
+  puzzleId: string;
+  users: any[];
+  cellContents: string;
+  startDateTime: Date;
+  lastPlayedDateTime: Date;
+  elapsedTime: number;
+  solved: boolean;
+  difficulty: number;
+}
+
+export interface Puzzle {
+  id: string;
+  name: string;
+  puzData: string;
+}
+
+export interface UserEntity {
+  userName: string;
+  password: string;
+  email: string;
+  cellTextColorPartnerBoard: string;
+}
