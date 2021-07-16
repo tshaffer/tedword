@@ -33,14 +33,10 @@ export function createUser(request: Request, response: Response, next: any) {
 
 export function loadPuzzle(request: Request, response: Response, next: any) {
   console.log('loadPuzzle');
-  // console.log(request.body);
 
-  // console.log('request.query:');
-  // console.log(request.query);
+  console.log('request.query:');
+  console.log(request.query);
 
-  console.log('request.params');
-  console.log(request.params);
-  
   // const { puzzlePath } = request.body;
   // fs.readFile(puzzlePath, (err, data) => {
   //   if (err) throw err;

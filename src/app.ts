@@ -11,7 +11,7 @@ const Pusher = require('pusher');
 import { Routes } from './routes/routes';
 
 import usersRouter from './routes/users';
-import puzzlesRouter from './routes/puzzles';
+import { loadPuzzle } from './controllers/testEndpoints';
 
 export let pusher: any;
 
@@ -44,8 +44,7 @@ class App {
     
     this.route.routes(this.app);
     this.app.use('/api/v1', usersRouter);
-    this.app.use('/api/v1', puzzlesRouter);
-
+    this.app.get('/api/v1/loadPuzzle', loadPuzzle);
   }
 
   private config(): void {
