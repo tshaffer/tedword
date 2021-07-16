@@ -3,9 +3,11 @@ import * as fs from 'fs';
 import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 
-
 import { UserEntity } from '../types/entities';
 import { createUserDocument } from './dbInterface';
+import { PuzCrosswordSpec } from '../types';
+
+const PuzCrossword = require('@confuzzle/puz-crossword').PuzCrossword;
 
 export function createUser(request: Request, response: Response, next: any) {
   console.log('createUser');
@@ -43,6 +45,9 @@ export function loadPuzzle(request: Request, response: Response, next: any) {
   fs.readFile(puzzlePath, (err, data: Buffer) => {
     if (err) throw err;
     console.log(data);
+
+    const pc: PuzCrosswordSpec = PuzCrossword.from(data);
+    console.log(pc);
 
     // data: Buffer(2561)
 
