@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 
@@ -27,5 +29,23 @@ export function createUser(request: Request, response: Response, next: any) {
         data: userDocument,
       });
     });
+}
+
+export function loadPuzzle(request: Request, response: Response, next: any) {
+  console.log('loadPuzzle');
+  // console.log(request.body);
+
+  // console.log('request.query:');
+  // console.log(request.query);
+
+  console.log('request.params');
+  console.log(request.params);
+  
+  // const { puzzlePath } = request.body;
+  // fs.readFile(puzzlePath, (err, data) => {
+  //   if (err) throw err;
+  //   console.log(data);
+  // });
+  response.sendStatus(200);
 }
 

@@ -10,7 +10,7 @@ export interface BoardEntity {
   difficulty: number;
 }
 
-export interface Puzzle {
+export interface PuzzleEntity {
   id: string;
   name: string;
   puzData: string;

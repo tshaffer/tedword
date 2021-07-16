@@ -11,6 +11,7 @@ const Pusher = require('pusher');
 import { Routes } from './routes/routes';
 
 import usersRouter from './routes/users';
+import puzzlesRouter from './routes/puzzles';
 
 export let pusher: any;
 
@@ -43,6 +44,7 @@ class App {
     
     this.route.routes(this.app);
     this.app.use('/api/v1', usersRouter);
+    this.app.use('/api/v1', puzzlesRouter);
 
   }
 
