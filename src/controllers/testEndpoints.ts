@@ -37,11 +37,20 @@ export function loadPuzzle(request: Request, response: Response, next: any) {
   console.log('request.query:');
   console.log(request.query);
 
+  const puzzlePath: string = request.query.puzzlePath as string;
+
   // const { puzzlePath } = request.body;
-  // fs.readFile(puzzlePath, (err, data) => {
-  //   if (err) throw err;
-  //   console.log(data);
-  // });
+  fs.readFile(puzzlePath, (err, data: Buffer) => {
+    if (err) throw err;
+    console.log(data);
+
+    // data: Buffer(2561)
+
+    // checksum: data.slice(0, 2)
+
+    // magic: data.slice(2, 14).toString()
+  });
+
   response.sendStatus(200);
 }
 
