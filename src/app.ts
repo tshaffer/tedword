@@ -12,7 +12,7 @@ import { Routes } from './routes/routes';
 
 import usersRouter from './routes/users';
 import { loadPuzzle } from './controllers/testEndpoints';
-import { getPuzzleMetadata, getPuzData } from './controllers';
+import { getPuzzleMetadata, getPuzData, getAllPuzzlesMetadata } from './controllers';
 
 export let pusher: any;
 
@@ -48,6 +48,7 @@ class App {
 
     // puzzle routes
     this.app.get('/api/v1/loadPuzzle', loadPuzzle);
+    this.app.get('/api/v1/allPuzzlesMetadata', getAllPuzzlesMetadata);
     this.app.get('/api/v1/puzzleMetadata', getPuzzleMetadata);
     this.app.get('/api/v1/puzData', getPuzData);
   }

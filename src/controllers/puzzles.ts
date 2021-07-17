@@ -4,6 +4,47 @@ import { Document } from 'mongoose';
 import Puzzle from '../models/Puzzle';
 import { PuzzleMetadata } from '../types';
 
+export const getAllPuzzlesMetadata = (request: Request, response: Response, next: any) => {
+  console.log('getAllPuzzlesMetadata');
+
+  getAllPuzzlesMetadataFromDb()
+    .then((puzzlesMetadata: PuzzleMetadata[]) => {
+      console.log('puzzlesMetadata');
+      console.log(puzzlesMetadata);
+      response.json(puzzlesMetadata);
+    })
+};
+
+const getAllPuzzlesMetadataFromDb = (): Promise<PuzzleMetadata[]> => {
+
+  const puzzlesMetadata: PuzzleMetadata[] = [];
+
+  const query = Puzzle.find({});
+  query.select(['id', 'title', 'author']);
+  const promise = query.exec();
+  return promise
+    .then((puzzleDocs) => {
+      if (isArray(puzzleDocs) && puzzleDocs.length > 0) {
+        for (const puzzleDoc of puzzleDocs) {
+          const puzzleDocData: any = puzzleDoc.toObject();
+          const puzzleMetadata: PuzzleMetadata = {
+            author: puzzleDocData.author,
+            title: puzzleDocData.title,
+          }
+          puzzlesMetadata.push(puzzleMetadata);
+        }
+        return Promise.resolve(puzzlesMetadata);
+      } else {
+        debugger;
+        return Promise.reject('puzzle not found');
+      }
+    }).catch( (err: any) => {
+      console.log(err);
+      debugger;
+      return Promise.reject(err);
+    });
+}
+
 export const getPuzzleMetadata = (request: Request, response: Response, next: any) => {
 
   console.log('getPuzzleMetadata');
