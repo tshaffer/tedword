@@ -12,8 +12,9 @@ export interface BoardEntity {
 
 export interface PuzzleEntity {
   id: string;
-  name: string;
-  puzData: string;
+  title: string;
+  author: string;
+  puzData: Buffer;
 }
 
 export interface UserEntity {

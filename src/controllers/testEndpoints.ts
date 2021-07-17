@@ -1,10 +1,12 @@
 import * as fs from 'fs';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 
-import { UserEntity } from '../types/entities';
-import { createUserDocument } from './dbInterface';
+import { PuzzleEntity, UserEntity } from '../types/entities';
+import { createPuzzle, createUserDocument } from './dbInterface';
 import { PuzCrosswordSpec } from '../types';
 
 const PuzCrossword = require('@confuzzle/puz-crossword').PuzCrossword;
@@ -19,6 +21,7 @@ export function createUser(request: Request, response: Response, next: any) {
     email,
     cellTextColorPartnerBoard,
   };
+  // TEDTODO - send response on reject
   createUserDocument(userEntity)
     .then((userDoc) => {
       const userDocument = userDoc as Document;
@@ -41,21 +44,34 @@ export function loadPuzzle(request: Request, response: Response, next: any) {
 
   const puzzlePath: string = request.query.puzzlePath as string;
 
-  // const { puzzlePath } = request.body;
-  fs.readFile(puzzlePath, (err, data: Buffer) => {
+  fs.readFile(puzzlePath, (err, puzData: Buffer) => {
     if (err) throw err;
-    console.log(data);
+    console.log(puzData);
 
-    const pc: PuzCrosswordSpec = PuzCrossword.from(data);
+    const pc: PuzCrosswordSpec = PuzCrossword.from(puzData);
     console.log(pc);
 
-    // data: Buffer(2561)
+    const puzzleEntity: PuzzleEntity = {
+      id: uuidv4(),
+      title: pc.title,
+      author: pc.author,
+      puzData: puzData,
+    };
 
-    // checksum: data.slice(0, 2)
+  // TEDTODO - send response on reject
+  createPuzzle(puzzleEntity)
+    .then((puzzleDoc) => {
+      const puzzleDocument = puzzleDoc as Document;
+      console.log('added userDocument');
+      console.log(puzzleDocument);
+      console.log(puzzleDocument.toObject());
 
-    // magic: data.slice(2, 14).toString()
+      response.status(201).json({
+        success: true,
+        data: puzzleDocument,
+      });
+    });
+
   });
-
-  response.sendStatus(200);
 }
 

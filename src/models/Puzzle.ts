@@ -5,8 +5,9 @@ const Schema = mongoose.Schema;
 const PuzzleSchema = new Schema(
   {
     id: { type: String, required: true },
-    name: { type: String, required: true },
-    puzData: { type: String, required: true },
+    title: { type: String },
+    author: { type: String },
+    puzData: { type: Buffer, required: true },
   },
 );
 
