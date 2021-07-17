@@ -54,5 +54,33 @@ export const getPuzData = (request: Request, response: Response, next: any) => {
 
   const id: string = request.query.id as string;
 
+  getPuzDataFromDb(id)
+  .then((puzData: Buffer) => {
+    console.log('puzData');
+    console.log(puzData);
+    response.send(puzData);
+  })
+
 };
+
+const getPuzDataFromDb = (puzzleId: string): Promise<Buffer> => {
+  const query = Puzzle.find({ id: puzzleId });
+  query.select(['id', 'puzData']);
+  const promise = query.exec();
+  return promise
+    .then((puzzleDocs) => {
+      if (isArray(puzzleDocs) && puzzleDocs.length === 1) {
+        const puzzleDocData: any = puzzleDocs[0].toObject();
+        const puzData: Buffer = puzzleDocData.puzData.buffer;
+        return Promise.resolve(puzData);
+      } else {
+        debugger;
+        return Promise.reject('puzzle not found');
+      }
+    }).catch( (err: any) => {
+      console.log(err);
+      debugger;
+      return Promise.reject(err);
+    });
+}
 
