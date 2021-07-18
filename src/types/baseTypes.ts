@@ -33,6 +33,7 @@ export interface ParsedClue {
 }
 
 export interface PuzzleMetadata {
+  id: string;
   author: string;
   title: string;
 }

@@ -28,6 +28,7 @@ const getAllPuzzlesMetadataFromDb = (): Promise<PuzzleMetadata[]> => {
         for (const puzzleDoc of puzzleDocs) {
           const puzzleDocData: any = puzzleDoc.toObject();
           const puzzleMetadata: PuzzleMetadata = {
+            id: puzzleDocData.id,
             author: puzzleDocData.author,
             title: puzzleDocData.title,
           }
@@ -71,6 +72,7 @@ const getPuzzleMetadataFromDb = (puzzleId: string): Promise<PuzzleMetadata> => {
       if (isArray(puzzleDocs) && puzzleDocs.length === 1) {
         const puzzleDocData: any = puzzleDocs[0].toObject();
         const puzzleMetadata: PuzzleMetadata = {
+          id: puzzleDocData.id,
           author: puzzleDocData.author,
           title: puzzleDocData.title,
         }
