@@ -7,7 +7,7 @@ import { Document } from 'mongoose';
 
 import { PuzzleEntity, UserEntity } from '../types/entities';
 import { createPuzzle, createUserDocument } from './dbInterface';
-import { PuzCrosswordSpec } from '../types';
+import { PuzzleSpec } from '../types';
 
 const PuzCrossword = require('@confuzzle/puz-crossword').PuzCrossword;
 
@@ -48,30 +48,39 @@ export function loadPuzzle(request: Request, response: Response, next: any) {
     if (err) throw err;
     console.log(puzData);
 
-    const pc: PuzCrosswordSpec = PuzCrossword.from(puzData);
+    const pc: PuzzleSpec = PuzCrossword.from(puzData);
     console.log(pc);
+
+    const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = pc;
 
     const puzzleEntity: PuzzleEntity = {
       id: uuidv4(),
-      title: pc.title,
-      author: pc.author,
-      puzData: puzData,
+      title,
+      author,
+      copyright,
+      note,
+      width,
+      height,
+      clues,
+      solution,
+      state,
+      hasState,
+      parsedClues,
     };
 
-  // TEDTODO - send response on reject
-  createPuzzle(puzzleEntity)
-    .then((puzzleDoc) => {
-      const puzzleDocument = puzzleDoc as Document;
-      console.log('added userDocument');
-      console.log(puzzleDocument);
-      console.log(puzzleDocument.toObject());
+    // TEDTODO - send response on reject
+    createPuzzle(puzzleEntity)
+      .then((puzzleDoc) => {
+        const puzzleDocument = puzzleDoc as Document;
+        console.log('added userDocument');
+        console.log(puzzleDocument);
+        console.log(puzzleDocument.toObject());
 
-      response.status(201).json({
-        success: true,
-        data: puzzleDocument,
+        response.status(201).json({
+          success: true,
+          data: puzzleDocument,
+        });
       });
-    });
-
   });
 }
 

@@ -1,3 +1,5 @@
+import { PuzzleSpec } from "./baseTypes";
+
 export interface BoardEntity {
   id: string;
   puzzleId: string;
@@ -10,11 +12,8 @@ export interface BoardEntity {
   difficulty: number;
 }
 
-export interface PuzzleEntity {
+export interface PuzzleEntity extends PuzzleSpec {
   id: string;
-  title: string;
-  author: string;
-  puzData: Buffer;
 }
 
 export interface UserEntity {
@@ -23,3 +22,4 @@ export interface UserEntity {
   email: string;
   cellTextColorPartnerBoard: string;
 }
+

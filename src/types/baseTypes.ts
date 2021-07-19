@@ -7,7 +7,7 @@ export interface TedwordConfiguration {
   PORT: number;
 }
 
-export interface PuzCrosswordSpec {
+export interface PuzzleSpec {
   title: string;
   author: string;
   copyright: string;
