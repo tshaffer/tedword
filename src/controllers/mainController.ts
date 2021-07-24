@@ -1,9 +1,19 @@
 import { Request, Response } from 'express';
 import * as path from 'path';
+import * as fs from 'fs';
 
 import { pusher } from '../app';
 
 export function getIndex(request: Request, response: Response) {
+  
+  console.log('__dirname');
+  console.log(__dirname);
+  
+  let pathToTest = path.join(__dirname, '../../..');
+  const filesInDir = fs.readdirSync(pathToTest);
+  console.log('pathToTest: ' + pathToTest);
+  console.log(filesInDir);
+
   console.log('getIndex invoked');
   const pathToIndex = path.join(__dirname, '../../public', 'index.html');
   console.log('pathToIndex');

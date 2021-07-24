@@ -21,8 +21,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cellChange = exports.getBundleMap = exports.getBundle = exports.getCSS = exports.getIndex = void 0;
 const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
 const app_1 = require("../app");
 function getIndex(request, response) {
+    console.log('__dirname');
+    console.log(__dirname);
+    let pathToTest = path.join(__dirname, '../../..');
+    const filesInDir = fs.readdirSync(pathToTest);
+    console.log('pathToTest: ' + pathToTest);
+    console.log(filesInDir);
     console.log('getIndex invoked');
     const pathToIndex = path.join(__dirname, '../../public', 'index.html');
     console.log('pathToIndex');
