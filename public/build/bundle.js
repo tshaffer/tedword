@@ -72480,7 +72480,9 @@ var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHom
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 var BoardPlay_2 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
+var globalProps;
 var Home = function (props) {
+    globalProps = props;
     var initializePusher = function () {
         var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
             cluster: 'us3',
@@ -72488,6 +72490,8 @@ var Home = function (props) {
         });
         var channel = pusher.subscribe('puzzle');
         channel.bind('cell-change', function (data) {
+            console.log(props);
+            console.log(globalProps);
             if (lodash_1.isNil(props)) {
                 console.log('globalProps null - return');
             }
