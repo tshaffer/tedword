@@ -72513,6 +72513,8 @@ var Home = function (props) {
         props.onLoadUsers();
     }, []);
     crossword = React.useRef();
+    console.log('Home: crossword');
+    console.log(crossword);
     switch (props.appState.uiState) {
         case types_1.UiState.SelectUser: {
             return (React.createElement(Login_1.default, null));
