@@ -72505,7 +72505,7 @@ var Home = function (props) {
     React.useEffect(function () {
         console.log('useEffect: props');
         console.log(props);
-        // initializePusher();
+        initializePusher();
         props.onLoadPuzzlesMetadata();
         props.onLoadUsers();
     }, []);
@@ -72820,7 +72820,7 @@ var cellChange = function (user, row, col, typedChar, localChange) {
             return;
         }
         // const path = 'http://localhost:8888/cellChange';
-        var path = index_1.serverUrl + index_1.apiUrlFragment + 'cellChange';
+        var path = index_1.serverUrl + 'cellChange';
         var cellChangeBody = {
             user: user,
             row: row,
