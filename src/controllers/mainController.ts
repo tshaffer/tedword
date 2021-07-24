@@ -9,14 +9,24 @@ export function getIndex(request: Request, response: Response) {
   console.log('__dirname');
   console.log(__dirname);
   
-  let pathToTest = path.join(__dirname, '../../..');
-  let filesInDir = fs.readdirSync(pathToTest);
-  console.log('contents of: ' + pathToTest);
+  let pathToRoot = path.join(__dirname, '../../..');
+  let filesInDir = fs.readdirSync(pathToRoot);
+  console.log('contents of: ' + pathToRoot);
   console.log(filesInDir);
 
-  pathToTest = path.join(pathToTest, 'app');
-  filesInDir = fs.readdirSync(pathToTest);
-  console.log('contents of: ' + pathToTest);
+  const pathToApp = path.join(pathToRoot, 'app');
+  filesInDir = fs.readdirSync(pathToApp);
+  console.log('contents of: ' + pathToApp);
+  console.log(filesInDir);
+
+  const pathToDist = path.join(pathToApp, 'dist');
+  filesInDir = fs.readdirSync(pathToDist);
+  console.log('contents of: ' + pathToDist);
+  console.log(filesInDir);
+
+  const pathToPublic = path.join(pathToApp, 'public');
+  filesInDir = fs.readdirSync(pathToPublic);
+  console.log('contents of: ' + pathToPublic);
   console.log(filesInDir);
 
   console.log('getIndex invoked');
