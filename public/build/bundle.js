@@ -72480,30 +72480,7 @@ var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHom
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 var BoardPlay_2 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
-var globalProps = null;
-// const initializePusher = () => {
-//   const pusher = new Pusher('c6addcc9977bdaa7e8a2', {
-//     cluster: 'us3',
-//     // encrypted: true,
-//   });
-//   const channel = pusher.subscribe('puzzle');
-//   channel.bind('cell-change', data => {
-//     if (isNil(globalProps)) {
-//       console.log('globalProps null - return');
-//     }
-//     console.log('websocket cell-change');
-//     console.log(data);
-//     console.log('current user is ', globalProps.appState.userName);
-//     console.log('external event: ', globalProps.appState.userName !== data.user);
-//     const { user, row, col, typedChar } = data;
-//     const externalEvent: boolean = globalProps.appState.userName !== user;
-//     if (externalEvent) {
-//       (boardPlayCrossword as any).current.remoteSetCell(row, col, typedChar);
-//     }
-//   });
-// };
 var Home = function (props) {
-    globalProps = props;
     var initializePusher = function () {
         var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
             cluster: 'us3',
@@ -72511,15 +72488,15 @@ var Home = function (props) {
         });
         var channel = pusher.subscribe('puzzle');
         channel.bind('cell-change', function (data) {
-            if (lodash_1.isNil(globalProps)) {
+            if (lodash_1.isNil(props)) {
                 console.log('globalProps null - return');
             }
             console.log('websocket cell-change');
             console.log(data);
-            console.log('current user is ', globalProps.appState.userName);
-            console.log('external event: ', globalProps.appState.userName !== data.user);
+            console.log('current user is ', props.appState.userName);
+            console.log('external event: ', props.appState.userName !== data.user);
             var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
-            var externalEvent = globalProps.appState.userName !== user;
+            var externalEvent = props.appState.userName !== user;
             if (externalEvent) {
                 BoardPlay_2.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
             }
