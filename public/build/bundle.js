@@ -72821,6 +72821,7 @@ var cellChange = function (user, row, col, typedChar, localChange) {
         }
         // const path = 'http://localhost:8888/cellChange';
         var path = index_1.serverUrl + '/cellChange';
+        console.log('path to cellChange url: ' + path);
         var cellChangeBody = {
             user: user,
             row: row,
