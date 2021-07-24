@@ -72294,8 +72294,6 @@ var BoardPlay = function (props) {
         props.onLoadPuzzle(props.appState.puzzleId);
     }, []);
     exports.boardPlayCrossword = React.useRef();
-    console.log('BoardPlay: boardPlayCrossword');
-    console.log(exports.boardPlayCrossword);
     var getPuzzleUser = function () {
         return props.appState.userName;
     };
@@ -72413,7 +72411,6 @@ var GameHome = function (props) {
         }
     };
     var handleSubmit = function () {
-        console.log('handleSubmit invoked');
         props.onSetUiState(types_1.UiState.BoardPlay);
     };
     var getSelectedPuzzleTitle = function () {
@@ -72482,42 +72479,57 @@ var Login_1 = __webpack_require__(/*! ./Login */ "./src/components/Login.tsx");
 var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx");
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-// let homeCrossword: any;
 var BoardPlay_2 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var globalProps = null;
-var initializePusher = function () {
-    var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
-        cluster: 'us3',
-        // encrypted: true,
-    });
-    var channel = pusher.subscribe('puzzle');
-    channel.bind('cell-change', function (data) {
-        if (lodash_1.isNil(globalProps)) {
-            console.log('globalProps null - return');
-        }
-        console.log('websocket cell-change');
-        console.log(data);
-        console.log('current user is ', globalProps.appState.userName);
-        console.log('external event: ', globalProps.appState.userName !== data.user);
-        var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
-        var externalEvent = globalProps.appState.userName !== user;
-        if (externalEvent) {
-            BoardPlay_2.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
-        }
-    });
-};
+// const initializePusher = () => {
+//   const pusher = new Pusher('c6addcc9977bdaa7e8a2', {
+//     cluster: 'us3',
+//     // encrypted: true,
+//   });
+//   const channel = pusher.subscribe('puzzle');
+//   channel.bind('cell-change', data => {
+//     if (isNil(globalProps)) {
+//       console.log('globalProps null - return');
+//     }
+//     console.log('websocket cell-change');
+//     console.log(data);
+//     console.log('current user is ', globalProps.appState.userName);
+//     console.log('external event: ', globalProps.appState.userName !== data.user);
+//     const { user, row, col, typedChar } = data;
+//     const externalEvent: boolean = globalProps.appState.userName !== user;
+//     if (externalEvent) {
+//       (boardPlayCrossword as any).current.remoteSetCell(row, col, typedChar);
+//     }
+//   });
+// };
 var Home = function (props) {
     globalProps = props;
+    var initializePusher = function () {
+        var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
+            cluster: 'us3',
+            // encrypted: true,
+        });
+        var channel = pusher.subscribe('puzzle');
+        channel.bind('cell-change', function (data) {
+            if (lodash_1.isNil(globalProps)) {
+                console.log('globalProps null - return');
+            }
+            console.log('websocket cell-change');
+            console.log(data);
+            console.log('current user is ', globalProps.appState.userName);
+            console.log('external event: ', globalProps.appState.userName !== data.user);
+            var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
+            var externalEvent = globalProps.appState.userName !== user;
+            if (externalEvent) {
+                BoardPlay_2.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
+            }
+        });
+    };
     React.useEffect(function () {
-        console.log('useEffect: props');
-        console.log(props);
         initializePusher();
         props.onLoadPuzzlesMetadata();
         props.onLoadUsers();
     }, []);
-    // homeCrossword = React.useRef();
-    // console.log('Home: homeCrossword');
-    // console.log(homeCrossword);
     switch (props.appState.uiState) {
         case types_1.UiState.SelectUser: {
             return (React.createElement(Login_1.default, null));
@@ -72542,7 +72554,6 @@ var mapDispatchToProps = function (dispatch) {
         onSetUserName: models_1.setUserName,
         onSetUiState: models_1.setUiState,
         onLoadPuzzlesMetadata: controllers_1.loadPuzzlesMetadata,
-        onLoadPuzzle: controllers_1.oldLoadPuzzle,
         onLoadUsers: controllers_1.loadUsers,
         onCellChange: controllers_1.cellChange,
     }, dispatch);
@@ -72592,12 +72603,9 @@ var Login = function (props) {
         return (React.createElement("option", { key: userName, value: userName }, userName));
     };
     var handleUserChange = function (event) {
-        console.log('handleUserChange');
-        console.log(event.target.value);
         props.onSetUserName(event.target.value);
     };
     var handleLogin = function () {
-        console.log('handleLogin invoked');
         props.onSetUiState(types_1.UiState.SelectPuzzleOrBoard);
     };
     var renderSelectUser = function () {
@@ -72695,7 +72703,7 @@ __exportStar(__webpack_require__(/*! ./user */ "./src/controllers/user.ts"), exp
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cellChange = exports.loadPuzzlesMetadata = exports.oldLoadPuzzle = exports.loadPuzzle = void 0;
+exports.cellChange = exports.loadPuzzlesMetadata = exports.loadPuzzle = void 0;
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var index_1 = __webpack_require__(/*! ../index */ "./src/index.ts");
@@ -72707,10 +72715,7 @@ var loadPuzzle = function (id) {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'puzzle?id=' + id;
         return axios_1.default.get(path)
             .then(function (puzzleResponse) {
-            console.log('loadPuzzle response:');
-            console.log(puzzleResponse);
             var puzzleEntity = puzzleResponse.data;
-            console.log(puzzleEntity);
             dispatch(models_1.addPuzzle(id, puzzleEntity));
             // // TEDTODO - add all in a single call
             // for (const puzzleMetadata of puzzlesMetadata) {
@@ -72723,18 +72728,6 @@ var loadPuzzle = function (id) {
     });
 };
 exports.loadPuzzle = loadPuzzle;
-var oldLoadPuzzle = function (file) {
-    return (function (dispatch, getState) {
-        var reader = new FileReader();
-        reader.onload = function fileReadCompleted() {
-            var pc = PuzCrossword.from(reader.result);
-            console.log(pc);
-            dispatch(models_1.setPuzCrosswordSpec(pc));
-        };
-        reader.readAsArrayBuffer(file);
-    });
-};
-exports.oldLoadPuzzle = oldLoadPuzzle;
 var loadPuzzlesMetadata = function () {
     return function (dispatch) {
         // const path = 'http://localhost:8888/api/v1/allPuzzlesMetadata';
@@ -72764,7 +72757,7 @@ var cellChange = function (user, row, col, typedChar, localChange) {
             console.log('cellChange - remote change - server update not required');
             return;
         }
-        // const path = 'http://localhost:8888/cellChange';
+        // const path = 'http://localhost:8888/api/v1/cellChange';
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'cellChange';
         var cellChangeBody = {
             user: user,
