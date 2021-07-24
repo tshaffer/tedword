@@ -6,6 +6,7 @@ import { pusher } from '../app';
 export function getIndex(request: Request, response: Response) {
   console.log('getIndex invoked');
   const pathToIndex = path.join(__dirname, '../../public', 'index.html');
+  console.log('pathToIndex');
   console.log(pathToIndex);
   response.sendFile(pathToIndex);
 }
@@ -18,7 +19,8 @@ export function getCSS(request: Request, response: Response) {
 export function getBundle(request: Request, response: Response) {
   console.log('getBundle invoked');
   const pathToBundle = path.join(__dirname, '../../public', 'build', 'bundle.js');
-  console.log(pathToBundle)
+  console.log('pathToBundle');
+  console.log(pathToBundle);
   response.sendFile(pathToBundle);
 }
 

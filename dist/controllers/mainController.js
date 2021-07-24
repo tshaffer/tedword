@@ -25,6 +25,7 @@ const app_1 = require("../app");
 function getIndex(request, response) {
     console.log('getIndex invoked');
     const pathToIndex = path.join(__dirname, '../../public', 'index.html');
+    console.log('pathToIndex');
     console.log(pathToIndex);
     response.sendFile(pathToIndex);
 }
@@ -37,6 +38,7 @@ exports.getCSS = getCSS;
 function getBundle(request, response) {
     console.log('getBundle invoked');
     const pathToBundle = path.join(__dirname, '../../public', 'build', 'bundle.js');
+    console.log('pathToBundle');
     console.log(pathToBundle);
     response.sendFile(pathToBundle);
 }
