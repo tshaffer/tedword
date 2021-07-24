@@ -29,6 +29,11 @@ export function getIndex(request: Request, response: Response) {
   console.log('contents of: ' + pathToPublic);
   console.log(filesInDir);
 
+  const pathToBuild = path.join(pathToPublic, 'build');
+  filesInDir = fs.readdirSync(pathToBuild);
+  console.log('contents of: ' + pathToBuild);
+  console.log(filesInDir);
+
   console.log('getIndex invoked');
   const pathToIndex = path.join(__dirname, '../../public', 'index.html');
   console.log('pathToIndex');
