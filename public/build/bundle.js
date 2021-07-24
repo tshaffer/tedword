@@ -72480,9 +72480,9 @@ var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHom
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 var BoardPlay_2 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
-var globalProps;
+var homeProps;
 var Home = function (props) {
-    globalProps = props;
+    homeProps = props;
     var initializePusher = function () {
         var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
             cluster: 'us3',
@@ -72490,18 +72490,16 @@ var Home = function (props) {
         });
         var channel = pusher.subscribe('puzzle');
         channel.bind('cell-change', function (data) {
-            console.log('compare props');
-            console.log(props);
-            console.log(globalProps);
-            if (lodash_1.isNil(props)) {
-                console.log('globalProps null - return');
+            console.log(homeProps);
+            if (lodash_1.isNil(homeProps)) {
+                console.log('homeProps null - return');
             }
             console.log('websocket cell-change');
             console.log(data);
-            console.log('current user is ', props.appState.userName);
-            console.log('external event: ', props.appState.userName !== data.user);
+            console.log('current user is ', homeProps.appState.userName);
+            console.log('external event: ', homeProps.appState.userName !== data.user);
             var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
-            var externalEvent = props.appState.userName !== user;
+            var externalEvent = homeProps.appState.userName !== user;
             if (externalEvent) {
                 BoardPlay_2.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
             }
