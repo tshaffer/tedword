@@ -72820,7 +72820,7 @@ var cellChange = function (user, row, col, typedChar, localChange) {
             return;
         }
         // const path = 'http://localhost:8888/cellChange';
-        var path = index_1.serverUrl + 'cellChange';
+        var path = index_1.serverUrl + '/cellChange';
         var cellChangeBody = {
             user: user,
             row: row,
