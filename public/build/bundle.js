@@ -72494,10 +72494,10 @@ var initializePusher = function () {
         }
         console.log('websocket cell-change');
         console.log(data);
-        console.log('current user is ', globalProps.puzzleUser);
-        console.log('external event: ', globalProps.puzzleUser !== data.user);
+        console.log('current user is ', globalProps.appState.userName);
+        console.log('external event: ', globalProps.appState.userName !== data.user);
         var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
-        var externalEvent = globalProps.puzzleUser !== user;
+        var externalEvent = globalProps.appState.userName !== user;
         if (externalEvent) {
             crossword.current.remoteSetCell(row, col, typedChar);
         }
