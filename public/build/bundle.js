@@ -72490,6 +72490,7 @@ var Home = function (props) {
         });
         var channel = pusher.subscribe('puzzle');
         channel.bind('cell-change', function (data) {
+            console.log('compare props');
             console.log(props);
             console.log(globalProps);
             if (lodash_1.isNil(props)) {
