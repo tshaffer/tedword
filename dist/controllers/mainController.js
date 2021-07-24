@@ -27,8 +27,12 @@ function getIndex(request, response) {
     console.log('__dirname');
     console.log(__dirname);
     let pathToTest = path.join(__dirname, '../../..');
-    const filesInDir = fs.readdirSync(pathToTest);
-    console.log('pathToTest: ' + pathToTest);
+    let filesInDir = fs.readdirSync(pathToTest);
+    console.log('contents of: ' + pathToTest);
+    console.log(filesInDir);
+    pathToTest = path.join(pathToTest, 'app');
+    filesInDir = fs.readdirSync(pathToTest);
+    console.log('contents of: ' + pathToTest);
     console.log(filesInDir);
     console.log('getIndex invoked');
     const pathToIndex = path.join(__dirname, '../../public', 'index.html');
