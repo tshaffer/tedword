@@ -73445,7 +73445,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiState = exports.apiUrlFragment = exports.serverUrl = void 0;
 // export const serverUrl = 'http://localhost:8888';
 // export const serverUrl = 'https://damp-falls-28733.herokuapp.com';
-exports.serverUrl = 'http://localhost:5000';
+// export const serverUrl = 'http://localhost:5000';
+exports.serverUrl = 'https://tedword.herokuapp.com';
 exports.apiUrlFragment = '/api/v1/';
 var UiState;
 (function (UiState) {
