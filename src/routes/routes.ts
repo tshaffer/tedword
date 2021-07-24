@@ -19,6 +19,6 @@ export class Routes {
     app.get('/css/app.css', getCSS);
     app.get('/build/bundle.js', getBundle);
     app.get('/build/bundle.js.map', getBundleMap);
-    app.post('/cellChange', cellChange);
+    app.post('/api/v1/cellChange', cellChange);
   }
 }

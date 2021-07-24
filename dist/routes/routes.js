@@ -12,7 +12,7 @@ class Routes {
         app.get('/css/app.css', controllers_1.getCSS);
         app.get('/build/bundle.js', controllers_1.getBundle);
         app.get('/build/bundle.js.map', controllers_1.getBundleMap);
-        app.post('/cellChange', controllers_1.cellChange);
+        app.post('/api/v1/cellChange', controllers_1.cellChange);
     }
 }
 exports.Routes = Routes;
