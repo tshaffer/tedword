@@ -72289,19 +72289,18 @@ var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 var Crossword = __webpack_require__(/*! @jaredreisinger/react-crossword */ "./node_modules/@jaredreisinger/react-crossword/dist/es/index.js").Crossword;
 var crossword;
-var puzzleUser = 'ted';
 var BoardPlay = function (props) {
     React.useEffect(function () {
         props.onLoadPuzzle(props.appState.puzzleId);
     }, []);
     crossword = React.useRef();
-    var getPuzzleId = function () {
-        return props.appState.puzzleId;
+    var getPuzzleUser = function () {
+        return props.appState.userName;
     };
     var handleCellChange = function (row, col, typedChar, localChange) {
         console.log('handleCellChange');
         console.log(row, col, typedChar);
-        props.onCellChange(puzzleUser, row, col, typedChar, localChange);
+        props.onCellChange(getPuzzleUser(), row, col, typedChar, localChange);
     };
     var handleFillAllAnswers = React.useCallback(function (event) {
         crossword.current.fillAllAnswers();
@@ -72472,6 +72471,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
@@ -72481,7 +72481,7 @@ var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHom
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 var crossword;
-var puzzleUser = 'ted';
+var globalProps = null;
 var initializePusher = function () {
     var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
         cluster: 'us3',
@@ -72489,19 +72489,22 @@ var initializePusher = function () {
     });
     var channel = pusher.subscribe('puzzle');
     channel.bind('cell-change', function (data) {
+        if (lodash_1.isNil(globalProps)) {
+            console.log('globalProps null - return');
+        }
         console.log('websocket cell-change');
         console.log(data);
-        console.log('current user is ', puzzleUser);
-        console.log('external event: ', puzzleUser !== data.user);
+        console.log('current user is ', globalProps.puzzleUser);
+        console.log('external event: ', globalProps.puzzleUser !== data.user);
         var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
-        var externalEvent = puzzleUser !== user;
+        var externalEvent = globalProps.puzzleUser !== user;
         if (externalEvent) {
             crossword.current.remoteSetCell(row, col, typedChar);
         }
     });
 };
 var Home = function (props) {
-    var _a = React.useState('ted'), user = _a[0], setUser = _a[1];
+    globalProps = props;
     React.useEffect(function () {
         console.log('useEffect: props');
         console.log(props);
@@ -72510,29 +72513,6 @@ var Home = function (props) {
         props.onLoadUsers();
     }, []);
     crossword = React.useRef();
-    var handleSelectPuzzle = function (fileInputEvent) {
-        console.log('handleSelectPuzzle');
-        var files = fileInputEvent.target.files;
-        console.log(files);
-        props.onLoadPuzzle(files[0]);
-    };
-    var handleCellChange = function (row, col, typedChar, localChange) {
-        console.log('handleCellChange');
-        console.log(row, col, typedChar);
-        props.onCellChange(puzzleUser, row, col, typedChar, localChange);
-    };
-    var handleClueCorrect = function (direction, number, answer) {
-        console.log('handleClueCorrect');
-        console.log(direction, number, answer);
-    };
-    var handleLoadedCorrect = function (param) {
-        console.log('handleLoadedCorrect');
-        console.log(param);
-    };
-    var handleCrosswordCorrect = function (param) {
-        console.log('handleCrosswordCorrect');
-        console.log(param);
-    };
     switch (props.appState.uiState) {
         case types_1.UiState.SelectUser: {
             return (React.createElement(Login_1.default, null));
@@ -72544,46 +72524,6 @@ var Home = function (props) {
             return (React.createElement(BoardPlay_1.default, null));
         }
     }
-    /*
-    
-      return (
-        <div>
-          <p>
-            Cooked Pizza
-          </p>
-    
-          <div>
-            <button
-              type="button"
-              onClick={handleFillAllAnswers}
-            >
-              Fill all answers
-            </button>
-            <button
-              type='button'
-              onClick={handleResetPuzzle}
-            >
-              Reset puzzle
-            </button>
-            <button
-              type='button'
-              onClick={handleRemoteSetCell}
-            >
-              Set cell remote
-            </button>
-          </div>
-    
-          <Crossword
-            data={props.displayedPuzzle}
-            ref={crossword}
-            onCellChange={handleCellChange}
-            onCorrect={handleClueCorrect}
-            onLoadedCorrect={handleLoadedCorrect}
-            onCrosswordCorrect={handleCrosswordCorrect}
-          />
-        </div>
-      );
-    */
 };
 function mapStateToProps(state) {
     return {
@@ -72821,7 +72761,6 @@ var cellChange = function (user, row, col, typedChar, localChange) {
         }
         // const path = 'http://localhost:8888/cellChange';
         var path = index_1.serverUrl + '/cellChange';
-        console.log('path to cellChange url: ' + path);
         var cellChangeBody = {
             user: user,
             row: row,
