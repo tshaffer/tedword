@@ -72279,6 +72279,7 @@ module.exports = function(module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.boardPlayCrossword = void 0;
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -72288,14 +72289,13 @@ var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers
 // import Crossword from '@jaredreisinger/react-crossword';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 var Crossword = __webpack_require__(/*! @jaredreisinger/react-crossword */ "./node_modules/@jaredreisinger/react-crossword/dist/es/index.js").Crossword;
-var crossword;
 var BoardPlay = function (props) {
     React.useEffect(function () {
         props.onLoadPuzzle(props.appState.puzzleId);
     }, []);
-    crossword = React.useRef();
-    console.log('BoardPlay: crossword');
-    console.log(crossword);
+    exports.boardPlayCrossword = React.useRef();
+    console.log('BoardPlay: boardPlayCrossword');
+    console.log(exports.boardPlayCrossword);
     var getPuzzleUser = function () {
         return props.appState.userName;
     };
@@ -72305,13 +72305,13 @@ var BoardPlay = function (props) {
         props.onCellChange(getPuzzleUser(), row, col, typedChar, localChange);
     };
     var handleFillAllAnswers = React.useCallback(function (event) {
-        crossword.current.fillAllAnswers();
+        exports.boardPlayCrossword.current.fillAllAnswers();
     }, []);
     var handleResetPuzzle = React.useCallback(function (event) {
-        crossword.current.reset();
+        exports.boardPlayCrossword.current.reset();
     }, []);
     var handleRemoteSetCell = React.useCallback(function (event) {
-        crossword.current.remoteSetCell(0, 1, 'X');
+        exports.boardPlayCrossword.current.remoteSetCell(0, 1, 'X');
     }, []);
     var handleClueCorrect = function (direction, number, answer) {
         console.log('handleClueCorrect');
@@ -72328,7 +72328,7 @@ var BoardPlay = function (props) {
     /*
         <Crossword
           data={props.displayedPuzzle}
-          ref={crossword}
+          ref={boardPlayCrossword}
           onCellChange={handleCellChange}
           onCorrect={handleClueCorrect}
           onLoadedCorrect={handleLoadedCorrect}
@@ -72341,7 +72341,7 @@ var BoardPlay = function (props) {
             React.createElement("button", { type: "button", onClick: handleFillAllAnswers }, "Fill all answers"),
             React.createElement("button", { type: 'button', onClick: handleResetPuzzle }, "Reset puzzle"),
             React.createElement("button", { type: 'button', onClick: handleRemoteSetCell }, "Set cell remote")),
-        React.createElement(Crossword, { data: props.displayedPuzzle, ref: crossword, onCellChange: handleCellChange, onCorrect: handleClueCorrect, onLoadedCorrect: handleLoadedCorrect, onCrosswordCorrect: handleCrosswordCorrect })));
+        React.createElement(Crossword, { data: props.displayedPuzzle, ref: exports.boardPlayCrossword, onCellChange: handleCellChange, onCorrect: handleClueCorrect, onLoadedCorrect: handleLoadedCorrect, onCrosswordCorrect: handleCrosswordCorrect })));
 };
 function mapStateToProps(state) {
     return {
@@ -72482,7 +72482,8 @@ var Login_1 = __webpack_require__(/*! ./Login */ "./src/components/Login.tsx");
 var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx");
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-var crossword;
+// let homeCrossword: any;
+var BoardPlay_2 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var globalProps = null;
 var initializePusher = function () {
     var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
@@ -72501,7 +72502,7 @@ var initializePusher = function () {
         var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
         var externalEvent = globalProps.appState.userName !== user;
         if (externalEvent) {
-            crossword.current.remoteSetCell(row, col, typedChar);
+            BoardPlay_2.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
         }
     });
 };
@@ -72514,9 +72515,9 @@ var Home = function (props) {
         props.onLoadPuzzlesMetadata();
         props.onLoadUsers();
     }, []);
-    crossword = React.useRef();
-    console.log('Home: crossword');
-    console.log(crossword);
+    // homeCrossword = React.useRef();
+    // console.log('Home: homeCrossword');
+    // console.log(homeCrossword);
     switch (props.appState.uiState) {
         case types_1.UiState.SelectUser: {
             return (React.createElement(Login_1.default, null));
