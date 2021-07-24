@@ -72294,6 +72294,8 @@ var BoardPlay = function (props) {
         props.onLoadPuzzle(props.appState.puzzleId);
     }, []);
     crossword = React.useRef();
+    console.log('BoardPlay: crossword');
+    console.log(crossword);
     var getPuzzleUser = function () {
         return props.appState.userName;
     };
