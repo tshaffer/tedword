@@ -2,13 +2,6 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const CellContentsSchema = new Schema(
-  {
-    row: { type: Number, required: true },
-    column: { type: Number, required: true }
-  },
-);
-
 // of: mongoose.SchemaTypes.Mixed
 
 const BoardSchema = new Schema(
@@ -19,7 +12,7 @@ const BoardSchema = new Schema(
     users: { type: [String] },
     cellContents: {
       type: Map, 
-      of: CellContentsSchema
+      of: String
     },
     startDateTime: { type: Date, required: true },
     lastPlayedDateTime: { type: Date, required: true },

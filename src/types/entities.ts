@@ -5,7 +5,7 @@ export interface BoardEntity {
   puzzleId: string;
   title: string;
   users: string[];
-  cellContents?: CellContentsMap;
+  cellContents: CellContentsMap;
   startDateTime: Date;
   lastPlayedDateTime: Date;
   elapsedTime: number;
@@ -13,13 +13,8 @@ export interface BoardEntity {
   difficulty: number;
 }
 
-export interface CellContents {
-  row: number;
-  column: number;
-}
-
 export interface CellContentsMap {
-  [id: string]: CellContents;
+  [id: string]: string;
 }
 
 export interface PuzzleEntity extends PuzzleSpec {
