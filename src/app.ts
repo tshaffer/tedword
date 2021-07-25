@@ -11,7 +11,7 @@ const Pusher = require('pusher');
 import { Routes } from './routes/routes';
 
 import usersRouter from './routes/users';
-import { getPuzzleMetadata, getAllPuzzlesMetadata, getUsers, loadPuzzle, getPuzzle } from './controllers';
+import { createBoard, getPuzzleMetadata, getAllPuzzlesMetadata, getUsers, loadPuzzle, getPuzzle } from './controllers';
 
 export let pusher: any;
 
@@ -53,6 +53,10 @@ class App {
     this.app.get('/api/v1/allPuzzlesMetadata', getAllPuzzlesMetadata);
     this.app.get('/api/v1/puzzleMetadata', getPuzzleMetadata);
     this.app.get('/api/v1/puzzle', getPuzzle);
+
+    // board routes
+    this.app.post('/api/v1/board', createBoard)
+    
   }
 
   private config(): void {

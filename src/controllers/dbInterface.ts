@@ -1,5 +1,6 @@
-import { PuzzleEntity, UserEntity } from 'entities';
+import { BoardEntity, PuzzleEntity, UserEntity } from 'entities';
 import { Document } from 'mongoose';
+import Board from '../models/Board';
 import Puzzle from '../models/Puzzle';
 import User from '../models/User';
 
@@ -16,6 +17,15 @@ export const createPuzzle = (puzzleEntity: PuzzleEntity): Promise<any> => {
       return Promise.resolve(puzzle);
     });
 };
+
+export const createBoardDocument = (boardEntity: BoardEntity): Promise<any> => {
+  return Board.create(boardEntity)
+    .then((board: Document) => {
+      return Promise.resolve(board);
+    });
+};
+
+
 // export const createUserDocuments = (userDocuments: UserEntity[]): Promise<Document[]> => {
 //   return new Promise((resolve: any, reject: any) => {
 //     User.collection.insert(userDocuments, (err, docs) => {
