@@ -20,6 +20,28 @@ export const createPuzzle = (puzzleEntity: PuzzleEntity): Promise<any> => {
     });
 };
 
+export const getBoardsFromDb = ():  Promise<BoardEntity[]> => {
+  const query = Board.find({});
+  const promise: Promise<Document[]> = query.exec();
+  return promise.then((boardDocuments: Document[]) => {
+    const boardEntities: BoardEntity[] = boardDocuments.map((boardDocument: any) => {
+
+      const boardDocAsObj: any = boardDocument.toObject();
+      const boardEntity: BoardEntity = boardDocument.toObject();
+
+      boardEntity.cellContents = {};
+
+      const cellContentsMap: Map<string, string> = boardDocAsObj.cellContents;
+      for (const key of cellContentsMap.keys()) {
+        boardEntity.cellContents[key] = cellContentsMap.get(key);
+      }
+
+      return boardEntity;
+    });
+    return Promise.resolve(boardEntities);
+  });
+}
+
 export const createBoardDocument = (boardEntity: BoardEntity): Promise<any> => {
   return Board.create(boardEntity)
     .then((board: Document) => {

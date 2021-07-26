@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { BoardEntity } from '../types';
-import { createBoardDocument } from './dbInterface';
+import { createBoardDocument, getBoardsFromDb } from './dbInterface';
 
 export function createBoard(request: Request, response: Response, next: any) {
   console.log('createBoard');
@@ -34,5 +34,15 @@ export function createBoard(request: Request, response: Response, next: any) {
         success: true,
         data: boardDocument,
       });
+    });
+}
+
+export function getBoards(request: Request, response: Response) {
+
+  console.log('getBoards handler:');
+
+  return getBoardsFromDb()
+    .then((boardEntities: BoardEntity[]) => {
+      response.json(boardEntities);
     });
 }
