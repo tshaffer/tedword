@@ -10465,6 +10465,7 @@ var CluesWrapper = _styledComponents["default"].div.attrs(function () {
 
 var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
   var data = _ref.data,
+      tedGuesses = _ref.tedGuesses,
       onCorrect = _ref.onCorrect,
       onLoadedCorrect = _ref.onLoadedCorrect,
       onCrosswordCorrect = _ref.onCrosswordCorrect,
@@ -10860,7 +10861,9 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
   }, [bulkChange, handleSingleCharacter]); // When the data changes, recalculate the gridData, size, etc.
 
   (0, _react.useEffect)(function () {
-    // eslint-disable-next-line no-shadow
+    console.log('Crossword:useEffect');
+    console.log(tedGuesses); // eslint-disable-next-line no-shadow
+
     var _createGridData = (0, _util.createGridData)(data),
         size = _createGridData.size,
         gridData = _createGridData.gridData,
@@ -10869,7 +10872,7 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     var loadedCorrect;
 
     if (useStorage) {
-      (0, _util.loadGuesses)(gridData, defaultStorageKey);
+      (0, _util.loadGuesses)(gridData, defaultStorageKey, tedGuesses);
       loadedCorrect = (0, _util.findCorrectAnswers)(data, gridData);
       loadedCorrect.forEach(function (_ref3) {
         var direction = _ref3[0],
@@ -11168,6 +11171,9 @@ var clueShape =  true ? _propTypes["default"].shape({
   row: _propTypes["default"].number.isRequired,
   col: _propTypes["default"].number.isRequired
 }) : undefined;
+var tedGuessShape =  true ? _propTypes["default"].shape({
+  typedChar: _propTypes["default"].string.isRequired
+}) : undefined;
  true ? Crossword.propTypes = {
   /** clue/answer data; see <a href="#cluedata-format">Clue/data format</a> for details. */
   data: _propTypes["default"].shape({
@@ -11176,6 +11182,9 @@ var clueShape =  true ? _propTypes["default"].shape({
 
     /** "down" clues and answers */
     down: _propTypes["default"].objectOf(clueShape)
+  }).isRequired,
+  tedGuesses: _propTypes["default"].shape({
+    ts_guesses: _propTypes["default"].objectOf(tedGuessShape)
   }).isRequired,
 
   /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
@@ -11636,7 +11645,7 @@ function serializeGuesses(gridData) {
   return guesses;
 }
 
-function loadGuesses(gridData, storageKey) {
+function loadGuesses(gridData, storageKey, tedGuesses) {
   var _window2 = window,
       localStorage = _window2.localStorage;
 
@@ -11648,9 +11657,13 @@ function loadGuesses(gridData, storageKey) {
 
   if (!saveRaw) {
     return;
-  }
+  } // const saveData = JSON.parse(saveRaw);
 
-  var saveData = JSON.parse(saveRaw); // TODO: check date for expiration?
+
+  var saveData = {
+    date: Date.now(),
+    guesses: tedGuesses
+  }; // TODO: check date for expiration?
 
   deserializeGuesses(gridData, saveData.guesses);
 }
@@ -72286,21 +72299,26 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 // import Crossword from '@jaredreisinger/react-crossword';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 var Crossword = __webpack_require__(/*! @jaredreisinger/react-crossword */ "./node_modules/@jaredreisinger/react-crossword/dist/es/index.js").Crossword;
 var BoardPlay = function (props) {
+    console.log('BoardPlay invoked');
     React.useEffect(function () {
         props.onLoadPuzzle(props.appState.puzzleId);
     }, []);
     exports.boardPlayCrossword = React.useRef();
+    var getBoardId = function () {
+        return props.appState.boardId;
+    };
     var getPuzzleUser = function () {
         return props.appState.userName;
     };
     var handleCellChange = function (row, col, typedChar, localChange) {
         console.log('handleCellChange');
         console.log(row, col, typedChar);
-        props.onCellChange(getPuzzleUser(), row, col, typedChar, localChange);
+        props.onCellChange(getBoardId(), getPuzzleUser(), row, col, typedChar, localChange);
     };
     var handleFillAllAnswers = React.useCallback(function (event) {
         exports.boardPlayCrossword.current.fillAllAnswers();
@@ -72333,19 +72351,32 @@ var BoardPlay = function (props) {
           onCrosswordCorrect={handleCrosswordCorrect}
         />
     */
+    var displayedPuzzleData = props.displayedPuzzle;
+    // if (props.appState.uiState === UiState.NewBoardPlay) {
+    //   displayedPuzzleData = props.boardData;
+    // } else {
+    //   displayedPuzzleData = props.displayedPuzzle;
+    // }
+    console.log('BoardPlay rendering');
+    var cellContents = props.cellContents;
+    if (lodash_1.isNil(cellContents)) {
+        return null;
+    }
     return (React.createElement("div", null,
         React.createElement("p", null, "BoardPlay"),
         React.createElement("div", null,
             React.createElement("button", { type: "button", onClick: handleFillAllAnswers }, "Fill all answers"),
             React.createElement("button", { type: 'button', onClick: handleResetPuzzle }, "Reset puzzle"),
             React.createElement("button", { type: 'button', onClick: handleRemoteSetCell }, "Set cell remote")),
-        React.createElement(Crossword, { data: props.displayedPuzzle, ref: exports.boardPlayCrossword, onCellChange: handleCellChange, onCorrect: handleClueCorrect, onLoadedCorrect: handleLoadedCorrect, onCrosswordCorrect: handleCrosswordCorrect })));
+        React.createElement(Crossword, { data: displayedPuzzleData, tedGuesses: cellContents, ref: exports.boardPlayCrossword, onCellChange: handleCellChange, onCorrect: handleClueCorrect, onLoadedCorrect: handleLoadedCorrect, onCrosswordCorrect: handleCrosswordCorrect })));
 };
 function mapStateToProps(state) {
     return {
         puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
         appState: selectors_1.getAppState(state),
         displayedPuzzle: selectors_1.getDisplayedPuzzle(state),
+        // boardData: getBoardData(state),
+        cellContents: selectors_1.getCellContents(state),
     };
 }
 var mapDispatchToProps = function (dispatch) {
@@ -72377,6 +72408,7 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
+var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
 var GameHome = function (props) {
     var getPuzzleTitles = function () {
         var puzzleTitles = [];
@@ -72397,22 +72429,6 @@ var GameHome = function (props) {
         });
         return puzzleOptions;
     };
-    var handlePuzzleChange = function (event) {
-        console.log('handlePuzzleChange');
-        console.log(event.target.value);
-        var puzzleTitle = event.target.value;
-        for (var puzzleId in props.puzzlesMetadata) {
-            if (Object.prototype.hasOwnProperty.call(props.puzzlesMetadata, puzzleId)) {
-                var puzzleMetadata = props.puzzlesMetadata[puzzleId];
-                if (puzzleMetadata.title === puzzleTitle) {
-                    props.onSetPuzzleId(puzzleId);
-                }
-            }
-        }
-    };
-    var handleSubmit = function () {
-        props.onSetUiState(types_1.UiState.BoardPlay);
-    };
     var getSelectedPuzzleTitle = function () {
         // eslint-disable-next-line no-prototype-builtins
         if (props.puzzlesMetadata.hasOwnProperty(props.appState.puzzleId)) {
@@ -72421,7 +72437,79 @@ var GameHome = function (props) {
         }
         return '';
     };
-    var renderSelectPuzzle = function () {
+    var getBoardTitles = function () {
+        var boardEntities = [];
+        for (var boardId in props.boardsMap) {
+            if (Object.prototype.hasOwnProperty.call(props.boardsMap, boardId)) {
+                var boardEntity = props.boardsMap[boardId];
+                boardEntities.push(boardEntity);
+            }
+        }
+        boardEntities.sort(function (a, b) {
+            return a.startDateTime > b.startDateTime
+                ? -1
+                : 1;
+        });
+        var boardTitles = boardEntities.map(function (boardEntity) {
+            return boardEntity.title;
+        });
+        return boardTitles;
+    };
+    var getSelectedBoardTitle = function () {
+        // eslint-disable-next-line no-prototype-builtins
+        if (props.boardsMap.hasOwnProperty(props.appState.boardId)) {
+            var board = props.boardsMap[props.appState.boardId];
+            return board.title;
+        }
+        return '';
+    };
+    var getBoardOption = function (boardTitle) {
+        return (React.createElement("option", { key: boardTitle, value: boardTitle }, boardTitle));
+    };
+    var getBoardOptions = function (boardTitles) {
+        var boardOptions = boardTitles.map(function (boardTitle) {
+            return getBoardOption(boardTitle);
+        });
+        return boardOptions;
+    };
+    var handleBoardChange = function (event) {
+        console.log('handleBoardChange');
+        console.log(event.target.value);
+        var boardTitle = event.target.value;
+        for (var boardId in props.boardsMap) {
+            if (Object.prototype.hasOwnProperty.call(props.boardsMap, boardId)) {
+                var boardEntity = props.boardsMap[boardId];
+                if (boardEntity.title === boardTitle) {
+                    // TEDTODO - review this - user may not hit Open Board
+                    props.onSetPuzzleId(boardEntity.puzzleId);
+                    props.onSetBoardId(boardId);
+                }
+            }
+        }
+    };
+    var handlePuzzleChange = function (event) {
+        console.log('handlePuzzleChange');
+        console.log(event.target.value);
+        var puzzleTitle = event.target.value;
+        for (var puzzleId in props.puzzlesMetadata) {
+            if (Object.prototype.hasOwnProperty.call(props.puzzlesMetadata, puzzleId)) {
+                var puzzleMetadata = props.puzzlesMetadata[puzzleId];
+                if (puzzleMetadata.title === puzzleTitle) {
+                    // TEDTODO - review this - user may not hit Open Puzzle
+                    props.onSetPuzzleId(puzzleId);
+                }
+            }
+        }
+    };
+    var handleOpenBoard = function () {
+        props.onSetUiState(types_1.UiState.ExistingBoardPlay);
+        // props.onResumeBoardPlay();
+    };
+    var handleOpenPuzzle = function () {
+        props.onCreateBoard();
+        props.onSetUiState(types_1.UiState.NewBoardPlay);
+    };
+    var renderSelectPuzzleOrBoard = function () {
         var puzzleTitles = getPuzzleTitles();
         if (puzzleTitles.length === 0) {
             return null;
@@ -72430,23 +72518,42 @@ var GameHome = function (props) {
         if (selectedPuzzleTitle === '') {
             return null;
         }
+        // TEDTODO - this isn't right when there are no boards
+        var boardTitles = getBoardTitles();
+        if (boardTitles.length === 0) {
+            return null;
+        }
+        var selectedBoardTitle = getSelectedBoardTitle();
+        if (selectedBoardTitle === '') {
+            return null;
+        }
         var puzzleOptions = getPuzzleOptions(puzzleTitles);
+        var boardOptions = getBoardOptions(boardTitles);
         return (React.createElement("div", null,
             React.createElement("p", null, "Select Puzzle"),
             React.createElement("select", { tabIndex: -1, value: selectedPuzzleTitle, onChange: handlePuzzleChange }, puzzleOptions),
             React.createElement("p", null,
-                React.createElement("button", { type: "button", onClick: handleSubmit }, "Submit"))));
+                React.createElement("button", { type: "button", onClick: handleOpenPuzzle }, "Open Puzzle")),
+            React.createElement("p", null),
+            React.createElement("p", null, "Select Board"),
+            React.createElement("select", { tabIndex: -1, value: selectedBoardTitle, onChange: handleBoardChange }, boardOptions),
+            React.createElement("p", null,
+                React.createElement("button", { type: "button", onClick: handleOpenBoard }, "Open Board"))));
     };
-    return renderSelectPuzzle();
+    return renderSelectPuzzleOrBoard();
 };
 function mapStateToProps(state) {
     return {
-        puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
         appState: selectors_1.getAppState(state),
+        boardsMap: selectors_1.getBoards(state),
+        puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
     };
 }
 var mapDispatchToProps = function (dispatch) {
     return redux_1.bindActionCreators({
+        onCreateBoard: controllers_1.createBoard,
+        // onResumeBoardPlay: resumeBoardPlay,
+        onSetBoardId: models_1.setBoardId,
         onSetPuzzleId: models_1.setPuzzleId,
         onSetUiState: models_1.setUiState,
     }, dispatch);
@@ -72508,6 +72615,7 @@ var Home = function (props) {
     React.useEffect(function () {
         initializePusher();
         props.onLoadPuzzlesMetadata();
+        props.onLoadBoards();
         props.onLoadUsers();
     }, []);
     switch (props.appState.uiState) {
@@ -72517,7 +72625,8 @@ var Home = function (props) {
         case types_1.UiState.SelectPuzzleOrBoard: {
             return (React.createElement(GameHome_1.default, null));
         }
-        case types_1.UiState.BoardPlay: {
+        case types_1.UiState.NewBoardPlay:
+        case types_1.UiState.ExistingBoardPlay: {
             return (React.createElement(BoardPlay_1.default, null));
         }
     }
@@ -72533,6 +72642,7 @@ var mapDispatchToProps = function (dispatch) {
     return redux_1.bindActionCreators({
         onSetUserName: models_1.setUserName,
         onSetUiState: models_1.setUiState,
+        onLoadBoards: controllers_1.loadBoards,
         onLoadPuzzlesMetadata: controllers_1.loadPuzzlesMetadata,
         onLoadUsers: controllers_1.loadUsers,
         onCellChange: controllers_1.cellChange,
@@ -72647,6 +72757,105 @@ __exportStar(__webpack_require__(/*! ./Login */ "./src/components/Login.tsx"), e
 
 /***/ }),
 
+/***/ "./src/controllers/board.ts":
+/*!**********************************!*\
+  !*** ./src/controllers/board.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createBoard = exports.loadBoards = void 0;
+/* eslint-disable no-prototype-builtins */
+var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+var index_1 = __webpack_require__(/*! ../index */ "./src/index.ts");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
+// import { boardPlayCrossword } from '../components/BoardPlay';
+var loadBoards = function () {
+    return function (dispatch) {
+        // const path = 'http://localhost:8888/api/v1/boards';
+        var path = index_1.serverUrl + index_1.apiUrlFragment + 'boards';
+        return axios_1.default.get(path)
+            .then(function (boardsResponse) {
+            console.log('loadBoards response:');
+            console.log(boardsResponse);
+            var boardEntities = boardsResponse.data;
+            // // TEDTODO - add all in a single call
+            for (var _i = 0, boardEntities_1 = boardEntities; _i < boardEntities_1.length; _i++) {
+                var boardEntity = boardEntities_1[_i];
+                dispatch(models_1.addBoard(boardEntity.id, boardEntity));
+            }
+            boardEntities.sort(function (a, b) {
+                return a.startDateTime > b.startDateTime
+                    ? -1
+                    : 1;
+            });
+            if (boardEntities.length > 0) {
+                dispatch(models_1.setBoardId(boardEntities[0].id));
+            }
+        });
+    };
+};
+exports.loadBoards = loadBoards;
+var createBoard = function () {
+    return (function (dispatch, getState) {
+        var state = getState();
+        var appState = state.appState;
+        var puzzleId = appState.puzzleId;
+        var puzzlesMetadataMap = selectors_1.getPuzzlesMetadata(state);
+        var puzzleMetadata = puzzlesMetadataMap[puzzleId];
+        var currentDate = new Date();
+        var currentDateTime = currentDate.toLocaleDateString('en', {
+            month: 'long',
+            day: 'numeric',
+        });
+        // possible components of the title
+        //    users (only a single user at the time of create)
+        //    current date/time - formatting options
+        //      day of week, day, month
+        //      ??
+        //    puzzle title
+        var userName = appState.userName;
+        var weekdayMonthDay = currentDate.toLocaleDateString('en', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+        });
+        var puzzleTitle = puzzleMetadata.title.trim();
+        // eslint-disable-next-line quotes
+        var title = userName + ': ' + weekdayMonthDay + '. "' + puzzleTitle + '"';
+        // const title = puzzleMetadata.title + ' ' + currentDateTime;
+        var path = index_1.serverUrl + index_1.apiUrlFragment + 'board';
+        var createBoardBody = {
+            puzzleId: puzzleId,
+            title: title,
+            users: [appState.userName],
+            startDateTime: currentDate,
+            lastPlayedDateTime: currentDate,
+            elapsedTime: 0,
+            solved: false,
+            difficulty: 0
+        };
+        return axios_1.default.post(path, createBoardBody).then(function (response) {
+            console.log(response);
+            var boardId = response.data.data.id;
+            dispatch(models_1.setBoardId(boardId));
+            return;
+        }).catch(function (error) {
+            console.log('error');
+            console.log(error);
+            return;
+        });
+    });
+};
+exports.createBoard = createBoard;
+
+
+/***/ }),
+
 /***/ "./src/controllers/index.ts":
 /*!**********************************!*\
   !*** ./src/controllers/index.ts ***!
@@ -72667,6 +72876,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(/*! ./board */ "./src/controllers/board.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzle */ "./src/controllers/puzzle.ts"), exports);
 __exportStar(__webpack_require__(/*! ./user */ "./src/controllers/user.ts"), exports);
 
@@ -72731,7 +72941,7 @@ var loadPuzzlesMetadata = function () {
     };
 };
 exports.loadPuzzlesMetadata = loadPuzzlesMetadata;
-var cellChange = function (user, row, col, typedChar, localChange) {
+var cellChange = function (boardId, user, row, col, typedChar, localChange) {
     return function (dispatch) {
         if (!localChange) {
             console.log('cellChange - remote change - server update not required');
@@ -72740,6 +72950,7 @@ var cellChange = function (user, row, col, typedChar, localChange) {
         // const path = 'http://localhost:8888/api/v1/cellChange';
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'cellChange';
         var cellChangeBody = {
+            boardId: boardId,
             user: user,
             row: row,
             col: col,
@@ -72879,7 +73090,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.appStateReducer = exports.setPuzzleId = exports.setUserName = exports.setUiState = exports.SET_PUZZLE_ID = exports.SET_USER_NAME = exports.SET_UI_STATE = void 0;
+exports.appStateReducer = exports.setBoardId = exports.setPuzzleId = exports.setUserName = exports.setUiState = exports.SET_BOARD_ID = exports.SET_PUZZLE_ID = exports.SET_USER_NAME = exports.SET_UI_STATE = void 0;
 var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 // ------------------------------------
 // Constants
@@ -72887,6 +73098,7 @@ var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 exports.SET_UI_STATE = 'SET_UI_STATE';
 exports.SET_USER_NAME = 'SET_USER_NAME';
 exports.SET_PUZZLE_ID = 'SET_PUZZLE_ID';
+exports.SET_BOARD_ID = 'SET_BOARD_ID';
 var setUiState = function (uiState) {
     return {
         type: exports.SET_UI_STATE,
@@ -72914,6 +73126,15 @@ var setPuzzleId = function (puzzleId) {
     };
 };
 exports.setPuzzleId = setPuzzleId;
+var setBoardId = function (boardId) {
+    return {
+        type: exports.SET_BOARD_ID,
+        payload: {
+            boardId: boardId,
+        },
+    };
+};
+exports.setBoardId = setBoardId;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -72921,6 +73142,7 @@ var initialState = {
     uiState: types_1.UiState.SelectUser,
     userName: '',
     puzzleId: '',
+    boardId: '',
 };
 var appStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -72933,6 +73155,9 @@ var appStateReducer = function (state, action) {
         }
         case exports.SET_PUZZLE_ID: {
             return __assign(__assign({}, state), { puzzleId: action.payload.puzzleId });
+        }
+        case exports.SET_BOARD_ID: {
+            return __assign(__assign({}, state), { boardId: action.payload.boardId });
         }
         default:
             return state;
@@ -72972,22 +73197,88 @@ exports.rootReducer = void 0;
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var puzCrosswordSpec_1 = __webpack_require__(/*! ./puzCrosswordSpec */ "./src/models/puzCrosswordSpec.ts");
 var puzzles_1 = __webpack_require__(/*! ./puzzles */ "./src/models/puzzles.ts");
-// import { puzzleSpecReducer } from './puzzleSpec';
 var users_1 = __webpack_require__(/*! ./users */ "./src/models/users.ts");
 var appState_1 = __webpack_require__(/*! ./appState */ "./src/models/appState.ts");
+var boards_1 = __webpack_require__(/*! ./boards */ "./src/models/boards.ts");
 // -----------------------------------------------------------------------
 // Reducers
 // -----------------------------------------------------------------------
 exports.rootReducer = redux_1.combineReducers({
-    // puzzleSpec: puzzleSpecReducer,
     puzCrosswordSpec: puzCrosswordSpec_1.puzCrosswordSpecReducer,
     users: users_1.usersReducer,
+    boardsState: boards_1.boardsStateReducer,
     puzzlesState: puzzles_1.puzzlesStateReducer,
     appState: appState_1.appStateReducer,
 });
 // -----------------------------------------------------------------------
 // Validators
 // -----------------------------------------------------------------------
+
+
+/***/ }),
+
+/***/ "./src/models/boards.ts":
+/*!******************************!*\
+  !*** ./src/models/boards.ts ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.boardsStateReducer = exports.setCellContents = exports.addBoard = exports.SET_CELL_CONTENTS = exports.ADD_BOARD = void 0;
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+// ------------------------------------
+// Constants
+// ------------------------------------
+exports.ADD_BOARD = 'ADD_BOARD';
+exports.SET_CELL_CONTENTS = 'SET_CELL_CONTENTS';
+var addBoard = function (id, board) {
+    return {
+        type: exports.ADD_BOARD,
+        payload: {
+            id: id,
+            board: board,
+        }
+    };
+};
+exports.addBoard = addBoard;
+var setCellContents = function (id, cellContents) {
+    return {
+        type: exports.SET_CELL_CONTENTS,
+        payload: {
+            id: id,
+            cellContents: cellContents,
+        }
+    };
+};
+exports.setCellContents = setCellContents;
+// ------------------------------------
+// Reducer
+// ------------------------------------
+var initialState = {
+    boards: {},
+};
+var boardsStateReducer = function (state, action) {
+    if (state === void 0) { state = initialState; }
+    switch (action.type) {
+        case exports.ADD_BOARD: {
+            var newState = lodash_1.cloneDeep(state);
+            newState.boards[action.payload.id] = action.payload.board;
+            return newState;
+        }
+        case exports.SET_CELL_CONTENTS: {
+            var newState = lodash_1.cloneDeep(state);
+            var boardEntity = newState.boards[action.payload.id];
+            boardEntity.cellContents = action.payload.cellContents;
+            return newState;
+        }
+        default:
+            return state;
+    }
+};
+exports.boardsStateReducer = boardsStateReducer;
 
 
 /***/ }),
@@ -73015,6 +73306,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./appState */ "./src/models/appState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./baseAction */ "./src/models/baseAction.ts"), exports);
 __exportStar(__webpack_require__(/*! ./baseReducer */ "./src/models/baseReducer.ts"), exports);
+__exportStar(__webpack_require__(/*! ./boards */ "./src/models/boards.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzles */ "./src/models/puzzles.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzCrosswordSpec */ "./src/models/puzCrosswordSpec.ts"), exports);
 __exportStar(__webpack_require__(/*! ./users */ "./src/models/users.ts"), exports);
@@ -73201,11 +73493,103 @@ exports.usersReducer = usersReducer;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAppState = void 0;
+exports.getBoardId = exports.getAppState = void 0;
 var getAppState = function (state) {
     return state.appState;
 };
 exports.getAppState = getAppState;
+var getBoardId = function (state) {
+    return state.appState.boardId;
+};
+exports.getBoardId = getBoardId;
+
+
+/***/ }),
+
+/***/ "./src/selectors/board.ts":
+/*!********************************!*\
+  !*** ./src/selectors/board.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCellContents = exports.getBoard = exports.getBoards = void 0;
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var getBoards = function (state) {
+    return state.boardsState.boards;
+};
+exports.getBoards = getBoards;
+var getBoard = function (state, boardId) {
+    var boardsMap = exports.getBoards(state);
+    if (boardsMap.hasOwnProperty(boardId)) {
+        return boardsMap[boardId];
+    }
+    return null;
+};
+exports.getBoard = getBoard;
+var getCellContents = function (state) {
+    var boardId = selectors_1.getBoardId(state);
+    var boardsMap = exports.getBoards(state);
+    if (boardsMap.hasOwnProperty(boardId)) {
+        return boardsMap[boardId].cellContents;
+    }
+    return null;
+};
+exports.getCellContents = getCellContents;
+// export const getBoardData = (state: TedwordState): DisplayedPuzzle => {
+//   console.log('boardPlayCrossword');
+//   console.log(boardPlayCrossword);
+//   //         (boardPlayCrossword as any).current.remoteSetCell(row, col, typedChar);
+//   const displayedPuzzle: DisplayedPuzzle = {
+//     across: {},
+//     down: {},
+//   };
+//   const puzzleId: string = state.appState.puzzleId;
+//   if (!state.puzzlesState.puzzles.hasOwnProperty(puzzleId)) {
+//     return displayedPuzzle;
+//   }
+//   const boardId: string = getBoardId(state);
+//   const board: BoardEntity = getBoard(state, boardId);
+//   const cellContents: CellContentsMap = board.cellContents;
+//   const puzzleEntity: PuzzleEntity = state.puzzlesState.puzzles[puzzleId];
+//   const parsedClues: ParsedClue[] = puzzleEntity.parsedClues;
+//   for (const parsedClue of parsedClues) {
+//     const { col, isAcross, row, text } = parsedClue;
+//     let mySolution = '';
+//     const key = row.toString() + '_' + col.toString();
+//     if (cellContents.hasOwnProperty(key)) {
+//       mySolution = cellContents[key];
+//     }
+//     if (isAcross) {
+//       displayedPuzzle.across[parsedClue.number] = {
+//         clue: text,
+//         answer: mySolution,
+//         row,
+//         col,
+//       };
+//     } else {
+//       displayedPuzzle.down[parsedClue.number] = {
+//         clue: text,
+//         answer: mySolution,
+//         row,
+//         col,
+//       };
+//     }
+//   }
+//   // for (const cellSpec in cellContents) {
+//   //   if (cellContents.prototype.hasOwnProperty.call(cellContents, cellSpec)) {
+//   //     const rowAndCol: string[] = cellSpec.split('_');
+//   //     const row: number = parseInt(rowAndCol[0], 10);
+//   //     const col: number = parseInt(rowAndCol[1], 10);
+//   //     const typedChar: string = cellContents[cellSpec];
+//   //     (boardPlayCrossword as any).current.remoteSetCell(row, col, typedChar);
+//   //   }
+//   // }
+//   return displayedPuzzle;
+// };
 
 
 /***/ }),
@@ -73231,6 +73615,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./appState */ "./src/selectors/appState.ts"), exports);
+__exportStar(__webpack_require__(/*! ./board */ "./src/selectors/board.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzle */ "./src/selectors/puzzle.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzlesMetadata */ "./src/selectors/puzzlesMetadata.ts"), exports);
 __exportStar(__webpack_require__(/*! ./users */ "./src/selectors/users.ts"), exports);
@@ -73281,26 +73666,6 @@ var getDisplayedPuzzle = function (state) {
             };
         }
     }
-    // const puzCrosswordSpec: PuzCrosswordSpec = state.puzCrosswordSpec;
-    // const parsedClues: ParsedClue[] = puzCrosswordSpec.parsedClues;
-    // for (const parsedClue of parsedClues) {
-    //   const { col, isAcross, row, solution, text } = parsedClue;
-    //   if (isAcross) {
-    //     displayedPuzzle.across[parsedClue.number] = {
-    //       clue: text,
-    //       answer: solution,
-    //       row,
-    //       col,
-    //     };
-    //   } else {
-    //     displayedPuzzle.down[parsedClue.number] = {
-    //       clue: text,
-    //       answer: solution,
-    //       row,
-    //       col,
-    //     };
-    //   }
-    // }
     return displayedPuzzle;
 };
 exports.getDisplayedPuzzle = getDisplayedPuzzle;
@@ -73363,14 +73728,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiState = exports.apiUrlFragment = exports.serverUrl = void 0;
 // export const serverUrl = 'http://localhost:8888';
 // export const serverUrl = 'https://damp-falls-28733.herokuapp.com';
-// export const serverUrl = 'http://localhost:5000';
-exports.serverUrl = 'https://tedword.herokuapp.com';
+exports.serverUrl = 'http://localhost:5000';
+// export const serverUrl = 'https://tedword.herokuapp.com';
 exports.apiUrlFragment = '/api/v1/';
 var UiState;
 (function (UiState) {
     UiState["SelectUser"] = "SelectUser";
     UiState["SelectPuzzleOrBoard"] = "SelectPuzzleOrBoard";
-    UiState["BoardPlay"] = "BoardPlay";
+    UiState["NewBoardPlay"] = "NewBoardPlay";
+    UiState["ExistingBoardPlay"] = "ExistingBoardPlay";
 })(UiState = exports.UiState || (exports.UiState = {}));
 
 

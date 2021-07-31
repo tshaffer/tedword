@@ -41,6 +41,9 @@ class App {
         this.app.get('/api/v1/allPuzzlesMetadata', controllers_1.getAllPuzzlesMetadata);
         this.app.get('/api/v1/puzzleMetadata', controllers_1.getPuzzleMetadata);
         this.app.get('/api/v1/puzzle', controllers_1.getPuzzle);
+        // board routes
+        this.app.get('/api/v1/boards', controllers_1.getBoards);
+        this.app.post('/api/v1/board', controllers_1.createBoard);
     }
     config() {
         let port = process.env.PORT;

@@ -21,13 +21,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
 const Schema = mongoose.Schema;
+// of: mongoose.SchemaTypes.Mixed
 const BoardSchema = new Schema({
     id: { type: String, required: true },
     puzzleId: { type: String, required: true },
-    users: [{
-            userIds: { type: String, required: true },
-        }],
-    cellContents: { type: String, required: true },
+    title: { type: String },
+    users: { type: [String] },
+    cellContents: {
+        type: Map,
+        of: String
+    },
     startDateTime: { type: Date, required: true },
     lastPlayedDateTime: { type: Date, required: true },
     elapsedTime: { type: Number },
