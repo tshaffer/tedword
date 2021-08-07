@@ -3,9 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPuzzle = exports.getPuzzleMetadata = exports.getAllPuzzlesMetadata = void 0;
+exports.uploadPuzzles = exports.getPuzzle = exports.getPuzzleMetadata = exports.getAllPuzzlesMetadata = void 0;
+const uuid_1 = require("uuid");
 const lodash_1 = require("lodash");
 const Puzzle_1 = __importDefault(require("../models/Puzzle"));
+const dbInterface_1 = require("./dbInterface");
 const getAllPuzzlesMetadata = (request, response, next) => {
     console.log('getAllPuzzlesMetadata');
     getAllPuzzlesMetadataFromDb()
@@ -163,4 +165,38 @@ const getPuzzleFromDb = (id) => {
 //       return Promise.reject(err);
 //     });
 // }
+function uploadPuzzles(request, response, next) {
+    console.log('uploadPuzzles');
+    console.log(request.body);
+    const { uploadDateTime, puzzleSpecs } = request.body;
+    for (const puzzleSpec of puzzleSpecs) {
+        const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleSpec;
+        // TEDTODO - don't add a puzzle that already exists.
+        const puzzleEntity = {
+            id: uuid_1.v4(),
+            title,
+            author,
+            copyright,
+            note,
+            width,
+            height,
+            clues,
+            solution,
+            state,
+            hasState,
+            parsedClues,
+        };
+        // TEDTODO - create all at once
+        // TEDTODO - send response on reject
+        dbInterface_1.createPuzzle(puzzleEntity)
+            .then((puzzleDoc) => {
+            const puzzleDocument = puzzleDoc;
+            console.log('added userDocument');
+            console.log(puzzleDocument);
+            console.log(puzzleDocument.toObject());
+        });
+    }
+    response.sendStatus(200);
+}
+exports.uploadPuzzles = uploadPuzzles;
 //# sourceMappingURL=puzzles.js.map

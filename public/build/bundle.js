@@ -72359,8 +72359,11 @@ var BoardPlay = function (props) {
     // }
     console.log('BoardPlay rendering');
     var cellContents = props.cellContents;
+    console.log('cellContents');
+    console.log(cellContents);
     if (lodash_1.isNil(cellContents)) {
-        return null;
+        // return null;
+        cellContents = {};
     }
     return (React.createElement("div", null,
         React.createElement("p", null, "BoardPlay"),
@@ -72392,6 +72395,70 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Boa
 
 /***/ }),
 
+/***/ "./src/components/ExistingGames.tsx":
+/*!******************************************!*\
+  !*** ./src/components/ExistingGames.tsx ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var ExistingGames = function (props) {
+    var handleSelectBoard = function (boardEntity) {
+        props.onSelectBoard(boardEntity);
+    };
+    var renderBoardRow = function (boardEntity) {
+        return (React.createElement("tr", { key: boardEntity.id },
+            React.createElement("td", null,
+                React.createElement("button", { onClick: function () { return handleSelectBoard(boardEntity); } }, "Play Me!")),
+            React.createElement("td", null, boardEntity.title)));
+    };
+    var renderBoardRows = function () {
+        var boardRows = [];
+        for (var boardId in props.boardsMap) {
+            if (Object.prototype.hasOwnProperty.call(props.boardsMap, boardId)) {
+                var boardEntity = props.boardsMap[boardId];
+                boardRows.push(renderBoardRow(boardEntity));
+            }
+        }
+        return boardRows;
+    };
+    var renderBoardsTable = function () {
+        if (lodash_1.isEmpty(props.boardsMap)) {
+            return null;
+        }
+        var boardRows = renderBoardRows();
+        return (React.createElement("div", null,
+            React.createElement("br", null),
+            React.createElement("table", null,
+                React.createElement("thead", null,
+                    React.createElement("tr", null,
+                        React.createElement("th", null, "Title"))),
+                React.createElement("tbody", null, boardRows))));
+    };
+    var boardsTable = renderBoardsTable();
+    return (React.createElement("div", null, boardsTable));
+};
+function mapStateToProps(state) {
+    return {
+        boardsMap: selectors_1.getBoards(state),
+    };
+}
+var mapDispatchToProps = function (dispatch) {
+    return redux_1.bindActionCreators({}, dispatch);
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(ExistingGames);
+
+
+/***/ }),
+
 /***/ "./src/components/GameHome.tsx":
 /*!*************************************!*\
   !*** ./src/components/GameHome.tsx ***!
@@ -72402,6 +72469,7 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Boa
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable @typescript-eslint/no-var-requires */
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -72409,136 +72477,106 @@ var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
+var NewGames_1 = __webpack_require__(/*! ./NewGames */ "./src/components/NewGames.tsx");
+var ExistingGames_1 = __webpack_require__(/*! ./ExistingGames */ "./src/components/ExistingGames.tsx");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var PuzCrossword = __webpack_require__(/*! @confuzzle/puz-crossword */ "./node_modules/@confuzzle/puz-crossword/puz-crossword.js").PuzCrossword;
 var GameHome = function (props) {
-    var getPuzzleTitles = function () {
-        var puzzleTitles = [];
-        for (var puzzleId in props.puzzlesMetadata) {
-            if (Object.prototype.hasOwnProperty.call(props.puzzlesMetadata, puzzleId)) {
-                var puzzleMetadata = props.puzzlesMetadata[puzzleId];
-                puzzleTitles.push(puzzleMetadata.title);
-            }
-        }
-        return puzzleTitles;
-    };
-    var getPuzzleOption = function (puzzleTitle) {
-        return (React.createElement("option", { key: puzzleTitle, value: puzzleTitle }, puzzleTitle));
-    };
-    var getPuzzleOptions = function (puzzleTitles) {
-        var puzzleOptions = puzzleTitles.map(function (puzzleTitle) {
-            return getPuzzleOption(puzzleTitle);
-        });
-        return puzzleOptions;
-    };
-    var getSelectedPuzzleTitle = function () {
-        // eslint-disable-next-line no-prototype-builtins
-        if (props.puzzlesMetadata.hasOwnProperty(props.appState.puzzleId)) {
-            var puzzleMetadata = props.puzzlesMetadata[props.appState.puzzleId];
-            return puzzleMetadata.title;
-        }
-        return '';
-    };
-    var getBoardTitles = function () {
-        var boardEntities = [];
-        for (var boardId in props.boardsMap) {
-            if (Object.prototype.hasOwnProperty.call(props.boardsMap, boardId)) {
-                var boardEntity = props.boardsMap[boardId];
-                boardEntities.push(boardEntity);
-            }
-        }
-        boardEntities.sort(function (a, b) {
-            return a.startDateTime > b.startDateTime
-                ? -1
-                : 1;
-        });
-        var boardTitles = boardEntities.map(function (boardEntity) {
-            return boardEntity.title;
-        });
-        return boardTitles;
-    };
-    var getSelectedBoardTitle = function () {
-        // eslint-disable-next-line no-prototype-builtins
-        if (props.boardsMap.hasOwnProperty(props.appState.boardId)) {
-            var board = props.boardsMap[props.appState.boardId];
-            return board.title;
-        }
-        return '';
-    };
-    var getBoardOption = function (boardTitle) {
-        return (React.createElement("option", { key: boardTitle, value: boardTitle }, boardTitle));
-    };
-    var getBoardOptions = function (boardTitles) {
-        var boardOptions = boardTitles.map(function (boardTitle) {
-            return getBoardOption(boardTitle);
-        });
-        return boardOptions;
-    };
-    var handleBoardChange = function (event) {
-        console.log('handleBoardChange');
-        console.log(event.target.value);
-        var boardTitle = event.target.value;
-        for (var boardId in props.boardsMap) {
-            if (Object.prototype.hasOwnProperty.call(props.boardsMap, boardId)) {
-                var boardEntity = props.boardsMap[boardId];
-                if (boardEntity.title === boardTitle) {
-                    // TEDTODO - review this - user may not hit Open Board
-                    props.onSetPuzzleId(boardEntity.puzzleId);
-                    props.onSetBoardId(boardId);
-                }
-            }
-        }
-    };
-    var handlePuzzleChange = function (event) {
-        console.log('handlePuzzleChange');
-        console.log(event.target.value);
-        var puzzleTitle = event.target.value;
-        for (var puzzleId in props.puzzlesMetadata) {
-            if (Object.prototype.hasOwnProperty.call(props.puzzlesMetadata, puzzleId)) {
-                var puzzleMetadata = props.puzzlesMetadata[puzzleId];
-                if (puzzleMetadata.title === puzzleTitle) {
-                    // TEDTODO - review this - user may not hit Open Puzzle
-                    props.onSetPuzzleId(puzzleId);
-                }
-            }
-        }
-    };
-    var handleOpenBoard = function () {
+    var _a = React.useState([]), files = _a[0], setFiles = _a[1];
+    var handleOpenBoard = function (boardEntity) {
+        props.onSetPuzzleId(boardEntity.puzzleId);
+        props.onSetBoardId(boardEntity.id);
         props.onSetUiState(types_1.UiState.ExistingBoardPlay);
-        // props.onResumeBoardPlay();
     };
-    var handleOpenPuzzle = function () {
+    var handleOpenPuzzle = function (puzzleMetadata) {
+        props.onSetPuzzleId(puzzleMetadata.id);
         props.onCreateBoard();
         props.onSetUiState(types_1.UiState.NewBoardPlay);
     };
     var renderSelectPuzzleOrBoard = function () {
-        var puzzleTitles = getPuzzleTitles();
-        if (puzzleTitles.length === 0) {
-            return null;
+        var tabcontent = {
+            display: 'none',
+            padding: '6px 12px',
+            border: '1px solid #ccc',
+            borderTop: 'none',
+        };
+        var tab = {
+            overflow: 'hidden',
+            border: '1px solid #ccc',
+            backgroundColor: '#f1f1f1',
+        };
+        var tabLinks = {
+            backgroundColor: 'inherit',
+            // float: 'left',
+            border: 'none',
+            outline: 'none',
+            cursor: 'pointer',
+            padding: '14px 16px',
+            transition: '0.3s'
+        };
+        var handleSelectPuzFiles = function (e) {
+            if (!lodash_1.isNil(e.target.files)
+                && e.target.files.length > 0) {
+                var targetFileList = e.target.files;
+                var filesToAdd = [];
+                for (var i = 0; i < targetFileList.length; i++) {
+                    var targetFile = e.target.files[i];
+                    filesToAdd.push(targetFile);
+                }
+                setFiles(filesToAdd);
+            }
+            // TEDTODO - display selected files?
+            e.target.value = '';
+        };
+        var handleUploadPuzFiles = function () {
+            props.onUploadPuzFiles(files);
+        };
+        function handleSelectTab(evt) {
+            var selectedTabId = evt.target.id;
+            // Hide content divs
+            newGamesContentRef.current.style.display = 'none';
+            inProgressGamesContentRef.current.style.display = 'none';
+            // Show the current tab, and add an 'active' class to the button that opened the tab
+            switch (selectedTabId) {
+                case 'newGameTabSelect':
+                    newGamesContentRef.current.style.display = 'block';
+                    newGameTabSelectRef.current.style.backgroundColor = '#ccc';
+                    inProgressGamesTabSelectRef.current.style.backgroundColor = 'inherit';
+                    break;
+                case 'inProgressGameTabSelect':
+                    inProgressGamesContentRef.current.style.display = 'block';
+                    inProgressGamesTabSelectRef.current.style.backgroundColor = '#ccc';
+                    newGameTabSelectRef.current.style.backgroundColor = 'inherit';
+                    break;
+                case 'settingsTabSelect':
+                    settingsContentRef.current.style.display = 'block';
+                    settingsTabSelectRef.current.style.backgroundColor = '#ccc';
+                    inProgressGamesTabSelectRef.current.style.backgroundColor = 'inherit';
+                    break;
+                default:
+                    break;
+            }
         }
-        var selectedPuzzleTitle = getSelectedPuzzleTitle();
-        if (selectedPuzzleTitle === '') {
-            return null;
-        }
-        // TEDTODO - this isn't right when there are no boards
-        var boardTitles = getBoardTitles();
-        if (boardTitles.length === 0) {
-            return null;
-        }
-        var selectedBoardTitle = getSelectedBoardTitle();
-        if (selectedBoardTitle === '') {
-            return null;
-        }
-        var puzzleOptions = getPuzzleOptions(puzzleTitles);
-        var boardOptions = getBoardOptions(boardTitles);
+        var newGameTabSelectRef = React.createRef();
+        var newGamesContentRef = React.createRef();
+        var inProgressGamesTabSelectRef = React.createRef();
+        var inProgressGamesContentRef = React.createRef();
+        var settingsTabSelectRef = React.createRef();
+        var settingsContentRef = React.createRef();
         return (React.createElement("div", null,
-            React.createElement("p", null, "Select Puzzle"),
-            React.createElement("select", { tabIndex: -1, value: selectedPuzzleTitle, onChange: handlePuzzleChange }, puzzleOptions),
-            React.createElement("p", null,
-                React.createElement("button", { type: "button", onClick: handleOpenPuzzle }, "Open Puzzle")),
-            React.createElement("p", null),
-            React.createElement("p", null, "Select Board"),
-            React.createElement("select", { tabIndex: -1, value: selectedBoardTitle, onChange: handleBoardChange }, boardOptions),
-            React.createElement("p", null,
-                React.createElement("button", { type: "button", onClick: handleOpenBoard }, "Open Board"))));
+            React.createElement("div", { style: tab },
+                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'newGameTabSelect', ref: newGameTabSelectRef }, "New Games"),
+                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'inProgressGameTabSelect', ref: inProgressGamesTabSelectRef }, "In Progress Games"),
+                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'settingsTabSelect', ref: settingsTabSelectRef }, "Settings")),
+            React.createElement("div", { id: 'newGameContent', style: tabcontent, ref: newGamesContentRef },
+                React.createElement(NewGames_1.default, { onSelectPuzzle: handleOpenPuzzle })),
+            React.createElement("div", { id: 'inProgressGamesContent', style: tabcontent, ref: inProgressGamesContentRef },
+                React.createElement(ExistingGames_1.default, { onSelectBoard: handleOpenBoard })),
+            React.createElement("div", { id: 'settingsContent', style: tabcontent, ref: settingsContentRef },
+                React.createElement("div", null,
+                    React.createElement("input", { id: "input", type: "file", multiple: true, onChange: handleSelectPuzFiles }),
+                    React.createElement("p", null,
+                        React.createElement("button", { type: 'button', onClick: handleUploadPuzFiles }, "Upload Files"))))));
     };
     return renderSelectPuzzleOrBoard();
 };
@@ -72552,10 +72590,10 @@ function mapStateToProps(state) {
 var mapDispatchToProps = function (dispatch) {
     return redux_1.bindActionCreators({
         onCreateBoard: controllers_1.createBoard,
-        // onResumeBoardPlay: resumeBoardPlay,
         onSetBoardId: models_1.setBoardId,
         onSetPuzzleId: models_1.setPuzzleId,
         onSetUiState: models_1.setUiState,
+        onUploadPuzFiles: controllers_1.uploadPuzFiles,
     }, dispatch);
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(GameHome);
@@ -72730,6 +72768,72 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Log
 
 /***/ }),
 
+/***/ "./src/components/NewGames.tsx":
+/*!*************************************!*\
+  !*** ./src/components/NewGames.tsx ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var NewGames = function (props) {
+    var handleSelectPuzzle = function (puzzleMetadata) {
+        props.onSelectPuzzle(puzzleMetadata);
+    };
+    var renderPuzzleRow = function (puzzleMetadata) {
+        return (React.createElement("tr", { key: puzzleMetadata.id },
+            React.createElement("td", null,
+                React.createElement("button", { onClick: function () { return handleSelectPuzzle(puzzleMetadata); } }, "Play Me!")),
+            React.createElement("td", null, puzzleMetadata.title),
+            React.createElement("td", null, puzzleMetadata.author)));
+    };
+    var renderPuzzleRows = function () {
+        var puzzleRows = [];
+        for (var puzzleId in props.puzzlesMetadata) {
+            if (Object.prototype.hasOwnProperty.call(props.puzzlesMetadata, puzzleId)) {
+                var puzzleMetadata = props.puzzlesMetadata[puzzleId];
+                puzzleRows.push(renderPuzzleRow(puzzleMetadata));
+            }
+        }
+        return puzzleRows;
+    };
+    var renderPuzzlesTable = function () {
+        if (lodash_1.isEmpty(props.puzzlesMetadata)) {
+            return null;
+        }
+        var puzzleRows = renderPuzzleRows();
+        return (React.createElement("div", null,
+            React.createElement("br", null),
+            React.createElement("table", null,
+                React.createElement("thead", null,
+                    React.createElement("tr", null,
+                        React.createElement("th", null, "Title"),
+                        React.createElement("th", null, "Author"))),
+                React.createElement("tbody", null, puzzleRows))));
+    };
+    var puzzlesTable = renderPuzzlesTable();
+    return (React.createElement("div", null, puzzlesTable));
+};
+function mapStateToProps(state) {
+    return {
+        puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
+    };
+}
+var mapDispatchToProps = function (dispatch) {
+    return redux_1.bindActionCreators({}, dispatch);
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(NewGames);
+
+
+/***/ }),
+
 /***/ "./src/components/index.ts":
 /*!*********************************!*\
   !*** ./src/components/index.ts ***!
@@ -72891,9 +72995,9 @@ __exportStar(__webpack_require__(/*! ./user */ "./src/controllers/user.ts"), exp
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Buffer) {
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cellChange = exports.loadPuzzlesMetadata = exports.loadPuzzle = void 0;
+exports.uploadPuzFiles = exports.cellChange = exports.loadPuzzlesMetadata = exports.loadPuzzle = void 0;
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var index_1 = __webpack_require__(/*! ../index */ "./src/index.ts");
@@ -72967,7 +73071,57 @@ var cellChange = function (boardId, user, row, col, typedChar, localChange) {
     };
 };
 exports.cellChange = cellChange;
+var uploadPuzFiles = function (puzFiles) {
+    return function (dispatch) {
+        parsePuzzleFiles(puzFiles)
+            .then(function (puzzleSpecs) {
+            var path = index_1.serverUrl + index_1.apiUrlFragment + 'uploadPuzzles';
+            var uploadPuzzlesRequestBody = {
+                uploadDateTime: Date.now(),
+                puzzleSpecs: puzzleSpecs,
+            };
+            return axios_1.default.post(path, uploadPuzzlesRequestBody).then(function (response) {
+                console.log(response);
+                return;
+            }).catch(function (error) {
+                console.log('error');
+                console.log(error);
+                return;
+            });
+        });
+    };
+};
+exports.uploadPuzFiles = uploadPuzFiles;
+var parsePuzzleFile = function (puzFile) {
+    return new Promise(function (resolve, reject) {
+        var fileReader = new FileReader();
+        // TEDTODO - err event
+        fileReader.onload = function () {
+            console.log('onload event received');
+            console.log(fileReader.result);
+            var puzData = Buffer.from(fileReader.result);
+            var puzzleSpec = PuzCrossword.from(puzData);
+            resolve(puzzleSpec);
+        };
+        fileReader.readAsArrayBuffer(puzFile);
+    });
+};
+var parsePuzzleFiles = function (puzFiles) {
+    var puzzleSpecs = [];
+    var parseNextPuzzleFile = function (index) {
+        if (index >= puzFiles.length) {
+            return Promise.resolve(puzzleSpecs);
+        }
+        return parsePuzzleFile(puzFiles[index])
+            .then(function (puzzleSpec) {
+            puzzleSpecs.push(puzzleSpec);
+            return parseNextPuzzleFile(index + 1);
+        });
+    };
+    return parseNextPuzzleFile(0);
+};
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/buffer/index.js */ "./node_modules/buffer/index.js").Buffer))
 
 /***/ }),
 
@@ -73531,8 +73685,12 @@ var getBoard = function (state, boardId) {
 };
 exports.getBoard = getBoard;
 var getCellContents = function (state) {
+    console.log('getCellContents');
+    console.log(state);
     var boardId = selectors_1.getBoardId(state);
+    console.log(boardId);
     var boardsMap = exports.getBoards(state);
+    console.log(boardsMap);
     if (boardsMap.hasOwnProperty(boardId)) {
         return boardsMap[boardId].cellContents;
     }
@@ -73726,8 +73884,10 @@ exports.getUsers = getUsers;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiState = exports.apiUrlFragment = exports.serverUrl = void 0;
-// export const serverUrl = 'http://localhost:5000';
-exports.serverUrl = 'https://tedword.herokuapp.com';
+// export const serverUrl = 'http://localhost:8888';
+// export const serverUrl = 'https://damp-falls-28733.herokuapp.com';
+exports.serverUrl = 'http://localhost:5000';
+// export const serverUrl = 'https://tedword.herokuapp.com';
 exports.apiUrlFragment = '/api/v1/';
 var UiState;
 (function (UiState) {

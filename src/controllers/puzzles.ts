@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
-import { isArray } from 'lodash';
 import { Document } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
+import { isArray } from 'lodash';
 import Puzzle from '../models/Puzzle';
 import { PuzzleEntity, PuzzleMetadata, PuzzleSpec } from '../types';
+import { createPuzzle } from './dbInterface';
 
 export const getAllPuzzlesMetadata = (request: Request, response: Response, next: any) => {
   console.log('getAllPuzzlesMetadata');
@@ -50,7 +52,7 @@ const getPuzzleMetadataFromDb = (puzzleId: string): Promise<PuzzleMetadata> => {
         debugger;
         return Promise.reject('puzzle not found');
       }
-    }).catch( (err: any) => {
+    }).catch((err: any) => {
       console.log(err);
       debugger;
       return Promise.reject(err);
@@ -82,7 +84,7 @@ const getAllPuzzlesMetadataFromDb = (): Promise<PuzzleMetadata[]> => {
         debugger;
         return Promise.reject('puzzle not found');
       }
-    }).catch( (err: any) => {
+    }).catch((err: any) => {
       console.log(err);
       debugger;
       return Promise.reject(err);
@@ -114,7 +116,7 @@ const getPuzzleFromDb = (id: string): Promise<PuzzleEntity> => {
       if (isArray(puzzleDocs) && puzzleDocs.length === 1) {
         const puzzleDocData: any = puzzleDocs[0].toObject();
         const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleDocData;
-      
+
         const puzzleEntity: PuzzleEntity = {
           id,
           title,
@@ -134,16 +136,15 @@ const getPuzzleFromDb = (id: string): Promise<PuzzleEntity> => {
         debugger;
         return Promise.reject('puzzle not found');
       }
-    }).catch( (err: any) => {
+    }).catch((err: any) => {
       console.log(err);
       debugger;
       return Promise.reject(err);
     });
 }
 
-
 // export const getPuzData = (request: Request, response: Response, next: any) => {
-  
+
 //   console.log('getPuzData');
 
 //   console.log('request.query:');
@@ -180,4 +181,45 @@ const getPuzzleFromDb = (id: string): Promise<PuzzleEntity> => {
 //       return Promise.reject(err);
 //     });
 // }
+
+export function uploadPuzzles(request: Request, response: Response, next: any) {
+  
+  console.log('uploadPuzzles');
+  console.log(request.body);
+
+  const { uploadDateTime, puzzleSpecs } = request.body;
+
+  for (const puzzleSpec of puzzleSpecs) {
+    const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleSpec as PuzzleSpec;
+
+    // TEDTODO - don't add a puzzle that already exists.
+    
+    const puzzleEntity: PuzzleEntity = {
+      id: uuidv4(),
+      title,
+      author,
+      copyright,
+      note,
+      width,
+      height,
+      clues,
+      solution,
+      state,
+      hasState,
+      parsedClues,
+    };
+
+    // TEDTODO - create all at once
+    // TEDTODO - send response on reject
+    createPuzzle(puzzleEntity)
+      .then((puzzleDoc) => {
+        const puzzleDocument = puzzleDoc as Document;
+        console.log('added userDocument');
+        console.log(puzzleDocument);
+        console.log(puzzleDocument.toObject());
+      });
+  }
+
+  response.sendStatus(200);
+}
 
