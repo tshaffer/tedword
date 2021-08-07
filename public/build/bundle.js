@@ -72409,7 +72409,9 @@ var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var GameHome = function (props) {
+    var _a = React.useState(null), file = _a[0], setFile = _a[1];
     var getPuzzleTitles = function () {
         var puzzleTitles = [];
         for (var puzzleId in props.puzzlesMetadata) {
@@ -72529,16 +72531,128 @@ var GameHome = function (props) {
         }
         var puzzleOptions = getPuzzleOptions(puzzleTitles);
         var boardOptions = getBoardOptions(boardTitles);
+        // return (
+        //   <div>
+        //     <p>Select Puzzle</p>
+        //     <select
+        //       tabIndex={-1}
+        //       value={selectedPuzzleTitle}
+        //       onChange={handlePuzzleChange}
+        //     >
+        //       {puzzleOptions}
+        //     </select>
+        //     <p>
+        //       <button
+        //         type='button'
+        //         onClick={handleOpenPuzzle}
+        //       >
+        //         Open Puzzle
+        //       </button>
+        //     </p>
+        //     <p></p>
+        //     <p>Select Board</p>
+        //     <select
+        //       tabIndex={-1}
+        //       value={selectedBoardTitle}
+        //       onChange={handleBoardChange}
+        //     >
+        //       {boardOptions}
+        //     </select>
+        //     <p>
+        //       <button
+        //         type='button'
+        //         onClick={handleOpenBoard}
+        //       >
+        //         Open Board
+        //       </button>
+        //     </p>
+        //   </div>
+        // );
+        var tabcontent = {
+            display: 'none',
+            padding: '6px 12px',
+            border: '1px solid #ccc',
+            borderTop: 'none',
+        };
+        var tab = {
+            overflow: 'hidden',
+            border: '1px solid #ccc',
+            backgroundColor: '#f1f1f1',
+        };
+        var tabLinks = {
+            backgroundColor: 'inherit',
+            // float: 'left',
+            border: 'none',
+            outline: 'none',
+            cursor: 'pointer',
+            padding: '14px 16px',
+            transition: '0.3s'
+        };
+        var handleSelectFiles = function (e) {
+            if (!lodash_1.isNil(e.target.files)
+                && e.target.files.length > 0) {
+                var targetFileList = e.target.files;
+                // const { onAddUploadFiles = () => {} } = this.props;
+                var filesToAdd = [];
+                for (var i = 0; i < targetFileList.length; i++) {
+                    var targetFile = e.target.files[i];
+                    filesToAdd.push(targetFile);
+                }
+                // onAddUploadFiles(filesToAdd);
+                console.log(filesToAdd);
+                setFile(filesToAdd[0]);
+            }
+            e.target.value = '';
+        };
+        var handleUploadFiles = function () {
+            props.onUploadFile(file);
+        };
+        function handleSelectTab(evt) {
+            var selectedTabId = evt.target.id;
+            // Hide content divs
+            newGamesContentRef.current.style.display = 'none';
+            inProgressGamesContentRef.current.style.display = 'none';
+            // Show the current tab, and add an 'active' class to the button that opened the tab
+            switch (selectedTabId) {
+                case 'newGameTabSelect':
+                    newGamesContentRef.current.style.display = 'block';
+                    newGameTabSelectRef.current.style.backgroundColor = '#ccc';
+                    inProgressGamesTabSelectRef.current.style.backgroundColor = 'inherit';
+                    break;
+                case 'inProgressGameTabSelect':
+                    inProgressGamesContentRef.current.style.display = 'block';
+                    inProgressGamesTabSelectRef.current.style.backgroundColor = '#ccc';
+                    newGameTabSelectRef.current.style.backgroundColor = 'inherit';
+                    break;
+                case 'settingsTabSelect':
+                    settingsContentRef.current.style.display = 'block';
+                    settingsTabSelectRef.current.style.backgroundColor = '#ccc';
+                    inProgressGamesTabSelectRef.current.style.backgroundColor = 'inherit';
+                    break;
+                default:
+                    break;
+            }
+        }
+        var newGameTabSelectRef = React.createRef();
+        var newGamesContentRef = React.createRef();
+        var inProgressGamesTabSelectRef = React.createRef();
+        var inProgressGamesContentRef = React.createRef();
+        var settingsTabSelectRef = React.createRef();
+        var settingsContentRef = React.createRef();
         return (React.createElement("div", null,
-            React.createElement("p", null, "Select Puzzle"),
-            React.createElement("select", { tabIndex: -1, value: selectedPuzzleTitle, onChange: handlePuzzleChange }, puzzleOptions),
-            React.createElement("p", null,
-                React.createElement("button", { type: "button", onClick: handleOpenPuzzle }, "Open Puzzle")),
-            React.createElement("p", null),
-            React.createElement("p", null, "Select Board"),
-            React.createElement("select", { tabIndex: -1, value: selectedBoardTitle, onChange: handleBoardChange }, boardOptions),
-            React.createElement("p", null,
-                React.createElement("button", { type: "button", onClick: handleOpenBoard }, "Open Board"))));
+            React.createElement("div", { style: tab },
+                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'newGameTabSelect', ref: newGameTabSelectRef }, "New Games"),
+                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'inProgressGameTabSelect', ref: inProgressGamesTabSelectRef }, "In Progress Games"),
+                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'settingsTabSelect', ref: settingsTabSelectRef }, "Settings")),
+            React.createElement("div", { id: 'newGameContent', style: tabcontent, ref: newGamesContentRef },
+                React.createElement("p", null, "New games listed here")),
+            React.createElement("div", { id: 'inProgressGamesContent', style: tabcontent, ref: inProgressGamesContentRef },
+                React.createElement("p", null, "in progress games listed here.")),
+            React.createElement("div", { id: 'settingsContent', style: tabcontent, ref: settingsContentRef },
+                React.createElement("div", null,
+                    React.createElement("input", { id: "input", type: "file", name: "puzzle", multiple: true, onChange: handleSelectFiles, formEncType: "multipart/form-data" }),
+                    React.createElement("p", null,
+                        React.createElement("button", { type: 'button', onClick: handleUploadFiles }, "Upload Files"))))));
     };
     return renderSelectPuzzleOrBoard();
 };
@@ -72556,6 +72670,7 @@ var mapDispatchToProps = function (dispatch) {
         onSetBoardId: models_1.setBoardId,
         onSetPuzzleId: models_1.setPuzzleId,
         onSetUiState: models_1.setUiState,
+        onUploadFile: controllers_1.uploadFile,
     }, dispatch);
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(GameHome);
@@ -72877,8 +72992,42 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./board */ "./src/controllers/board.ts"), exports);
+__exportStar(__webpack_require__(/*! ./network */ "./src/controllers/network.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzle */ "./src/controllers/puzzle.ts"), exports);
 __exportStar(__webpack_require__(/*! ./user */ "./src/controllers/user.ts"), exports);
+
+
+/***/ }),
+
+/***/ "./src/controllers/network.ts":
+/*!************************************!*\
+  !*** ./src/controllers/network.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.uploadFile = void 0;
+var uploadFile = function (file) {
+    return function (dispatch) {
+        console.log('uploadFile');
+        console.log(file);
+        fetch('http://localhost:5000/api/v1/uploadPuzzle', {
+            // content-type header should not be specified!
+            method: 'POST',
+            body: file,
+        })
+            .then(function (response) { return response.json(); })
+            .then(function (success) {
+            // Do something with the successful response
+            console.log(success);
+        })
+            .catch(function (error) { return console.log(error); });
+    };
+};
+exports.uploadFile = uploadFile;
 
 
 /***/ }),
@@ -73726,8 +73875,11 @@ exports.getUsers = getUsers;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiState = exports.apiUrlFragment = exports.serverUrl = void 0;
-// export const serverUrl = 'http://localhost:5000';
-exports.serverUrl = 'https://tedword.herokuapp.com';
+// export const serverUrl = 'http://localhost:8888';
+// export const serverUrl = 'https://damp-falls-28733.herokuapp.com';
+exports.serverUrl = 'http://localhost:5000';
+// export const serverUrl = 'http://localhost:8000';
+// export const serverUrl = 'https://tedword.herokuapp.com';
 exports.apiUrlFragment = '/api/v1/';
 var UiState;
 (function (UiState) {
