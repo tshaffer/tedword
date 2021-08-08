@@ -20,7 +20,7 @@ export const createPuzzle = (puzzleEntity: PuzzleEntity): Promise<any> => {
     });
 };
 
-export const getBoardsFromDb = ():  Promise<BoardEntity[]> => {
+export const getBoardsFromDb = (): Promise<BoardEntity[]> => {
   const query = Board.find({});
   const promise: Promise<Document[]> = query.exec();
   return promise.then((boardDocuments: Document[]) => {
@@ -119,6 +119,25 @@ export const updateCellContents = (
   //   });
 }
 
+export const addUserToBoardDb = (boardId: string, userName: string): void => {
+
+  Board.find(
+    {
+      id: boardId,
+    },
+    (err, boardDocs: any) => {
+      if (err) {
+        console.log(err);
+      } else
+        // TEDTODO - check for user already exists in .users
+        if (isArray(boardDocs) && boardDocs.length === 1) {
+          const boardDoc: any = boardDocs[0];
+          (boardDoc as BoardEntity).users.push(userName);
+          boardDoc.save();
+
+        }
+    });
+}
 // export const createUserDocuments = (userDocuments: UserEntity[]): Promise<Document[]> => {
 //   return new Promise((resolve: any, reject: any) => {
 //     User.collection.insert(userDocuments, (err, docs) => {

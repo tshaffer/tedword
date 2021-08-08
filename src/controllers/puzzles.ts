@@ -29,7 +29,7 @@ export const getPuzzleMetadata = (request: Request, response: Response, next: an
   getPuzzleMetadataFromDb(id)
     .then((puzzleMetadata: PuzzleMetadata) => {
       console.log('puzzleMetadata');
-      console.log(puzzleMetadata);
+      // console.log(puzzleMetadata);
       response.json(puzzleMetadata);
     })
 };
@@ -103,7 +103,7 @@ export const getPuzzle = (request: Request, response: Response, next: any) => {
   getPuzzleFromDb(id)
     .then((puzzle: PuzzleSpec) => {
       console.log('puzzle');
-      console.log(puzzle);
+      // console.log(puzzle);
       response.json(puzzle);
     })
 };
@@ -215,8 +215,8 @@ export function uploadPuzzles(request: Request, response: Response, next: any) {
       .then((puzzleDoc) => {
         const puzzleDocument = puzzleDoc as Document;
         console.log('added userDocument');
-        console.log(puzzleDocument);
-        console.log(puzzleDocument.toObject());
+        // console.log(puzzleDocument);
+        // console.log(puzzleDocument.toObject());
       });
   }
 
