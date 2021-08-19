@@ -45,6 +45,7 @@ class App {
         // board routes
         this.app.get('/api/v1/boards', controllers_1.getBoards);
         this.app.post('/api/v1/board', controllers_1.createBoard);
+        this.app.post('/api/v1/addUserToBoard', controllers_1.addUserToBoard);
     }
     config() {
         let port = process.env.PORT;

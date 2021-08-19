@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCellContents = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
+exports.addUserToBoardDb = exports.updateCellContents = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
 const lodash_1 = require("lodash");
 const Board_1 = __importDefault(require("../models/Board"));
 const Puzzle_1 = __importDefault(require("../models/Puzzle"));
@@ -98,6 +98,23 @@ const updateCellContents = (boardId, row, col, typedChar) => {
     //   });
 };
 exports.updateCellContents = updateCellContents;
+const addUserToBoardDb = (boardId, userName) => {
+    Board_1.default.find({
+        id: boardId,
+    }, (err, boardDocs) => {
+        if (err) {
+            console.log(err);
+        }
+        else 
+        // TEDTODO - check for user already exists in .users
+        if (lodash_1.isArray(boardDocs) && boardDocs.length === 1) {
+            const boardDoc = boardDocs[0];
+            boardDoc.users.push(userName);
+            boardDoc.save();
+        }
+    });
+};
+exports.addUserToBoardDb = addUserToBoardDb;
 // export const createUserDocuments = (userDocuments: UserEntity[]): Promise<Document[]> => {
 //   return new Promise((resolve: any, reject: any) => {
 //     User.collection.insert(userDocuments, (err, docs) => {

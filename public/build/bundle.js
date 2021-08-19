@@ -10412,6 +10412,8 @@ var _util = __webpack_require__(/*! ./util */ "./node_modules/@jaredreisinger/re
 
 var _context = __webpack_require__(/*! ./context */ "./node_modules/@jaredreisinger/react-crossword/dist/es/context.js");
 
+/* eslint-disable prettier/prettier */
+
 /* eslint-disable no-console */
 // TODO: make this a component property!
 var defaultStorageKey = 'guesses';
@@ -10470,6 +10472,7 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
       onLoadedCorrect = _ref.onLoadedCorrect,
       onCrosswordCorrect = _ref.onCrosswordCorrect,
       onCellChange = _ref.onCellChange,
+      onFocusedCellChange = _ref.onFocusedCellChange,
       useStorage = _ref.useStorage,
       theme = _ref.theme;
 
@@ -10712,6 +10715,10 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
       direction = (0, _util.otherDirection)(direction);
     }
 
+    if (onFocusedCellChange) {
+      onFocusedCellChange(row, col, direction);
+    }
+
     setFocusedRow(row);
     setFocusedCol(col);
     setCurrentDirection(direction);
@@ -10890,6 +10897,10 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     // TODO: track input-field focus so we don't draw highlight when we're not
     // really focused, *and* use first actual clue (whether across or down?)
 
+    if (onFocusedCellChange) {
+      onFocusedCellChange(0, 0, 'across');
+    }
+
     setFocusedRow(0);
     setFocusedCol(0);
     setCurrentDirection('across');
@@ -10925,6 +10936,10 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     }
 
     setCurrentNumber(cellData[direction]);
+
+    if (onFocusedCellChange) {
+      onFocusedCellChange(row, col, direction);
+    }
 
     _focus();
   }, [focused, focusedRow, focusedCol, currentDirection, _focus]);
@@ -11237,7 +11252,8 @@ var tedGuessShape =  true ? _propTypes["default"].shape({
    *
    *  @since 2.1.0
    */
-  onCellChange: _propTypes["default"].func
+  onCellChange: _propTypes["default"].func,
+  onFocusedCellChange: _propTypes["default"].func
 } : undefined;
 Crossword.defaultProps = {
   theme: null,
@@ -11246,7 +11262,8 @@ Crossword.defaultProps = {
   onCorrect: null,
   onLoadedCorrect: null,
   onCrosswordCorrect: null,
-  onCellChange: null
+  onCellChange: null,
+  onFocusedCellChange: null
 };
 var _default = Crossword;
 exports["default"] = _default;
@@ -72282,6 +72299,49 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./src/components/Board.tsx":
+/*!**********************************!*\
+  !*** ./src/components/Board.tsx ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var Board = function (props) {
+    var acrossClue = '';
+    var downClue = '';
+    if (!lodash_1.isNil(props.gameState)) {
+        if (!lodash_1.isNil(props.gameState.focusedAcrossClue)) {
+            acrossClue = props.gameState.focusedAcrossClue.number.toString() + 'a (' + props.gameState.focusedAcrossClue.length.toString() + ')' + props.gameState.focusedAcrossClue.text;
+        }
+        if (!lodash_1.isNil(props.gameState.focusedAcrossClue)) {
+            downClue = props.gameState.focusedDownClue.number.toString() + 'd (' + props.gameState.focusedDownClue.length.toString() + ')' + props.gameState.focusedDownClue.text;
+        }
+    }
+    return (React.createElement("div", null,
+        React.createElement("p", null, acrossClue),
+        React.createElement("p", null, downClue)));
+};
+function mapStateToProps(state) {
+    return {
+        gameState: selectors_1.getGameState(state),
+    };
+}
+var mapDispatchToProps = function (dispatch) {
+    return redux_1.bindActionCreators({}, dispatch);
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Board);
+
+
+/***/ }),
+
 /***/ "./src/components/BoardPlay.tsx":
 /*!**************************************!*\
   !*** ./src/components/BoardPlay.tsx ***!
@@ -72296,7 +72356,6 @@ exports.boardPlayCrossword = void 0;
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
@@ -72304,7 +72363,6 @@ var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.j
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 var Crossword = __webpack_require__(/*! @jaredreisinger/react-crossword */ "./node_modules/@jaredreisinger/react-crossword/dist/es/index.js").Crossword;
 var BoardPlay = function (props) {
-    console.log('BoardPlay invoked');
     React.useEffect(function () {
         props.onLoadPuzzle(props.appState.puzzleId);
     }, []);
@@ -72316,70 +72374,26 @@ var BoardPlay = function (props) {
         return props.appState.userName;
     };
     var handleCellChange = function (row, col, typedChar, localChange) {
-        console.log('handleCellChange');
-        console.log(row, col, typedChar);
         props.onCellChange(getBoardId(), getPuzzleUser(), row, col, typedChar, localChange);
     };
-    var handleFillAllAnswers = React.useCallback(function (event) {
-        exports.boardPlayCrossword.current.fillAllAnswers();
-    }, []);
-    var handleResetPuzzle = React.useCallback(function (event) {
-        exports.boardPlayCrossword.current.reset();
-    }, []);
-    var handleRemoteSetCell = React.useCallback(function (event) {
-        exports.boardPlayCrossword.current.remoteSetCell(0, 1, 'X');
-    }, []);
-    var handleClueCorrect = function (direction, number, answer) {
-        console.log('handleClueCorrect');
-        console.log(direction, number, answer);
+    var handleFocusedCellChange = function (row, col, direction) {
+        props.onUpdateFocusedClues(row, col);
     };
-    var handleLoadedCorrect = function (param) {
-        console.log('handleLoadedCorrect');
-        console.log(param);
-    };
-    var handleCrosswordCorrect = function (param) {
-        console.log('handleCrosswordCorrect');
-        console.log(param);
-    };
-    /*
-        <Crossword
-          data={props.displayedPuzzle}
-          ref={boardPlayCrossword}
-          onCellChange={handleCellChange}
-          onCorrect={handleClueCorrect}
-          onLoadedCorrect={handleLoadedCorrect}
-          onCrosswordCorrect={handleCrosswordCorrect}
-        />
-    */
     var displayedPuzzleData = props.displayedPuzzle;
-    // if (props.appState.uiState === UiState.NewBoardPlay) {
-    //   displayedPuzzleData = props.boardData;
-    // } else {
-    //   displayedPuzzleData = props.displayedPuzzle;
-    // }
-    console.log('BoardPlay rendering');
     var cellContents = props.cellContents;
-    console.log('cellContents');
-    console.log(cellContents);
     if (lodash_1.isNil(cellContents)) {
-        // return null;
         cellContents = {};
     }
     return (React.createElement("div", null,
-        React.createElement("p", null, "BoardPlay"),
-        React.createElement("div", null,
-            React.createElement("button", { type: "button", onClick: handleFillAllAnswers }, "Fill all answers"),
-            React.createElement("button", { type: 'button', onClick: handleResetPuzzle }, "Reset puzzle"),
-            React.createElement("button", { type: 'button', onClick: handleRemoteSetCell }, "Set cell remote")),
-        React.createElement(Crossword, { data: displayedPuzzleData, tedGuesses: cellContents, ref: exports.boardPlayCrossword, onCellChange: handleCellChange, onCorrect: handleClueCorrect, onLoadedCorrect: handleLoadedCorrect, onCrosswordCorrect: handleCrosswordCorrect })));
+        React.createElement(Crossword, { data: displayedPuzzleData, tedGuesses: cellContents, ref: exports.boardPlayCrossword, onCellChange: handleCellChange, onFocusedCellChange: handleFocusedCellChange })));
 };
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     return {
-        puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
-        appState: selectors_1.getAppState(state),
-        displayedPuzzle: selectors_1.getDisplayedPuzzle(state),
-        // boardData: getBoardData(state),
-        cellContents: selectors_1.getCellContents(state),
+        puzzlesMetadata: ownProps.puzzleMetadata,
+        appState: ownProps.appState,
+        displayedPuzzle: ownProps.displayedPuzzle,
+        cellContents: ownProps.cellContents,
+        puzzleSpec: ownProps.puzzleSpec,
     };
 }
 var mapDispatchToProps = function (dispatch) {
@@ -72388,9 +72402,92 @@ var mapDispatchToProps = function (dispatch) {
         onSetUiState: models_1.setUiState,
         onLoadPuzzle: controllers_1.loadPuzzle,
         onCellChange: controllers_1.cellChange,
+        onUpdateFocusedClues: controllers_1.updateFocusedClues,
     }, dispatch);
 };
-exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(BoardPlay);
+exports.default = React.memo(react_redux_1.connect(mapStateToProps, mapDispatchToProps)(BoardPlay), function (props, nextProps) {
+    if (props.appState !== nextProps.appState) {
+        return false;
+    }
+    if (props.cellContents !== nextProps.cellContents) {
+        return false;
+    }
+    if (props.puzzlesMetadata !== nextProps.puzzlesMetadata) {
+        return false;
+    }
+    if (props.puzzleSpec !== nextProps.puzzleSpec) {
+        return false;
+    }
+    var displayedPuzzlesIdentical = displayedPuzzlesEqual(props.displayedPuzzle, nextProps.displayedPuzzle);
+    if (!displayedPuzzlesIdentical) {
+        return false;
+    }
+    return displayedPuzzlesIdentical;
+});
+var displayedPuzzlesEqual = function (dp1, dp2) {
+    for (var id in dp1.across) {
+        if (Object.prototype.hasOwnProperty.call(dp1.across, id)) {
+            var displayedPuzzleCell1 = dp1.across[id];
+            if (Object.prototype.hasOwnProperty.call(dp2.across, id)) {
+                var displayedPuzzleCell2 = dp2.across[id];
+                if (!displayedPuzzleCellsEqual(displayedPuzzleCell1, displayedPuzzleCell2)) {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+    return true;
+};
+var displayedPuzzleCellsEqual = function (dpc1, dpc2) {
+    return (dpc1.answer === dpc2.answer) && (dpc1.clue === dpc2.clue) && (dpc1.col === dpc2.col) && (dpc1.row === dpc2.row);
+};
+
+
+/***/ }),
+
+/***/ "./src/components/BoardTop.tsx":
+/*!*************************************!*\
+  !*** ./src/components/BoardTop.tsx ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var Board_1 = __webpack_require__(/*! ./Board */ "./src/components/Board.tsx");
+var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var BoardTop = function (props) {
+    return (React.createElement("div", null,
+        React.createElement(Board_1.default, null),
+        React.createElement(BoardPlay_1.default, { appState: props.appState, cellContents: props.cellContents, displayedPuzzle: props.displayedPuzzle, puzzlesMetadata: props.puzzlesMetadata, puzzleSpec: props.puzzleSpec })));
+};
+function mapStateToProps(state) {
+    var appState = selectors_1.getAppState(state);
+    var boardId = appState.boardId;
+    var board = selectors_1.getBoard(state, boardId);
+    return {
+        puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
+        appState: appState,
+        displayedPuzzle: selectors_1.getDisplayedPuzzle(state),
+        cellContents: selectors_1.getCellContents(state),
+        puzzleSpec: selectors_1.getPuzzle(state, board.puzzleId),
+    };
+}
+var mapDispatchToProps = function (dispatch) {
+    return redux_1.bindActionCreators({}, dispatch);
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(BoardTop);
 
 
 /***/ }),
@@ -72411,23 +72508,97 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var ExistingGames = function (props) {
+    var tableColumnSpacing = {
+        padding: '0 15px',
+    };
+    var isToday = function (dt) {
+        var today = new Date();
+        return dt.getDate() == today.getDate() &&
+            dt.getMonth() == today.getMonth() &&
+            dt.getFullYear() == today.getFullYear();
+    };
+    var daysSinceToday = function (dt) {
+        var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+        var dtNow = Date.now();
+        var diffDays = Math.round(Math.abs((dtNow - dt.getTime()) / oneDay));
+        return diffDays;
+    };
+    var hoursSinceNow = function (dt) {
+        var oneHour = 60 * 60 * 1000;
+        var dtNow = Date.now();
+        var diffHours = Math.round(Math.abs((dtNow - dt.getTime()) / oneHour));
+        return diffHours;
+    };
+    var minutesSinceNow = function (dt) {
+        var oneMinute = 60 * 1000;
+        var dtNow = Date.now();
+        var diffMinutes = Math.round(Math.abs((dtNow - dt.getTime()) / oneMinute));
+        return diffMinutes;
+    };
+    var getFormattedLastPlayedDateTime = function (dt) {
+        var fullString = '';
+        var dtGameLastPlayed = new Date(dt);
+        if (isToday(dtGameLastPlayed)) {
+            var hoursSincePlayed = hoursSinceNow(dtGameLastPlayed);
+            var minutesSincePlayed = minutesSinceNow(dtGameLastPlayed);
+            fullString = 'Played ' + hoursSincePlayed + ' hours, ' + minutesSincePlayed + ' minutes ago';
+        }
+        else {
+            var daysSincePlayed = daysSinceToday(dtGameLastPlayed);
+            var dateLastPlayed = dtGameLastPlayed.toLocaleDateString('en', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+            });
+            fullString = 'Played ' + daysSincePlayed + ' days ago on ' + dateLastPlayed;
+        }
+        return fullString;
+    };
+    var getPuzzleTitle = function (boardEntity) {
+        var puzzleId = boardEntity.puzzleId;
+        if (Object.prototype.hasOwnProperty.call(props.puzzlesMetadata, puzzleId)) {
+            return props.puzzlesMetadata[puzzleId].title;
+        }
+        return '';
+    };
+    var getFormattedUsers = function (boardEntity) {
+        var formattedUsers = '';
+        for (var i = 0; i < boardEntity.users.length; i++) {
+            var user = boardEntity.users[i];
+            formattedUsers += user;
+            if (i < (boardEntity.users.length - 1)) {
+                formattedUsers += ', ';
+            }
+        }
+        return formattedUsers;
+    };
     var handleSelectBoard = function (boardEntity) {
         props.onSelectBoard(boardEntity);
     };
     var renderBoardRow = function (boardEntity) {
         return (React.createElement("tr", { key: boardEntity.id },
-            React.createElement("td", null,
-                React.createElement("button", { onClick: function () { return handleSelectBoard(boardEntity); } }, "Play Me!")),
-            React.createElement("td", null, boardEntity.title)));
+            React.createElement("td", { style: tableColumnSpacing }, getFormattedLastPlayedDateTime(boardEntity.lastPlayedDateTime)),
+            React.createElement("td", { style: tableColumnSpacing }, getPuzzleTitle(boardEntity)),
+            React.createElement("td", { style: tableColumnSpacing }, getFormattedUsers(boardEntity)),
+            React.createElement("td", { style: tableColumnSpacing },
+                React.createElement("button", { onClick: function () { return handleSelectBoard(boardEntity); } }, "Play Me!"))));
     };
     var renderBoardRows = function () {
-        var boardRows = [];
+        var boardEntities = [];
         for (var boardId in props.boardsMap) {
             if (Object.prototype.hasOwnProperty.call(props.boardsMap, boardId)) {
                 var boardEntity = props.boardsMap[boardId];
-                boardRows.push(renderBoardRow(boardEntity));
+                boardEntities.push(boardEntity);
             }
         }
+        boardEntities.sort(function (a, b) {
+            return a.startDateTime > b.startDateTime
+                ? -1
+                : 1;
+        });
+        var boardRows = boardEntities.map(function (boardEntity) {
+            return renderBoardRow(boardEntity);
+        });
         return boardRows;
     };
     var renderBoardsTable = function () {
@@ -72440,7 +72611,10 @@ var ExistingGames = function (props) {
             React.createElement("table", null,
                 React.createElement("thead", null,
                     React.createElement("tr", null,
-                        React.createElement("th", null, "Title"))),
+                        React.createElement("th", null, "Last Played"),
+                        React.createElement("th", null, "Title"),
+                        React.createElement("th", null, "Users"),
+                        React.createElement("th", null))),
                 React.createElement("tbody", null, boardRows))));
     };
     var boardsTable = renderBoardsTable();
@@ -72449,6 +72623,7 @@ var ExistingGames = function (props) {
 function mapStateToProps(state) {
     return {
         boardsMap: selectors_1.getBoards(state),
+        puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
     };
 }
 var mapDispatchToProps = function (dispatch) {
@@ -72480,12 +72655,17 @@ var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers
 var NewGames_1 = __webpack_require__(/*! ./NewGames */ "./src/components/NewGames.tsx");
 var ExistingGames_1 = __webpack_require__(/*! ./ExistingGames */ "./src/components/ExistingGames.tsx");
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-var PuzCrossword = __webpack_require__(/*! @confuzzle/puz-crossword */ "./node_modules/@confuzzle/puz-crossword/puz-crossword.js").PuzCrossword;
 var GameHome = function (props) {
     var _a = React.useState([]), files = _a[0], setFiles = _a[1];
+    var userInGame = function (boardEntity) {
+        return boardEntity.users.includes(props.currentUser);
+    };
     var handleOpenBoard = function (boardEntity) {
         props.onSetPuzzleId(boardEntity.puzzleId);
         props.onSetBoardId(boardEntity.id);
+        if (!userInGame(boardEntity)) {
+            props.onAddUserToBoard(boardEntity.id, props.currentUser);
+        }
         props.onSetUiState(types_1.UiState.ExistingBoardPlay);
     };
     var handleOpenPuzzle = function (puzzleMetadata) {
@@ -72493,7 +72673,7 @@ var GameHome = function (props) {
         props.onCreateBoard();
         props.onSetUiState(types_1.UiState.NewBoardPlay);
     };
-    var renderSelectPuzzleOrBoard = function () {
+    var renderGameHome = function () {
         var tabcontent = {
             display: 'none',
             padding: '6px 12px',
@@ -72536,21 +72716,25 @@ var GameHome = function (props) {
             // Hide content divs
             newGamesContentRef.current.style.display = 'none';
             inProgressGamesContentRef.current.style.display = 'none';
+            settingsContentRef.current.style.display = 'none';
             // Show the current tab, and add an 'active' class to the button that opened the tab
             switch (selectedTabId) {
                 case 'newGameTabSelect':
                     newGamesContentRef.current.style.display = 'block';
                     newGameTabSelectRef.current.style.backgroundColor = '#ccc';
                     inProgressGamesTabSelectRef.current.style.backgroundColor = 'inherit';
+                    settingsTabSelectRef.current.style.backgroundColor = 'inherit';
                     break;
                 case 'inProgressGameTabSelect':
                     inProgressGamesContentRef.current.style.display = 'block';
                     inProgressGamesTabSelectRef.current.style.backgroundColor = '#ccc';
                     newGameTabSelectRef.current.style.backgroundColor = 'inherit';
+                    settingsTabSelectRef.current.style.backgroundColor = 'inherit';
                     break;
                 case 'settingsTabSelect':
                     settingsContentRef.current.style.display = 'block';
                     settingsTabSelectRef.current.style.backgroundColor = '#ccc';
+                    newGameTabSelectRef.current.style.backgroundColor = 'inherit';
                     inProgressGamesTabSelectRef.current.style.backgroundColor = 'inherit';
                     break;
                 default:
@@ -72567,7 +72751,7 @@ var GameHome = function (props) {
             React.createElement("div", { style: tab },
                 React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'newGameTabSelect', ref: newGameTabSelectRef }, "New Games"),
                 React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'inProgressGameTabSelect', ref: inProgressGamesTabSelectRef }, "In Progress Games"),
-                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'settingsTabSelect', ref: settingsTabSelectRef }, "Settings")),
+                React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'settingsTabSelect', ref: settingsTabSelectRef }, "Tools & Settings")),
             React.createElement("div", { id: 'newGameContent', style: tabcontent, ref: newGamesContentRef },
                 React.createElement(NewGames_1.default, { onSelectPuzzle: handleOpenPuzzle })),
             React.createElement("div", { id: 'inProgressGamesContent', style: tabcontent, ref: inProgressGamesContentRef },
@@ -72578,17 +72762,19 @@ var GameHome = function (props) {
                     React.createElement("p", null,
                         React.createElement("button", { type: 'button', onClick: handleUploadPuzFiles }, "Upload Files"))))));
     };
-    return renderSelectPuzzleOrBoard();
+    return renderGameHome();
 };
 function mapStateToProps(state) {
     return {
         appState: selectors_1.getAppState(state),
         boardsMap: selectors_1.getBoards(state),
+        currentUser: selectors_1.getCurrentUser(state),
         puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
     };
 }
 var mapDispatchToProps = function (dispatch) {
     return redux_1.bindActionCreators({
+        onAddUserToBoard: controllers_1.addUserToExistingBoard,
         onCreateBoard: controllers_1.createBoard,
         onSetBoardId: models_1.setBoardId,
         onSetPuzzleId: models_1.setPuzzleId,
@@ -72622,9 +72808,9 @@ var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var Login_1 = __webpack_require__(/*! ./Login */ "./src/components/Login.tsx");
 var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx");
-var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
+var BoardTop_1 = __webpack_require__(/*! ./BoardTop */ "./src/components/BoardTop.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-var BoardPlay_2 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
+var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var homeProps;
 var Home = function (props) {
     homeProps = props;
@@ -72646,7 +72832,7 @@ var Home = function (props) {
             var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
             var externalEvent = homeProps.appState.userName !== user;
             if (externalEvent) {
-                BoardPlay_2.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
+                BoardPlay_1.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
             }
         });
     };
@@ -72665,7 +72851,7 @@ var Home = function (props) {
         }
         case types_1.UiState.NewBoardPlay:
         case types_1.UiState.ExistingBoardPlay: {
-            return (React.createElement(BoardPlay_1.default, null));
+            return (React.createElement(BoardTop_1.default, null));
         }
     }
 };
@@ -72784,15 +72970,18 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var NewGames = function (props) {
+    var tableColumnSpacing = {
+        padding: '0 15px',
+    };
     var handleSelectPuzzle = function (puzzleMetadata) {
         props.onSelectPuzzle(puzzleMetadata);
     };
     var renderPuzzleRow = function (puzzleMetadata) {
         return (React.createElement("tr", { key: puzzleMetadata.id },
-            React.createElement("td", null,
-                React.createElement("button", { onClick: function () { return handleSelectPuzzle(puzzleMetadata); } }, "Play Me!")),
-            React.createElement("td", null, puzzleMetadata.title),
-            React.createElement("td", null, puzzleMetadata.author)));
+            React.createElement("td", { style: tableColumnSpacing }, puzzleMetadata.title),
+            React.createElement("td", { style: tableColumnSpacing }, puzzleMetadata.author),
+            React.createElement("td", { style: tableColumnSpacing },
+                React.createElement("button", { onClick: function () { return handleSelectPuzzle(puzzleMetadata); } }, "Play Me!"))));
     };
     var renderPuzzleRows = function () {
         var puzzleRows = [];
@@ -72815,7 +73004,8 @@ var NewGames = function (props) {
                 React.createElement("thead", null,
                     React.createElement("tr", null,
                         React.createElement("th", null, "Title"),
-                        React.createElement("th", null, "Author"))),
+                        React.createElement("th", null, "Author"),
+                        React.createElement("th", null))),
                 React.createElement("tbody", null, puzzleRows))));
     };
     var puzzlesTable = renderPuzzlesTable();
@@ -72854,6 +73044,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(/*! ./Board */ "./src/components/Board.tsx"), exports);
+__exportStar(__webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx"), exports);
+__exportStar(__webpack_require__(/*! ./BoardTop */ "./src/components/BoardTop.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./Home */ "./src/components/Home.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./Login */ "./src/components/Login.tsx"), exports);
@@ -72871,12 +73064,14 @@ __exportStar(__webpack_require__(/*! ./Login */ "./src/components/Login.tsx"), e
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createBoard = exports.loadBoards = void 0;
+exports.updateFocusedClues = exports.addUserToExistingBoard = exports.createBoard = exports.loadBoards = void 0;
 /* eslint-disable no-prototype-builtins */
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var index_1 = __webpack_require__(/*! ../index */ "./src/index.ts");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var selectors_2 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 // import { boardPlayCrossword } from '../components/BoardPlay';
 var loadBoards = function () {
     return function (dispatch) {
@@ -72884,8 +73079,6 @@ var loadBoards = function () {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'boards';
         return axios_1.default.get(path)
             .then(function (boardsResponse) {
-            console.log('loadBoards response:');
-            console.log(boardsResponse);
             var boardEntities = boardsResponse.data;
             // // TEDTODO - add all in a single call
             for (var _i = 0, boardEntities_1 = boardEntities; _i < boardEntities_1.length; _i++) {
@@ -72944,7 +73137,6 @@ var createBoard = function () {
             difficulty: 0
         };
         return axios_1.default.post(path, createBoardBody).then(function (response) {
-            console.log(response);
             var boardId = response.data.data.id;
             dispatch(models_1.setBoardId(boardId));
             return;
@@ -72956,6 +73148,78 @@ var createBoard = function () {
     });
 };
 exports.createBoard = createBoard;
+var addUserToExistingBoard = function (id, userName) {
+    return (function (dispatch, getState) {
+        var path = index_1.serverUrl + index_1.apiUrlFragment + 'addUserToBoard';
+        var addUserToBoardBody = {
+            boardId: id,
+            userName: userName,
+        };
+        return axios_1.default.post(path, addUserToBoardBody).then(function (response) {
+            dispatch(models_1.addUserToBoard(id, userName));
+            return;
+        }).catch(function (error) {
+            console.log('error');
+            console.log(error);
+            return;
+        });
+    });
+};
+exports.addUserToExistingBoard = addUserToExistingBoard;
+// TEDTODO - several ways to improve performance.
+var updateFocusedClues = function (row, col) {
+    return (function (dispatch, getState) {
+        var state = getState();
+        var appState = selectors_2.getAppState(state);
+        if (lodash_1.isNil(appState)) {
+            return;
+        }
+        var boardId = appState.boardId;
+        var board = selectors_1.getBoard(state, boardId);
+        if (lodash_1.isNil(board)) {
+            return;
+        }
+        var puzzleSpec = selectors_2.getPuzzle(state, board.puzzleId);
+        if (lodash_1.isNil(puzzleSpec)) {
+            return null;
+        }
+        var parsedClues = puzzleSpec.parsedClues;
+        var focusedRow = row;
+        var matchedDownClue = null;
+        var matchedAcrossClue = null;
+        // get match for row
+        while (row >= 0) {
+            for (var _i = 0, parsedClues_1 = parsedClues; _i < parsedClues_1.length; _i++) {
+                var parsedClue = parsedClues_1[_i];
+                if (parsedClue.row === row && parsedClue.col === col && !parsedClue.isAcross) {
+                    matchedDownClue = parsedClue;
+                    break;
+                }
+            }
+            if (!lodash_1.isNil(matchedDownClue)) {
+                break;
+            }
+            row--;
+        }
+        // get match for col
+        row = focusedRow;
+        while (col >= 0) {
+            for (var _a = 0, parsedClues_2 = parsedClues; _a < parsedClues_2.length; _a++) {
+                var parsedClue = parsedClues_2[_a];
+                if (parsedClue.row === row && parsedClue.col === col && parsedClue.isAcross) {
+                    matchedAcrossClue = parsedClue;
+                    break;
+                }
+            }
+            if (!lodash_1.isNil(matchedAcrossClue)) {
+                break;
+            }
+            col--;
+        }
+        dispatch(models_1.setFocusedClues(matchedAcrossClue, matchedDownClue));
+    });
+};
+exports.updateFocusedClues = updateFocusedClues;
 
 
 /***/ }),
@@ -73011,13 +73275,6 @@ var loadPuzzle = function (id) {
             .then(function (puzzleResponse) {
             var puzzleEntity = puzzleResponse.data;
             dispatch(models_1.addPuzzle(id, puzzleEntity));
-            // // TEDTODO - add all in a single call
-            // for (const puzzleMetadata of puzzlesMetadata) {
-            //   dispatch(addPuzzleMetadata(puzzleMetadata.id, puzzleMetadata));
-            // }
-            // if (puzzlesMetadata.length > 0) {
-            //   dispatch(setPuzzleId(puzzlesMetadata[0].id));
-            // }
         });
     });
 };
@@ -73028,11 +73285,7 @@ var loadPuzzlesMetadata = function () {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'allPuzzlesMetadata';
         return axios_1.default.get(path)
             .then(function (puzzlesMetadataResponse) {
-            console.log('loadPuzzlesMetadata response:');
-            console.log(puzzlesMetadataResponse);
             var puzzlesMetadata = puzzlesMetadataResponse.data;
-            console.log('puzzlesMetadata');
-            console.log(puzzlesMetadata);
             // TEDTODO - add all in a single call
             for (var _i = 0, puzzlesMetadata_1 = puzzlesMetadata; _i < puzzlesMetadata_1.length; _i++) {
                 var puzzleMetadata = puzzlesMetadata_1[_i];
@@ -73061,7 +73314,6 @@ var cellChange = function (boardId, user, row, col, typedChar, localChange) {
             typedChar: typedChar,
         };
         return axios_1.default.post(path, cellChangeBody).then(function (response) {
-            console.log(response);
             return;
         }).catch(function (error) {
             console.log('error');
@@ -73081,7 +73333,6 @@ var uploadPuzFiles = function (puzFiles) {
                 puzzleSpecs: puzzleSpecs,
             };
             return axios_1.default.post(path, uploadPuzzlesRequestBody).then(function (response) {
-                console.log(response);
                 return;
             }).catch(function (error) {
                 console.log('error');
@@ -73097,8 +73348,6 @@ var parsePuzzleFile = function (puzFile) {
         var fileReader = new FileReader();
         // TEDTODO - err event
         fileReader.onload = function () {
-            console.log('onload event received');
-            console.log(fileReader.result);
             var puzData = Buffer.from(fileReader.result);
             var puzzleSpec = PuzCrossword.from(puzData);
             resolve(puzzleSpec);
@@ -73145,11 +73394,7 @@ var loadUsers = function () {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'users';
         axios_1.default.get(path)
             .then(function (usersResponse) {
-            console.log('users response:');
-            console.log(usersResponse);
             var users = usersResponse.data;
-            console.log('users');
-            console.log(users);
             // TEDTODO - add all in a single call
             for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
                 var user = users_1[_i];
@@ -73354,6 +73599,7 @@ var puzzles_1 = __webpack_require__(/*! ./puzzles */ "./src/models/puzzles.ts");
 var users_1 = __webpack_require__(/*! ./users */ "./src/models/users.ts");
 var appState_1 = __webpack_require__(/*! ./appState */ "./src/models/appState.ts");
 var boards_1 = __webpack_require__(/*! ./boards */ "./src/models/boards.ts");
+var gameState_1 = __webpack_require__(/*! ./gameState */ "./src/models/gameState.ts");
 // -----------------------------------------------------------------------
 // Reducers
 // -----------------------------------------------------------------------
@@ -73363,6 +73609,7 @@ exports.rootReducer = redux_1.combineReducers({
     boardsState: boards_1.boardsStateReducer,
     puzzlesState: puzzles_1.puzzlesStateReducer,
     appState: appState_1.appStateReducer,
+    gameState: gameState_1.gameStateReducer,
 });
 // -----------------------------------------------------------------------
 // Validators
@@ -73381,12 +73628,13 @@ exports.rootReducer = redux_1.combineReducers({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.boardsStateReducer = exports.setCellContents = exports.addBoard = exports.SET_CELL_CONTENTS = exports.ADD_BOARD = void 0;
+exports.boardsStateReducer = exports.setCellContents = exports.addUserToBoard = exports.addBoard = exports.SET_CELL_CONTENTS = exports.ADD_USER_TO_BOARD = exports.ADD_BOARD = void 0;
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 // ------------------------------------
 // Constants
 // ------------------------------------
 exports.ADD_BOARD = 'ADD_BOARD';
+exports.ADD_USER_TO_BOARD = 'ADD_USER_TO_BOARD';
 exports.SET_CELL_CONTENTS = 'SET_CELL_CONTENTS';
 var addBoard = function (id, board) {
     return {
@@ -73398,6 +73646,16 @@ var addBoard = function (id, board) {
     };
 };
 exports.addBoard = addBoard;
+var addUserToBoard = function (id, userName) {
+    return {
+        type: exports.ADD_USER_TO_BOARD,
+        payload: {
+            id: id,
+            userName: userName,
+        }
+    };
+};
+exports.addUserToBoard = addUserToBoard;
 var setCellContents = function (id, cellContents) {
     return {
         type: exports.SET_CELL_CONTENTS,
@@ -73422,6 +73680,12 @@ var boardsStateReducer = function (state, action) {
             newState.boards[action.payload.id] = action.payload.board;
             return newState;
         }
+        case exports.ADD_USER_TO_BOARD: {
+            var newState = lodash_1.cloneDeep(state);
+            var boardEntity = newState.boards[action.payload.id];
+            boardEntity.users.push(action.payload.userName);
+            return newState;
+        }
         case exports.SET_CELL_CONTENTS: {
             var newState = lodash_1.cloneDeep(state);
             var boardEntity = newState.boards[action.payload.id];
@@ -73433,6 +73697,63 @@ var boardsStateReducer = function (state, action) {
     }
 };
 exports.boardsStateReducer = boardsStateReducer;
+
+
+/***/ }),
+
+/***/ "./src/models/gameState.ts":
+/*!*********************************!*\
+  !*** ./src/models/gameState.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.gameStateReducer = exports.setFocusedClues = exports.SET_FOCUSED_CLUES = void 0;
+// ------------------------------------
+// Constants
+// ------------------------------------
+exports.SET_FOCUSED_CLUES = 'SET_FOCUSED_CLUES';
+var setFocusedClues = function (focusedAcrossClue, focusedDownClue) {
+    return {
+        type: exports.SET_FOCUSED_CLUES,
+        payload: {
+            focusedAcrossClue: focusedAcrossClue,
+            focusedDownClue: focusedDownClue,
+        },
+    };
+};
+exports.setFocusedClues = setFocusedClues;
+// ------------------------------------
+// Reducer
+// ------------------------------------
+var initialState = {
+    focusedAcrossClue: null,
+    focusedDownClue: null,
+};
+var gameStateReducer = function (state, action) {
+    if (state === void 0) { state = initialState; }
+    switch (action.type) {
+        case exports.SET_FOCUSED_CLUES:
+            return __assign(__assign({}, state), { focusedAcrossClue: action.payload.focusedAcrossClue, focusedDownClue: action.payload.focusedDownClue });
+        default:
+            return state;
+    }
+};
+exports.gameStateReducer = gameStateReducer;
 
 
 /***/ }),
@@ -73461,6 +73782,7 @@ __exportStar(__webpack_require__(/*! ./appState */ "./src/models/appState.ts"), 
 __exportStar(__webpack_require__(/*! ./baseAction */ "./src/models/baseAction.ts"), exports);
 __exportStar(__webpack_require__(/*! ./baseReducer */ "./src/models/baseReducer.ts"), exports);
 __exportStar(__webpack_require__(/*! ./boards */ "./src/models/boards.ts"), exports);
+__exportStar(__webpack_require__(/*! ./gameState */ "./src/models/gameState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzles */ "./src/models/puzzles.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzCrosswordSpec */ "./src/models/puzCrosswordSpec.ts"), exports);
 __exportStar(__webpack_require__(/*! ./users */ "./src/models/users.ts"), exports);
@@ -73511,8 +73833,6 @@ var puzCrosswordSpecReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.SET_PUZCROSSWORD_SPEC: {
-            // const newState = cloneDeep(state);
-            // const { puzCrosswordSpec } = action.payload;
             return action.payload;
         }
         default:
@@ -73647,7 +73967,7 @@ exports.usersReducer = usersReducer;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBoardId = exports.getAppState = void 0;
+exports.getCurrentUser = exports.getBoardId = exports.getAppState = void 0;
 var getAppState = function (state) {
     return state.appState;
 };
@@ -73656,6 +73976,10 @@ var getBoardId = function (state) {
     return state.appState.boardId;
 };
 exports.getBoardId = getBoardId;
+var getCurrentUser = function (state) {
+    return state.appState.userName;
+};
+exports.getCurrentUser = getCurrentUser;
 
 
 /***/ }),
@@ -73752,6 +74076,25 @@ exports.getCellContents = getCellContents;
 
 /***/ }),
 
+/***/ "./src/selectors/gameState.ts":
+/*!************************************!*\
+  !*** ./src/selectors/gameState.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getGameState = void 0;
+var getGameState = function (state) {
+    return state.gameState;
+};
+exports.getGameState = getGameState;
+
+
+/***/ }),
+
 /***/ "./src/selectors/index.ts":
 /*!********************************!*\
   !*** ./src/selectors/index.ts ***!
@@ -73774,6 +74117,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./appState */ "./src/selectors/appState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./board */ "./src/selectors/board.ts"), exports);
+__exportStar(__webpack_require__(/*! ./gameState */ "./src/selectors/gameState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzle */ "./src/selectors/puzzle.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzlesMetadata */ "./src/selectors/puzzlesMetadata.ts"), exports);
 __exportStar(__webpack_require__(/*! ./users */ "./src/selectors/users.ts"), exports);
@@ -73791,7 +74135,15 @@ __exportStar(__webpack_require__(/*! ./users */ "./src/selectors/users.ts"), exp
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDisplayedPuzzle = void 0;
+exports.getDisplayedPuzzle = exports.getPuzzle = void 0;
+var getPuzzle = function (state, puzzleId) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (state.puzzlesState.puzzles.hasOwnProperty(puzzleId)) {
+        return state.puzzlesState.puzzles[puzzleId];
+    }
+    return null;
+};
+exports.getPuzzle = getPuzzle;
 var getDisplayedPuzzle = function (state) {
     var displayedPuzzle = {
         across: {},

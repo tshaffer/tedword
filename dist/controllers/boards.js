@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBoards = exports.createBoard = void 0;
+exports.addUserToBoard = exports.getBoards = exports.createBoard = void 0;
 const uuid_1 = require("uuid");
 const dbInterface_1 = require("./dbInterface");
 function createBoard(request, response, next) {
     console.log('createBoard');
-    console.log(request.body);
+    // console.log(request.body);
     const { puzzleId, title, users, startDateTime, lastPlayedDateTime, elapsedTime, solved, difficulty } = request.body;
     const boardEntity = {
         id: uuid_1.v4(),
@@ -24,8 +24,8 @@ function createBoard(request, response, next) {
         .then((boardDoc) => {
         const boardDocument = boardDoc;
         console.log('added boardDocument');
-        console.log(boardDocument);
-        console.log(boardDocument.toObject());
+        // console.log(boardDocument);
+        // console.log(boardDocument.toObject());
         response.status(201).json({
             success: true,
             data: boardDocument,
@@ -41,4 +41,13 @@ function getBoards(request, response) {
     });
 }
 exports.getBoards = getBoards;
+function addUserToBoard(request, response, next) {
+    console.log('addUserToBoard');
+    console.log(request.body);
+    const { boardId, userName } = request.body;
+    // TEDTODO - don't add a user that already exists.
+    dbInterface_1.addUserToBoardDb(boardId, userName);
+    response.sendStatus(200);
+}
+exports.addUserToBoard = addUserToBoard;
 //# sourceMappingURL=boards.js.map

@@ -26,7 +26,7 @@ const getPuzzleMetadata = (request, response, next) => {
     getPuzzleMetadataFromDb(id)
         .then((puzzleMetadata) => {
         console.log('puzzleMetadata');
-        console.log(puzzleMetadata);
+        // console.log(puzzleMetadata);
         response.json(puzzleMetadata);
     });
 };
@@ -94,7 +94,7 @@ const getPuzzle = (request, response, next) => {
     getPuzzleFromDb(id)
         .then((puzzle) => {
         console.log('puzzle');
-        console.log(puzzle);
+        // console.log(puzzle);
         response.json(puzzle);
     });
 };
@@ -192,8 +192,8 @@ function uploadPuzzles(request, response, next) {
             .then((puzzleDoc) => {
             const puzzleDocument = puzzleDoc;
             console.log('added userDocument');
-            console.log(puzzleDocument);
-            console.log(puzzleDocument.toObject());
+            // console.log(puzzleDocument);
+            // console.log(puzzleDocument.toObject());
         });
     }
     response.sendStatus(200);
