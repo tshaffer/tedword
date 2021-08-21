@@ -138,6 +138,27 @@ export const addUserToBoardDb = (boardId: string, userName: string): void => {
         }
     });
 }
+
+export const updateLastPlayedDateTimeDb = (boardId: string, lastPlayedDateTime: Date): void => {
+  
+  Board.find(
+    {
+      id: boardId,
+    },
+    (err, boardDocs: any) => {
+      if (err) {
+        console.log(err);
+      } else
+        // TEDTODO - check for user already exists in .users
+        if (isArray(boardDocs) && boardDocs.length === 1) {
+          const boardDoc: any = boardDocs[0];
+          (boardDoc as BoardEntity).lastPlayedDateTime = lastPlayedDateTime;
+          boardDoc.save();
+        }
+    });
+
+}
+
 // export const createUserDocuments = (userDocuments: UserEntity[]): Promise<Document[]> => {
 //   return new Promise((resolve: any, reject: any) => {
 //     User.collection.insert(userDocuments, (err, docs) => {

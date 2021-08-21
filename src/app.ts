@@ -11,7 +11,18 @@ const Pusher = require('pusher');
 import { Routes } from './routes/routes';
 
 import usersRouter from './routes/users';
-import { createBoard, getPuzzleMetadata, getAllPuzzlesMetadata, getUsers, loadPuzzle, getPuzzle, getBoards, uploadPuzzles, addUserToBoard } from './controllers';
+import { 
+  createBoard, 
+  getPuzzleMetadata, 
+  getAllPuzzlesMetadata, 
+  getUsers, 
+  loadPuzzle, 
+  getPuzzle, 
+  getBoards, 
+  uploadPuzzles, 
+  addUserToBoard, 
+  updateLastPlayedDateTime
+ } from './controllers';
 
 export let pusher: any;
 
@@ -59,7 +70,7 @@ class App {
     this.app.get('/api/v1/boards', getBoards);
     this.app.post('/api/v1/board', createBoard)
     this.app.post('/api/v1/addUserToBoard', addUserToBoard)
-    
+    this.app.post('/api/v1/updateLastPlayedDateTime', updateLastPlayedDateTime)   
   }
 
   private config(): void {
