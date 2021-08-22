@@ -10165,6 +10165,7 @@ var _styledComponents = __webpack_require__(/*! styled-components */ "./node_mod
 
 var _context = __webpack_require__(/*! ./context */ "./node_modules/@jaredreisinger/react-crossword/dist/es/context.js");
 
+/* eslint-disable prettier/prettier */
 // expected props: row, col, answer, crossword, cellSize
 
 /**
@@ -10207,7 +10208,8 @@ function Cell(_ref) {
       col = cellData.col,
       guess = cellData.guess,
       guessIsRemote = cellData.guessIsRemote,
-      number = cellData.number;
+      number = cellData.number,
+      inFullAnswer = cellData.inFullAnswer;
   var x = col * cellSize;
   var y = row * cellSize;
   var cellTextColor;
@@ -10218,6 +10220,14 @@ function Cell(_ref) {
     cellTextColor = textColor;
   }
 
+  var fillStyle = {
+    fill: cellTextColor
+  };
+  var strikeThroughStyle = {
+    textDecoration: 'line-through',
+    fill: cellTextColor
+  };
+  var cellStyle = inFullAnswer ? strikeThroughStyle : fillStyle;
   return /*#__PURE__*/_react["default"].createElement("g", {
     onClick: handleClick,
     style: {
@@ -10247,9 +10257,7 @@ function Cell(_ref) {
     ,
     textAnchor: "middle",
     dominantBaseline: "middle",
-    style: {
-      fill: cellTextColor
-    }
+    style: cellStyle
   }, guess));
 }
 
@@ -10260,7 +10268,8 @@ function Cell(_ref) {
     col: _propTypes["default"].number.isRequired,
     guess: _propTypes["default"].string.isRequired,
     guessIsRemote: _propTypes["default"].bool.isRequired,
-    number: _propTypes["default"].string
+    number: _propTypes["default"].string,
+    inFullAnswer: _propTypes["default"].bool.isRequired
   }).isRequired,
 
   /** whether this cell has focus */
@@ -10395,6 +10404,8 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 
 var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _lodash = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
@@ -10536,10 +10547,6 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     };
   }, [size, gridData]);
   var setCellCharacter = (0, _react.useCallback)(function (row, col, _char) {
-    console.log('setCellCharacter');
-    console.log('row: ', row);
-    console.log('col: ', col);
-    console.log('char: ', _char);
     var cell = getCellData(row, col);
 
     if (!cell.used) {
@@ -10552,10 +10559,10 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     } // update the gridData with the guess
 
 
-    setGridData((0, _immer["default"])(function (draft) {
-      draft[row][col].guess = _char;
-      draft[row][col].guessIsRemote = false;
-    })); // push the row/col for checking!
+    var tsGridData = (0, _lodash.cloneDeep)(gridData);
+    tsGridData[row][col].guess = _char;
+    tsGridData[row][col].guessIsRemote = false;
+    setGridData(tsGridData); // push the row/col for checking!
 
     setCheckQueue((0, _immer["default"])(function (draft) {
       draft.push({
@@ -10566,8 +10573,21 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
 
     if (onCellChange) {
       onCellChange(row, col, _char, true);
-    }
+    } // resetCompletedAnswers(myGridData);
+    // getCompletedAnswers(myGridData, 'across');
+    // getCompletedAnswers(myGridData, 'down');
+    // setGridData(myGridData);
+
+
+    refreshCompletedAnswers(tsGridData);
   }, [getCellData, onCellChange]);
+
+  var refreshCompletedAnswers = function (tsGridData) {
+    resetCompletedAnswers(tsGridData);
+    getCompletedAnswers(tsGridData, 'across');
+    getCompletedAnswers(tsGridData, 'down');
+    setGridData(tsGridData);
+  };
 
   var remoteSetCellCharacter = function (row, col, _char2) {
     var cell = getCellData(row, col);
@@ -10600,10 +10620,9 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
         row: row,
         col: col
       });
-    }));
-    var cellAfterChange = getCellData(row, col);
-    console.log('cellAfterChange');
-    console.log(cellAfterChange);
+    })); // const cellAfterChange = getCellData(row, col);
+    // console.log('cellAfterChange');
+    // console.log(cellAfterChange);
 
     if (onCellChange) {
       onCellChange(row, col, _char2, false);
@@ -10694,7 +10713,76 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     if (onCrosswordCorrect) {
       onCrosswordCorrect(crosswordCorrect);
     }
-  }, [crosswordCorrect, onCrosswordCorrect]); // focus and movement
+  }, [crosswordCorrect, onCrosswordCorrect]);
+
+  var resetCompletedAnswers = function (myGridData) {
+    for (var rowIndex = 0; rowIndex < myGridData.length; rowIndex++) {
+      var row = myGridData[rowIndex];
+
+      for (var colIndex = 0; colIndex < row.length; colIndex++) {
+        var cellData = row[colIndex];
+        cellData.inFullAnswer = false;
+      }
+    }
+  };
+
+  var getCompletedAnswers = function (myGridData, direction) {
+    // data AKA cluesByDirection
+    // gridData is a two dimensional array of rows & columns and reflects the cells in the board
+    var tsDirection = data[direction];
+    var keys = Object.keys(tsDirection);
+
+    for (var i = 0; i < keys.length; i++) {
+      var tsKey = keys[i];
+      var tsDirectionalEntry = tsDirection[tsKey];
+      var tsAnswer = tsDirectionalEntry.answer;
+      var tsAnswerLength = tsAnswer.length;
+      var row = tsDirectionalEntry.row,
+          col = tsDirectionalEntry.col;
+      var completelyFilledIn = true;
+
+      if (direction === 'across') {
+        var startingCol = col;
+
+        for (var j = 0; j < tsAnswerLength; j++) {
+          var tsCell = myGridData[row][startingCol + j];
+
+          if (tsCell.guess === '') {
+            completelyFilledIn = false;
+            break;
+          }
+        }
+
+        if (completelyFilledIn) {
+          for (var _j = 0; _j < tsAnswerLength; _j++) {
+            var _tsCell = myGridData[row][startingCol + _j];
+            _tsCell.inFullAnswer = true;
+          }
+        }
+      } else {
+        var startingRow = row;
+
+        for (var _j2 = 0; _j2 < tsAnswerLength; _j2++) {
+          var _tsCell2 = myGridData[startingRow + _j2][col];
+
+          if (_tsCell2.guess === '') {
+            completelyFilledIn = false;
+            break;
+          }
+        }
+
+        if (completelyFilledIn) {
+          for (var _j3 = 0; _j3 < tsAnswerLength; _j3++) {
+            var _tsCell3 = myGridData[startingRow + _j3][col];
+            _tsCell3.inFullAnswer = true;
+          }
+        }
+      }
+    }
+
+    setGridData(myGridData);
+  }; // focus and movement
+
 
   var _focus = (0, _react.useCallback)(function () {
     if (inputRef.current) {
@@ -10868,9 +10956,9 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
   }, [bulkChange, handleSingleCharacter]); // When the data changes, recalculate the gridData, size, etc.
 
   (0, _react.useEffect)(function () {
-    console.log('Crossword:useEffect');
-    console.log(tedGuesses); // eslint-disable-next-line no-shadow
-
+    // console.log('Crossword:useEffect');
+    // console.log(tedGuesses);
+    // eslint-disable-next-line no-shadow
     var _createGridData = (0, _util.createGridData)(data),
         size = _createGridData.size,
         gridData = _createGridData.gridData,
@@ -10905,6 +10993,7 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     setFocusedCol(0);
     setCurrentDirection('across');
     setCurrentNumber('1');
+    refreshCompletedAnswers(gridData);
     setBulkChange(null); // trigger any "loaded correct" guesses...
 
     if (loadedCorrect && loadedCorrect.length > 0 && onLoadedCorrect) {
@@ -10990,6 +11079,7 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
               if (cellData.used) {
                 cellData.guess = '';
                 cellData.guessIsRemote = false;
+                cellData.inFullAnswer = false;
               }
             });
           });
@@ -11084,9 +11174,21 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
   var cells = [];
 
   if (gridData) {
+    _util.bothDirections.every(function (direction) {
+      return clues[direction].every(function (clueInfo) {
+        return clueInfo.correct;
+      });
+    }); // console.log('render, gridData: ');
+    // console.log(gridData);
+
+
     gridData.forEach(function (rowData, row) {
       rowData.forEach(function (cellData, col) {
+        // console.log('row ', row, ', col ', col);
+        // console.log(' cellData:');
+        // console.log(cellData);
         if (!cellData.used) {
+          // console.log('unused cell: row ', row, ', col ', col);
           return;
         }
 
@@ -11541,7 +11643,8 @@ var emptyCellData = {
   // row: r,
   // col: c,
   across: null,
-  down: null
+  down: null,
+  inFullAnswer: false
 };
 
 function createEmptyGrid(size) {
@@ -72321,9 +72424,13 @@ var Board = function (props) {
         if (!lodash_1.isNil(props.gameState.focusedAcrossClue)) {
             acrossClue = props.gameState.focusedAcrossClue.number.toString() + 'a (' + props.gameState.focusedAcrossClue.length.toString() + ')' + props.gameState.focusedAcrossClue.text;
         }
-        if (!lodash_1.isNil(props.gameState.focusedAcrossClue)) {
+        if (!lodash_1.isNil(props.gameState.focusedDownClue)) {
             downClue = props.gameState.focusedDownClue.number.toString() + 'd (' + props.gameState.focusedDownClue.length.toString() + ')' + props.gameState.focusedDownClue.text;
         }
+    }
+    if (acrossClue === '') {
+        acrossClue = 'A bug that nothing is displayed here';
+        downClue = 'Working on it, harder than I thought';
     }
     return (React.createElement("div", null,
         React.createElement("p", null, acrossClue),
@@ -72464,6 +72571,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var Board_1 = __webpack_require__(/*! ./Board */ "./src/components/Board.tsx");
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
@@ -72476,12 +72584,13 @@ function mapStateToProps(state) {
     var appState = selectors_1.getAppState(state);
     var boardId = appState.boardId;
     var board = selectors_1.getBoard(state, boardId);
+    var puzzleSpec = lodash_1.isNil(board) ? null : selectors_1.getPuzzle(state, board.puzzleId);
     return {
         puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
         appState: appState,
         displayedPuzzle: selectors_1.getDisplayedPuzzle(state),
         cellContents: selectors_1.getCellContents(state),
-        puzzleSpec: selectors_1.getPuzzle(state, board.puzzleId),
+        puzzleSpec: puzzleSpec,
     };
 }
 var mapDispatchToProps = function (dispatch) {
@@ -72536,12 +72645,37 @@ var ExistingGames = function (props) {
         return diffMinutes;
     };
     var getFormattedLastPlayedDateTime = function (dt) {
-        var fullString = '';
+        var elapsedTimeSincePlayed = '';
         var dtGameLastPlayed = new Date(dt);
         if (isToday(dtGameLastPlayed)) {
             var hoursSincePlayed = hoursSinceNow(dtGameLastPlayed);
-            var minutesSincePlayed = minutesSinceNow(dtGameLastPlayed);
-            fullString = 'Played ' + hoursSincePlayed + ' hours, ' + minutesSincePlayed + ' minutes ago';
+            var minutesSincePlayed = minutesSinceNow(dtGameLastPlayed) % 60;
+            if (hoursSincePlayed === 0 && minutesSincePlayed === 0) {
+                elapsedTimeSincePlayed = 'Just now';
+            }
+            else {
+                switch (hoursSincePlayed) {
+                    case 0:
+                        break;
+                    case 1:
+                        elapsedTimeSincePlayed = 'Played 1 hour ';
+                        break;
+                    default:
+                        elapsedTimeSincePlayed = 'Played ' + hoursSincePlayed + ' hours ';
+                        break;
+                }
+                switch (minutesSincePlayed) {
+                    case 0:
+                        break;
+                    case 1:
+                        elapsedTimeSincePlayed = elapsedTimeSincePlayed + '1 minute ';
+                        break;
+                    default:
+                        elapsedTimeSincePlayed = elapsedTimeSincePlayed + minutesSincePlayed + ' minutes ';
+                        break;
+                }
+                elapsedTimeSincePlayed += 'ago';
+            }
         }
         else {
             var daysSincePlayed = daysSinceToday(dtGameLastPlayed);
@@ -72550,9 +72684,9 @@ var ExistingGames = function (props) {
                 month: 'long',
                 day: 'numeric',
             });
-            fullString = 'Played ' + daysSincePlayed + ' days ago on ' + dateLastPlayed;
+            elapsedTimeSincePlayed = 'Played ' + daysSincePlayed + ' days ago on ' + dateLastPlayed;
         }
-        return fullString;
+        return elapsedTimeSincePlayed;
     };
     var getPuzzleTitle = function (boardEntity) {
         var puzzleId = boardEntity.puzzleId;
@@ -72592,7 +72726,7 @@ var ExistingGames = function (props) {
             }
         }
         boardEntities.sort(function (a, b) {
-            return a.startDateTime > b.startDateTime
+            return a.lastPlayedDateTime > b.lastPlayedDateTime
                 ? -1
                 : 1;
         });
@@ -72666,6 +72800,7 @@ var GameHome = function (props) {
         if (!userInGame(boardEntity)) {
             props.onAddUserToBoard(boardEntity.id, props.currentUser);
         }
+        props.onUpdateLastPlayedDateTime(boardEntity.id, new Date(Date()));
         props.onSetUiState(types_1.UiState.ExistingBoardPlay);
     };
     var handleOpenPuzzle = function (puzzleMetadata) {
@@ -72779,6 +72914,7 @@ var mapDispatchToProps = function (dispatch) {
         onSetBoardId: models_1.setBoardId,
         onSetPuzzleId: models_1.setPuzzleId,
         onSetUiState: models_1.setUiState,
+        onUpdateLastPlayedDateTime: controllers_1.updateLastPlayedDateTime,
         onUploadPuzFiles: controllers_1.uploadPuzFiles,
     }, dispatch);
 };
@@ -73064,7 +73200,7 @@ __exportStar(__webpack_require__(/*! ./Login */ "./src/components/Login.tsx"), e
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateFocusedClues = exports.addUserToExistingBoard = exports.createBoard = exports.loadBoards = void 0;
+exports.updateFocusedClues = exports.updateLastPlayedDateTime = exports.addUserToExistingBoard = exports.createBoard = exports.loadBoards = void 0;
 /* eslint-disable no-prototype-builtins */
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var index_1 = __webpack_require__(/*! ../index */ "./src/index.ts");
@@ -73138,6 +73274,19 @@ var createBoard = function () {
         };
         return axios_1.default.post(path, createBoardBody).then(function (response) {
             var boardId = response.data.data.id;
+            var newBoard = {
+                id: boardId,
+                puzzleId: puzzleId,
+                title: title,
+                users: [appState.userName],
+                startDateTime: currentDate,
+                lastPlayedDateTime: currentDate,
+                elapsedTime: 0,
+                solved: false,
+                difficulty: 0,
+                cellContents: {},
+            };
+            dispatch(models_1.addBoard(boardId, newBoard));
             dispatch(models_1.setBoardId(boardId));
             return;
         }).catch(function (error) {
@@ -73166,6 +73315,24 @@ var addUserToExistingBoard = function (id, userName) {
     });
 };
 exports.addUserToExistingBoard = addUserToExistingBoard;
+var updateLastPlayedDateTime = function (id, lastPlayedDateTime) {
+    return (function (dispatch, getState) {
+        var path = index_1.serverUrl + index_1.apiUrlFragment + 'updateLastPlayedDateTime';
+        var updateLastPlayedDateTimeBody = {
+            boardId: id,
+            lastPlayedDateTime: lastPlayedDateTime,
+        };
+        return axios_1.default.post(path, updateLastPlayedDateTimeBody).then(function (response) {
+            dispatch(models_1.updateLastPlayedDateTimeRedux(id, lastPlayedDateTime));
+            return;
+        }).catch(function (error) {
+            console.log('error');
+            console.log(error);
+            return;
+        });
+    });
+};
+exports.updateLastPlayedDateTime = updateLastPlayedDateTime;
 // TEDTODO - several ways to improve performance.
 var updateFocusedClues = function (row, col) {
     return (function (dispatch, getState) {
@@ -73628,7 +73795,7 @@ exports.rootReducer = redux_1.combineReducers({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.boardsStateReducer = exports.setCellContents = exports.addUserToBoard = exports.addBoard = exports.SET_CELL_CONTENTS = exports.ADD_USER_TO_BOARD = exports.ADD_BOARD = void 0;
+exports.boardsStateReducer = exports.updateLastPlayedDateTimeRedux = exports.setCellContents = exports.addUserToBoard = exports.addBoard = exports.UPDATE_LAST_PLAYED_DATE_TIME = exports.SET_CELL_CONTENTS = exports.ADD_USER_TO_BOARD = exports.ADD_BOARD = void 0;
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 // ------------------------------------
 // Constants
@@ -73636,6 +73803,7 @@ var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.j
 exports.ADD_BOARD = 'ADD_BOARD';
 exports.ADD_USER_TO_BOARD = 'ADD_USER_TO_BOARD';
 exports.SET_CELL_CONTENTS = 'SET_CELL_CONTENTS';
+exports.UPDATE_LAST_PLAYED_DATE_TIME = 'UPDATE_LAST_PLAYED_DATE_TIME';
 var addBoard = function (id, board) {
     return {
         type: exports.ADD_BOARD,
@@ -73666,6 +73834,16 @@ var setCellContents = function (id, cellContents) {
     };
 };
 exports.setCellContents = setCellContents;
+var updateLastPlayedDateTimeRedux = function (id, lastPlayedDateTime) {
+    return {
+        type: exports.UPDATE_LAST_PLAYED_DATE_TIME,
+        payload: {
+            id: id,
+            lastPlayedDateTime: lastPlayedDateTime,
+        }
+    };
+};
+exports.updateLastPlayedDateTimeRedux = updateLastPlayedDateTimeRedux;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -73690,6 +73868,12 @@ var boardsStateReducer = function (state, action) {
             var newState = lodash_1.cloneDeep(state);
             var boardEntity = newState.boards[action.payload.id];
             boardEntity.cellContents = action.payload.cellContents;
+            return newState;
+        }
+        case exports.UPDATE_LAST_PLAYED_DATE_TIME: {
+            var newState = lodash_1.cloneDeep(state);
+            var boardEntity = newState.boards[action.payload.id];
+            boardEntity.lastPlayedDateTime = action.payload.lastPlayedDateTime;
             return newState;
         }
         default:
@@ -74009,12 +74193,8 @@ var getBoard = function (state, boardId) {
 };
 exports.getBoard = getBoard;
 var getCellContents = function (state) {
-    console.log('getCellContents');
-    console.log(state);
     var boardId = selectors_1.getBoardId(state);
-    console.log(boardId);
     var boardsMap = exports.getBoards(state);
-    console.log(boardsMap);
     if (boardsMap.hasOwnProperty(boardId)) {
         return boardsMap[boardId].cellContents;
     }

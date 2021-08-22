@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addUserToBoard = exports.getBoards = exports.createBoard = void 0;
+exports.updateLastPlayedDateTime = exports.addUserToBoard = exports.getBoards = exports.createBoard = void 0;
 const uuid_1 = require("uuid");
 const dbInterface_1 = require("./dbInterface");
 function createBoard(request, response, next) {
@@ -50,4 +50,12 @@ function addUserToBoard(request, response, next) {
     response.sendStatus(200);
 }
 exports.addUserToBoard = addUserToBoard;
+function updateLastPlayedDateTime(request, response, next) {
+    console.log('updateLastPlayedDateTime');
+    console.log(request.body);
+    const { boardId, lastPlayedDateTime } = request.body;
+    dbInterface_1.updateLastPlayedDateTimeDb(boardId, lastPlayedDateTime);
+    response.sendStatus(200);
+}
+exports.updateLastPlayedDateTime = updateLastPlayedDateTime;
 //# sourceMappingURL=boards.js.map
