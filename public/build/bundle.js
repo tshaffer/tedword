@@ -10573,21 +10573,10 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
 
     if (onCellChange) {
       onCellChange(row, col, _char, true);
-    } // resetCompletedAnswers(myGridData);
-    // getCompletedAnswers(myGridData, 'across');
-    // getCompletedAnswers(myGridData, 'down');
-    // setGridData(myGridData);
-
+    }
 
     refreshCompletedAnswers(tsGridData);
   }, [getCellData, onCellChange]);
-
-  var refreshCompletedAnswers = function (tsGridData) {
-    resetCompletedAnswers(tsGridData);
-    getCompletedAnswers(tsGridData, 'across');
-    getCompletedAnswers(tsGridData, 'down');
-    setGridData(tsGridData);
-  };
 
   var remoteSetCellCharacter = function (row, col, _char2) {
     var cell = getCellData(row, col);
@@ -10595,24 +10584,16 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     if (!cell.used) {
       return;
     } // If the character is already the cell's guess, there's nothing to do.
-
-
-    if (cell.guess === _char2) {
-      return;
-    } // update the gridData with the guess
+    // hack workaround
+    // if (cell.guess === char) {
+    //   return;
+    // }
+    // update the gridData with the guess
 
 
     setGridData((0, _immer["default"])(function (draft) {
-      console.log('draft');
-      console.log(draft);
-      console.log('draft[row][col]');
-      console.log(draft[row][col]);
       draft[row][col].guess = _char2;
       draft[row][col].guessIsRemote = true;
-      console.log('draft');
-      console.log(draft);
-      console.log('draft[row][col]');
-      console.log(draft[row][col]);
     })); // push the row/col for checking!
 
     setCheckQueue((0, _immer["default"])(function (draft) {
@@ -10715,6 +10696,13 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
     }
   }, [crosswordCorrect, onCrosswordCorrect]);
 
+  var refreshCompletedAnswers = function (tsGridData) {
+    resetCompletedAnswers(tsGridData);
+    getCompletedAnswers(tsGridData, 'across');
+    getCompletedAnswers(tsGridData, 'down');
+    setGridData(tsGridData);
+  };
+
   var resetCompletedAnswers = function (myGridData) {
     for (var rowIndex = 0; rowIndex < myGridData.length; rowIndex++) {
       var row = myGridData[rowIndex];
@@ -10778,7 +10766,8 @@ var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
           }
         }
       }
-    }
+    } // TEDTODO - I think the following is inconsistent with calling setGridData at the end of refreshCompletedAnswers
+
 
     setGridData(myGridData);
   }; // focus and movement
@@ -72788,9 +72777,7 @@ var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
 var NewGames_1 = __webpack_require__(/*! ./NewGames */ "./src/components/NewGames.tsx");
 var ExistingGames_1 = __webpack_require__(/*! ./ExistingGames */ "./src/components/ExistingGames.tsx");
-var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var GameHome = function (props) {
-    var _a = React.useState([]), files = _a[0], setFiles = _a[1];
     var userInGame = function (boardEntity) {
         return boardEntity.users.includes(props.currentUser);
     };
@@ -72829,21 +72816,9 @@ var GameHome = function (props) {
             padding: '14px 16px',
             transition: '0.3s'
         };
-        var handleSelectPuzFiles = function (e) {
-            if (!lodash_1.isNil(e.target.files)
-                && e.target.files.length > 0) {
-                var targetFileList = e.target.files;
-                var filesToAdd = [];
-                for (var i = 0; i < targetFileList.length; i++) {
-                    var targetFile = e.target.files[i];
-                    filesToAdd.push(targetFile);
-                }
-                setFiles(filesToAdd);
-            }
-            // TEDTODO - display selected files?
-            e.target.value = '';
-        };
         var handleUploadPuzFiles = function () {
+            var files = fileInputRef.current.files;
+            props.onSetFileUploadStatus('Uploading files...');
             props.onUploadPuzFiles(files);
         };
         function handleSelectTab(evt) {
@@ -72867,6 +72842,7 @@ var GameHome = function (props) {
                     settingsTabSelectRef.current.style.backgroundColor = 'inherit';
                     break;
                 case 'settingsTabSelect':
+                    props.onSetFileUploadStatus('');
                     settingsContentRef.current.style.display = 'block';
                     settingsTabSelectRef.current.style.backgroundColor = '#ccc';
                     newGameTabSelectRef.current.style.backgroundColor = 'inherit';
@@ -72882,6 +72858,7 @@ var GameHome = function (props) {
         var inProgressGamesContentRef = React.createRef();
         var settingsTabSelectRef = React.createRef();
         var settingsContentRef = React.createRef();
+        var fileInputRef = React.createRef();
         return (React.createElement("div", null,
             React.createElement("div", { style: tab },
                 React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'newGameTabSelect', ref: newGameTabSelectRef }, "New Games"),
@@ -72893,9 +72870,10 @@ var GameHome = function (props) {
                 React.createElement(ExistingGames_1.default, { onSelectBoard: handleOpenBoard })),
             React.createElement("div", { id: 'settingsContent', style: tabcontent, ref: settingsContentRef },
                 React.createElement("div", null,
-                    React.createElement("input", { id: "input", type: "file", multiple: true, onChange: handleSelectPuzFiles }),
+                    React.createElement("input", { id: "file", type: "file", multiple: true, name: 'file', ref: fileInputRef }),
                     React.createElement("p", null,
-                        React.createElement("button", { type: 'button', onClick: handleUploadPuzFiles }, "Upload Files"))))));
+                        React.createElement("button", { type: 'button', onClick: handleUploadPuzFiles }, "Upload Files")),
+                    React.createElement("p", null, props.appState.fileUploadStatus)))));
     };
     return renderGameHome();
 };
@@ -72912,6 +72890,7 @@ var mapDispatchToProps = function (dispatch) {
         onAddUserToBoard: controllers_1.addUserToExistingBoard,
         onCreateBoard: controllers_1.createBoard,
         onSetBoardId: models_1.setBoardId,
+        onSetFileUploadStatus: models_1.setFileUploadStatus,
         onSetPuzzleId: models_1.setPuzzleId,
         onSetUiState: models_1.setUiState,
         onUpdateLastPlayedDateTime: controllers_1.updateLastPlayedDateTime,
@@ -73500,10 +73479,12 @@ var uploadPuzFiles = function (puzFiles) {
                 puzzleSpecs: puzzleSpecs,
             };
             return axios_1.default.post(path, uploadPuzzlesRequestBody).then(function (response) {
+                dispatch(models_1.setFileUploadStatus('Upload successful'));
                 return;
             }).catch(function (error) {
                 console.log('error');
                 console.log(error);
+                dispatch(models_1.setFileUploadStatus('Upload failed: ' + error.toString()));
                 return;
             });
         });
@@ -73656,7 +73637,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.appStateReducer = exports.setBoardId = exports.setPuzzleId = exports.setUserName = exports.setUiState = exports.SET_BOARD_ID = exports.SET_PUZZLE_ID = exports.SET_USER_NAME = exports.SET_UI_STATE = void 0;
+exports.appStateReducer = exports.setFileUploadStatus = exports.setBoardId = exports.setPuzzleId = exports.setUserName = exports.setUiState = exports.SET_FILE_UPLOAD_STATUS = exports.SET_BOARD_ID = exports.SET_PUZZLE_ID = exports.SET_USER_NAME = exports.SET_UI_STATE = void 0;
 var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 // ------------------------------------
 // Constants
@@ -73665,6 +73646,7 @@ exports.SET_UI_STATE = 'SET_UI_STATE';
 exports.SET_USER_NAME = 'SET_USER_NAME';
 exports.SET_PUZZLE_ID = 'SET_PUZZLE_ID';
 exports.SET_BOARD_ID = 'SET_BOARD_ID';
+exports.SET_FILE_UPLOAD_STATUS = 'SET_FILE_UPLOAD_STATUS';
 var setUiState = function (uiState) {
     return {
         type: exports.SET_UI_STATE,
@@ -73701,6 +73683,15 @@ var setBoardId = function (boardId) {
     };
 };
 exports.setBoardId = setBoardId;
+var setFileUploadStatus = function (fileUploadStatus) {
+    return {
+        type: exports.SET_FILE_UPLOAD_STATUS,
+        payload: {
+            fileUploadStatus: fileUploadStatus,
+        },
+    };
+};
+exports.setFileUploadStatus = setFileUploadStatus;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -73709,6 +73700,7 @@ var initialState = {
     userName: '',
     puzzleId: '',
     boardId: '',
+    fileUploadStatus: '',
 };
 var appStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -73724,6 +73716,9 @@ var appStateReducer = function (state, action) {
         }
         case exports.SET_BOARD_ID: {
             return __assign(__assign({}, state), { boardId: action.payload.boardId });
+        }
+        case exports.SET_FILE_UPLOAD_STATUS: {
+            return __assign(__assign({}, state), { fileUploadStatus: action.payload.fileUploadStatus });
         }
         default:
             return state;
@@ -74201,57 +74196,6 @@ var getCellContents = function (state) {
     return null;
 };
 exports.getCellContents = getCellContents;
-// export const getBoardData = (state: TedwordState): DisplayedPuzzle => {
-//   console.log('boardPlayCrossword');
-//   console.log(boardPlayCrossword);
-//   //         (boardPlayCrossword as any).current.remoteSetCell(row, col, typedChar);
-//   const displayedPuzzle: DisplayedPuzzle = {
-//     across: {},
-//     down: {},
-//   };
-//   const puzzleId: string = state.appState.puzzleId;
-//   if (!state.puzzlesState.puzzles.hasOwnProperty(puzzleId)) {
-//     return displayedPuzzle;
-//   }
-//   const boardId: string = getBoardId(state);
-//   const board: BoardEntity = getBoard(state, boardId);
-//   const cellContents: CellContentsMap = board.cellContents;
-//   const puzzleEntity: PuzzleEntity = state.puzzlesState.puzzles[puzzleId];
-//   const parsedClues: ParsedClue[] = puzzleEntity.parsedClues;
-//   for (const parsedClue of parsedClues) {
-//     const { col, isAcross, row, text } = parsedClue;
-//     let mySolution = '';
-//     const key = row.toString() + '_' + col.toString();
-//     if (cellContents.hasOwnProperty(key)) {
-//       mySolution = cellContents[key];
-//     }
-//     if (isAcross) {
-//       displayedPuzzle.across[parsedClue.number] = {
-//         clue: text,
-//         answer: mySolution,
-//         row,
-//         col,
-//       };
-//     } else {
-//       displayedPuzzle.down[parsedClue.number] = {
-//         clue: text,
-//         answer: mySolution,
-//         row,
-//         col,
-//       };
-//     }
-//   }
-//   // for (const cellSpec in cellContents) {
-//   //   if (cellContents.prototype.hasOwnProperty.call(cellContents, cellSpec)) {
-//   //     const rowAndCol: string[] = cellSpec.split('_');
-//   //     const row: number = parseInt(rowAndCol[0], 10);
-//   //     const col: number = parseInt(rowAndCol[1], 10);
-//   //     const typedChar: string = cellContents[cellSpec];
-//   //     (boardPlayCrossword as any).current.remoteSetCell(row, col, typedChar);
-//   //   }
-//   // }
-//   return displayedPuzzle;
-// };
 
 
 /***/ }),
