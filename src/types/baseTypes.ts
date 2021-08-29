@@ -11,6 +11,7 @@ export interface PuzzleSpec {
   title: string;
   author: string;
   copyright: string;
+  sourceFileName: string;
   note: string;
   width: number;
   height: number;
@@ -36,4 +37,5 @@ export interface PuzzleMetadata {
   id: string;
   author: string;
   title: string;
+  sourceFileName: string;
 }

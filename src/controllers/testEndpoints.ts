@@ -51,10 +51,11 @@ export function loadPuzzle(request: Request, response: Response, next: any) {
     const pc: PuzzleSpec = PuzCrossword.from(puzData);
     console.log(pc);
 
-    const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = pc;
+    const { sourceFileName, title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = pc;
 
     const puzzleEntity: PuzzleEntity = {
       id: uuidv4(),
+      sourceFileName,
       title,
       author,
       copyright,
