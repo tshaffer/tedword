@@ -1,7 +1,7 @@
-import { isArray, ValueIteratorTypeGuard } from 'lodash';
+import { isArray } from 'lodash';
 import { Document } from 'mongoose';
 
-import { BoardEntity, PuzzleEntity, UserEntity } from 'entities';
+import { BoardEntity, CellContentsValue, PuzzleEntity, UserEntity } from 'entities';
 import Board from '../models/Board';
 import Puzzle from '../models/Puzzle';
 import User from '../models/User';
@@ -21,17 +21,29 @@ export const createPuzzle = (puzzleEntity: PuzzleEntity): Promise<any> => {
 };
 
 export const getBoardsFromDb = (): Promise<BoardEntity[]> => {
+  console.log('getBoardsFromDb');
   const query = Board.find({});
   const promise: Promise<Document[]> = query.exec();
   return promise.then((boardDocuments: Document[]) => {
+
+    console.log('boardDocuments');
+    console.log(boardDocuments);
+
     const boardEntities: BoardEntity[] = boardDocuments.map((boardDocument: any) => {
 
       const boardDocAsObj: any = boardDocument.toObject();
       const boardEntity: BoardEntity = boardDocument.toObject();
 
+      console.log('boardDocument');
+      console.log(boardDocument);
+      console.log('boardDocAsObj');
+      console.log(boardDocAsObj);
+      console.log('boardEntity');
+      console.log(boardEntity);
+      
       boardEntity.cellContents = {};
 
-      const cellContentsMap: Map<string, string> = boardDocAsObj.cellContents;
+      const cellContentsMap: Map<string, CellContentsValue> = boardDocAsObj.cellContents;
       for (const key of cellContentsMap.keys()) {
         boardEntity.cellContents[key] = cellContentsMap.get(key);
       }
@@ -51,12 +63,14 @@ export const createBoardDocument = (boardEntity: BoardEntity): Promise<any> => {
 
 export const updateCellContents = (
   boardId: string,
+  user: string,
   row: number,
   col: number,
   typedChar: string
 ): void => {
   console.log('updateCellContents');
   console.log(boardId);
+  console.log(user);
   console.log(row);
   console.log(col);
   console.log(typedChar);
@@ -76,7 +90,15 @@ export const updateCellContents = (
         const key = row.toString() + '_' + col.toString();
         console.log('key = ' + key);
 
-        boardDoc.cellContents.set(key, typedChar);
+        const cellContentsValue: any = {
+          user,
+          typedChar
+        };
+
+        console.log('cellContentsValue');
+        console.log(cellContentsValue);
+
+        boardDoc.cellContents.set(key, cellContentsValue);
         dumpCellContents(boardDoc.cellContents);
 
         boardDoc.save();
@@ -84,6 +106,7 @@ export const updateCellContents = (
     });
 
   const dumpCellContents = (map: any) => {
+    console.log('dumpCellContents');
     for (const key of map.keys()) {
       console.log(key);
     }

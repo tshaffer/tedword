@@ -37,7 +37,7 @@ export function cellChange(request: Request, response: Response) {
   console.log('cellChange invoked');
   console.log(request.body);
   const { boardId, user, row, col, typedChar } = request.body;
-  updateCellContents(boardId, row, col, typedChar);
+  updateCellContents(boardId, user, row, col, typedChar);
   pusher.trigger('puzzle', 'cell-change', {
     user,
     row,

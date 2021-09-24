@@ -12,7 +12,10 @@ const BoardSchema = new Schema(
     users: { type: [String] },
     cellContents: {
       type: Map, 
-      of: String
+      of: new Schema({
+        user: String,
+        typedChar: String,
+      })
     },
     startDateTime: { type: Date, required: true },
     lastPlayedDateTime: { type: Date, required: true },

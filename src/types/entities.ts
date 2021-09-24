@@ -13,8 +13,13 @@ export interface BoardEntity {
   difficulty: number;
 }
 
+export interface CellContentsValue {
+  user: string;
+  typedChar: string;
+}
+
 export interface CellContentsMap {
-  [id: string]: string;
+  [id: string]: CellContentsValue;
 }
 
 export interface PuzzleEntity extends PuzzleSpec {
