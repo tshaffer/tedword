@@ -55,7 +55,7 @@ function cellChange(request, response) {
     console.log('cellChange invoked');
     console.log(request.body);
     const { boardId, user, row, col, typedChar } = request.body;
-    dbInterface_1.updateCellContents(boardId, row, col, typedChar);
+    dbInterface_1.updateCellContents(boardId, user, row, col, typedChar);
     app_1.pusher.trigger('puzzle', 'cell-change', {
         user,
         row,

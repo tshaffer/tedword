@@ -26,6 +26,8 @@ const getBoardsFromDb = () => {
     const query = Board_1.default.find({});
     const promise = query.exec();
     return promise.then((boardDocuments) => {
+        console.log('boardDocuments');
+        console.log(boardDocuments);
         const boardEntities = boardDocuments.map((boardDocument) => {
             const boardDocAsObj = boardDocument.toObject();
             const boardEntity = boardDocument.toObject();
@@ -47,9 +49,10 @@ const createBoardDocument = (boardEntity) => {
     });
 };
 exports.createBoardDocument = createBoardDocument;
-const updateCellContents = (boardId, row, col, typedChar) => {
+const updateCellContents = (boardId, user, row, col, typedChar) => {
     console.log('updateCellContents');
     console.log(boardId);
+    console.log(user);
     console.log(row);
     console.log(col);
     console.log(typedChar);
@@ -58,16 +61,19 @@ const updateCellContents = (boardId, row, col, typedChar) => {
     }, (err, boardDocs) => {
         if (lodash_1.isArray(boardDocs) && boardDocs.length === 1) {
             const boardDoc = boardDocs[0];
-            console.log(boardDoc);
             dumpCellContents(boardDoc.cellContents);
             const key = row.toString() + '_' + col.toString();
-            console.log('key = ' + key);
-            boardDoc.cellContents.set(key, typedChar);
+            const cellContentsValue = {
+                user,
+                typedChar
+            };
+            boardDoc.cellContents.set(key, cellContentsValue);
             dumpCellContents(boardDoc.cellContents);
             boardDoc.save();
         }
     });
     const dumpCellContents = (map) => {
+        console.log('dumpCellContents');
         for (const key of map.keys()) {
             console.log(key);
         }
@@ -75,27 +81,6 @@ const updateCellContents = (boardId, row, col, typedChar) => {
             console.log(val);
         }
     };
-    // const filter = { id: boardId };
-    // const cellContents: any = {};
-    // const update = {
-    //   cellContents
-    // };
-    // const query = Board.findOneAndUpdate(
-    //   filter,
-    //   update,
-    // );
-    // const promise: Promise<Document> = query.exec();
-    // return promise
-    //   .then((board: Document) => {
-    //     console.log('updated board');
-    //     console.log(board);
-    //     console.log(board.toObject());
-    //     return Promise.resolve(board);
-    //   }).catch((err: any) => {
-    //     console.log(err);
-    //     debugger;
-    //     return Promise.reject(err);
-    //   });
 };
 exports.updateCellContents = updateCellContents;
 const addUserToBoardDb = (boardId, userName) => {

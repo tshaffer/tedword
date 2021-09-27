@@ -33,7 +33,7 @@ const getPuzzleMetadata = (request, response, next) => {
 exports.getPuzzleMetadata = getPuzzleMetadata;
 const getPuzzleMetadataFromDb = (puzzleId) => {
     const query = Puzzle_1.default.find({ id: puzzleId });
-    query.select(['id', 'title', 'author']);
+    query.select(['id', 'title', 'author', 'sourceFileName']);
     const promise = query.exec();
     return promise
         .then((puzzleDocs) => {
@@ -41,6 +41,7 @@ const getPuzzleMetadataFromDb = (puzzleId) => {
             const puzzleDocData = puzzleDocs[0].toObject();
             const puzzleMetadata = {
                 id: puzzleDocData.id,
+                sourceFileName: puzzleDocData.sourceFileName,
                 author: puzzleDocData.author,
                 title: puzzleDocData.title,
             };
@@ -59,18 +60,19 @@ const getPuzzleMetadataFromDb = (puzzleId) => {
 const getAllPuzzlesMetadataFromDb = () => {
     const puzzlesMetadata = [];
     const query = Puzzle_1.default.find({});
-    query.select(['id', 'title', 'author']);
+    query.select(['id', 'title', 'author', 'sourceFileName']);
     const promise = query.exec();
     return promise
         .then((puzzleDocs) => {
         if (lodash_1.isArray(puzzleDocs) && puzzleDocs.length > 0) {
             for (const puzzleDoc of puzzleDocs) {
                 const puzzleDocData = puzzleDoc.toObject();
-                const { id, author, title } = puzzleDocData;
+                const { id, author, title, sourceFileName } = puzzleDocData;
                 const puzzleMetadata = {
                     id,
-                    author,
                     title,
+                    author,
+                    sourceFileName,
                 };
                 puzzlesMetadata.push(puzzleMetadata);
             }
@@ -106,9 +108,10 @@ const getPuzzleFromDb = (id) => {
         .then((puzzleDocs) => {
         if (lodash_1.isArray(puzzleDocs) && puzzleDocs.length === 1) {
             const puzzleDocData = puzzleDocs[0].toObject();
-            const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleDocData;
+            const { sourceFileName, title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleDocData;
             const puzzleEntity = {
                 id,
+                sourceFileName,
                 title,
                 author,
                 copyright,
@@ -170,10 +173,11 @@ function uploadPuzzles(request, response, next) {
     console.log(request.body);
     const { uploadDateTime, puzzleSpecs } = request.body;
     for (const puzzleSpec of puzzleSpecs) {
-        const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleSpec;
+        const { sourceFileName, title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleSpec;
         // TEDTODO - don't add a puzzle that already exists.
         const puzzleEntity = {
             id: uuid_1.v4(),
+            sourceFileName,
             title,
             author,
             copyright,

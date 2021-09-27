@@ -223,178 +223,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/extends.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/extends.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _extends() {
-  module.exports = _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  module.exports["default"] = module.exports, module.exports.__esModule = true;
-  return _extends.apply(this, arguments);
-}
-
-module.exports = _extends;
-module.exports["default"] = module.exports, module.exports.__esModule = true;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-module.exports = _interopRequireDefault;
-module.exports["default"] = module.exports, module.exports.__esModule = true;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/interopRequireWildcard.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/interopRequireWildcard.js ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js")["default"];
-
-function _getRequireWildcardCache(nodeInterop) {
-  if (typeof WeakMap !== "function") return null;
-  var cacheBabelInterop = new WeakMap();
-  var cacheNodeInterop = new WeakMap();
-  return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
-    return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-  })(nodeInterop);
-}
-
-function _interopRequireWildcard(obj, nodeInterop) {
-  if (!nodeInterop && obj && obj.__esModule) {
-    return obj;
-  }
-
-  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
-    return {
-      "default": obj
-    };
-  }
-
-  var cache = _getRequireWildcardCache(nodeInterop);
-
-  if (cache && cache.has(obj)) {
-    return cache.get(obj);
-  }
-
-  var newObj = {};
-  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-
-  for (var key in obj) {
-    if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
-      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-
-      if (desc && (desc.get || desc.set)) {
-        Object.defineProperty(newObj, key, desc);
-      } else {
-        newObj[key] = obj[key];
-      }
-    }
-  }
-
-  newObj["default"] = obj;
-
-  if (cache) {
-    cache.set(obj, newObj);
-  }
-
-  return newObj;
-}
-
-module.exports = _interopRequireWildcard;
-module.exports["default"] = module.exports, module.exports.__esModule = true;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-module.exports = _objectWithoutPropertiesLoose;
-module.exports["default"] = module.exports, module.exports.__esModule = true;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-
-    module.exports["default"] = module.exports, module.exports.__esModule = true;
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-    module.exports["default"] = module.exports, module.exports.__esModule = true;
-  }
-
-  return _typeof(obj);
-}
-
-module.exports = _typeof;
-module.exports["default"] = module.exports, module.exports.__esModule = true;
-
-/***/ }),
-
 /***/ "./node_modules/@confuzzle/puz-common/node_modules/iconv-lite/encodings/dbcs-codec.js":
 /*!********************************************************************************************!*\
   !*** ./node_modules/@confuzzle/puz-common/node_modules/iconv-lite/encodings/dbcs-codec.js ***!
@@ -10134,1728 +9962,6 @@ var unitlessKeys = {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (unitlessKeys);
-
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/dist/es/Cell.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/dist/es/Cell.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime/helpers/interopRequireWildcard.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = Cell;
-
-var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
-
-var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-
-var _context = __webpack_require__(/*! ./context */ "./node_modules/@jaredreisinger/react-crossword/dist/es/context.js");
-
-/* eslint-disable prettier/prettier */
-// expected props: row, col, answer, crossword, cellSize
-
-/**
- * An individual-letter answer cell within the crossword grid.
- *
- * A `Cell` lives inside the SVG for a [`Crossword`](#crossword), and renders at
- * a location determined by the `row`, `col`, and `cellSize` properties from
- * `cellData` and `renderContext`.
- */
-function Cell(_ref) {
-  var cellData = _ref.cellData,
-      onClick = _ref.onClick,
-      focus = _ref.focus,
-      highlight = _ref.highlight;
-
-  var _useContext = (0, _react.useContext)(_context.CrosswordSizeContext),
-      cellSize = _useContext.cellSize,
-      cellPadding = _useContext.cellPadding,
-      cellInner = _useContext.cellInner,
-      cellHalf = _useContext.cellHalf,
-      fontSize = _useContext.fontSize;
-
-  var _useContext2 = (0, _react.useContext)(_styledComponents.ThemeContext),
-      cellBackground = _useContext2.cellBackground,
-      cellBorder = _useContext2.cellBorder,
-      textColor = _useContext2.textColor,
-      remoteGuessTextColor = _useContext2.remoteGuessTextColor,
-      numberColor = _useContext2.numberColor,
-      focusBackground = _useContext2.focusBackground,
-      highlightBackground = _useContext2.highlightBackground;
-
-  var handleClick = (0, _react.useCallback)(function (event) {
-    event.preventDefault();
-
-    if (onClick) {
-      onClick(cellData);
-    }
-  }, [cellData, onClick]);
-  var row = cellData.row,
-      col = cellData.col,
-      guess = cellData.guess,
-      guessIsRemote = cellData.guessIsRemote,
-      number = cellData.number,
-      inFullAnswer = cellData.inFullAnswer;
-  var x = col * cellSize;
-  var y = row * cellSize;
-  var cellTextColor;
-
-  if (guessIsRemote) {
-    cellTextColor = remoteGuessTextColor;
-  } else {
-    cellTextColor = textColor;
-  }
-
-  var fillStyle = {
-    fill: cellTextColor
-  };
-  var strikeThroughStyle = {
-    textDecoration: 'line-through',
-    fill: cellTextColor
-  };
-  var cellStyle = inFullAnswer ? strikeThroughStyle : fillStyle;
-  return /*#__PURE__*/_react["default"].createElement("g", {
-    onClick: handleClick,
-    style: {
-      cursor: 'default',
-      fontSize: fontSize + "px"
-    }
-  }, /*#__PURE__*/_react["default"].createElement("rect", {
-    x: x + cellPadding,
-    y: y + cellPadding,
-    width: cellInner,
-    height: cellInner,
-    fill: focus ? focusBackground : highlight ? highlightBackground : cellBackground,
-    stroke: cellBorder,
-    strokeWidth: cellSize / 50
-  }), number && /*#__PURE__*/_react["default"].createElement("text", {
-    x: x + cellPadding * 4,
-    y: y + cellPadding * 4,
-    textAnchor: "start",
-    dominantBaseline: "hanging",
-    style: {
-      fontSize: '50%',
-      fill: numberColor
-    }
-  }, number), /*#__PURE__*/_react["default"].createElement("text", {
-    x: x + cellHalf,
-    y: y + cellHalf + 1 // +1 for visual alignment?
-    ,
-    textAnchor: "middle",
-    dominantBaseline: "middle",
-    style: cellStyle
-  }, guess));
-}
-
- true ? Cell.propTypes = {
-  /** the data specific to this cell */
-  cellData: _propTypes["default"].shape({
-    row: _propTypes["default"].number.isRequired,
-    col: _propTypes["default"].number.isRequired,
-    guess: _propTypes["default"].string.isRequired,
-    guessIsRemote: _propTypes["default"].bool.isRequired,
-    number: _propTypes["default"].string,
-    inFullAnswer: _propTypes["default"].bool.isRequired
-  }).isRequired,
-
-  /** whether this cell has focus */
-  focus: _propTypes["default"].bool,
-
-  /** whether this cell is highlighted */
-  highlight: _propTypes["default"].bool,
-
-  /** handler called when the cell is clicked */
-  onClick: _propTypes["default"].func
-} : undefined;
-Cell.defaultProps = {
-  focus: false,
-  highlight: false,
-  onClick: null
-}; // export default Cell;
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/dist/es/Clue.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/dist/es/Clue.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime/helpers/interopRequireWildcard.js");
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = Clue;
-
-var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
-
-var _objectWithoutPropertiesLoose2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js"));
-
-var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
-
-var _styledComponents = _interopRequireWildcard(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-
-var _context = __webpack_require__(/*! ./context */ "./node_modules/@jaredreisinger/react-crossword/dist/es/context.js");
-
-var ClueWrapper = _styledComponents["default"].div.attrs(function (props) {
-  return {
-    className: "clue" + (props.correct ? ' correct' : '')
-  };
-}).withConfig({
-  displayName: "Clue__ClueWrapper",
-  componentId: "sc-8w61xs-0"
-})(["cursor:default;background-color:", ";"], function (props) {
-  return props.highlight ? props.highlightBackground : 'transparent';
-});
-
-function Clue(_ref) {
-  var direction = _ref.direction,
-      number = _ref.number,
-      children = _ref.children,
-      correct = _ref.correct,
-      props = (0, _objectWithoutPropertiesLoose2["default"])(_ref, ["direction", "number", "children", "correct"]);
-
-  var _useContext = (0, _react.useContext)(_styledComponents.ThemeContext),
-      highlightBackground = _useContext.highlightBackground;
-
-  var _useContext2 = (0, _react.useContext)(_context.CrosswordContext),
-      focused = _useContext2.focused,
-      selectedDirection = _useContext2.selectedDirection,
-      selectedNumber = _useContext2.selectedNumber,
-      onClueSelected = _useContext2.onClueSelected;
-
-  var handleClick = (0, _react.useCallback)(function (event) {
-    event.preventDefault();
-
-    if (onClueSelected) {
-      onClueSelected(direction, number);
-    }
-  }, [direction, number, onClueSelected]);
-  return /*#__PURE__*/_react["default"].createElement(ClueWrapper, (0, _extends2["default"])({
-    highlightBackground: highlightBackground,
-    highlight: focused && direction === selectedDirection && number === selectedNumber,
-    correct: correct
-  }, props, {
-    onClick: handleClick,
-    "aria-label": "clue-" + number + "-" + direction
-  }), number, ": ", children);
-}
-
- true ? Clue.propTypes = {
-  /** direction of the clue: "across" or "down"; passed back in onClick */
-  direction: _propTypes["default"].string.isRequired,
-
-  /** number of the clue (the label shown); passed back in onClick */
-  number: _propTypes["default"].string.isRequired,
-
-  /** clue text */
-  children: _propTypes["default"].node,
-
-  /** whether the answer/guess is correct */
-  correct: _propTypes["default"].bool
-} : undefined;
-Clue.defaultProps = {
-  children: undefined,
-  correct: undefined
-};
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/dist/es/Crossword.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/dist/es/Crossword.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime/helpers/interopRequireWildcard.js");
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
-
-var _lodash = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-
-var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
-
-var _immer = _interopRequireDefault(__webpack_require__(/*! immer */ "./node_modules/@jaredreisinger/react-crossword/node_modules/immer/dist/immer.esm.js"));
-
-var _styledComponents = _interopRequireWildcard(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-
-var _Cell = _interopRequireDefault(__webpack_require__(/*! ./Cell */ "./node_modules/@jaredreisinger/react-crossword/dist/es/Cell.js"));
-
-var _DirectionClues = _interopRequireDefault(__webpack_require__(/*! ./DirectionClues */ "./node_modules/@jaredreisinger/react-crossword/dist/es/DirectionClues.js"));
-
-var _util = __webpack_require__(/*! ./util */ "./node_modules/@jaredreisinger/react-crossword/dist/es/util.js");
-
-var _context = __webpack_require__(/*! ./context */ "./node_modules/@jaredreisinger/react-crossword/dist/es/context.js");
-
-/* eslint-disable prettier/prettier */
-
-/* eslint-disable no-console */
-// TODO: make this a component property!
-var defaultStorageKey = 'guesses';
-var defaultTheme = {
-  columnBreakpoint: '768px',
-  gridBackground: 'rgb(0,0,0)',
-  cellBackground: 'rgb(255,255,255)',
-  cellBorder: 'rgb(0,0,0)',
-  textColor: 'rgb(0,0,0)',
-  remoteGuessTextColor: 'rgb(255, 0, 255)',
-  numberColor: 'rgba(0,0,0, 0.25)',
-  focusBackground: 'rgb(255,255,0)',
-  highlightBackground: 'rgb(255,255,204)'
-}; // eslint-disable-next-line
-
-var OuterWrapper = _styledComponents["default"].div.attrs(function (props) {
-  return {
-    className: "crossword" + (props.correct ? ' correct' : '')
-  };
-}).withConfig({
-  displayName: "Crossword__OuterWrapper",
-  componentId: "pjgvvu-0"
-})(["margin:0;padding:0;border:0;display:flex;flex-direction:row;@media (max-width:", "){flex-direction:column;}"], function (props) {
-  return props.theme.columnBreakpoint;
-});
-
-var GridWrapper = _styledComponents["default"].div.attrs(function () {
-  return {
-    className: 'grid'
-  };
-}).withConfig({
-  displayName: "Crossword__GridWrapper",
-  componentId: "pjgvvu-1"
-})(["min-width:20rem;max-width:60rem;width:auto;flex:2 1 50%;"]);
-
-var CluesWrapper = _styledComponents["default"].div.attrs(function () {
-  return {
-    className: 'clues'
-  };
-}).withConfig({
-  displayName: "Crossword__CluesWrapper",
-  componentId: "pjgvvu-2"
-})(["padding:0 1em;flex:1 2 25%;@media (max-width:", "){margin-top:2em;}.direction{margin-bottom:2em;.header{margin-top:0;margin-bottom:0.5em;}div{margin-top:0.5em;}}"], function (props) {
-  return props.theme.columnBreakpoint;
-});
-/**
- * The primary, and default, export from the react-crossword library, Crossword
- * renders an answer grid and clues, and manages data and user interaction.
- */
-
-
-var Crossword = /*#__PURE__*/_react["default"].forwardRef(function (_ref, ref) {
-  var data = _ref.data,
-      tedGuesses = _ref.tedGuesses,
-      onCorrect = _ref.onCorrect,
-      onLoadedCorrect = _ref.onLoadedCorrect,
-      onCrosswordCorrect = _ref.onCrosswordCorrect,
-      onCellChange = _ref.onCellChange,
-      onFocusedCellChange = _ref.onFocusedCellChange,
-      useStorage = _ref.useStorage,
-      theme = _ref.theme;
-
-  var _useState = (0, _react.useState)(null),
-      size = _useState[0],
-      setSize = _useState[1];
-
-  var _useState2 = (0, _react.useState)(null),
-      gridData = _useState2[0],
-      setGridData = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(null),
-      clues = _useState3[0],
-      setClues = _useState3[1];
-
-  var _useState4 = (0, _react.useState)(false),
-      focused = _useState4[0],
-      setFocused = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(0),
-      focusedRow = _useState5[0],
-      setFocusedRow = _useState5[1];
-
-  var _useState6 = (0, _react.useState)(0),
-      focusedCol = _useState6[0],
-      setFocusedCol = _useState6[1];
-
-  var _useState7 = (0, _react.useState)('across'),
-      currentDirection = _useState7[0],
-      setCurrentDirection = _useState7[1];
-
-  var _useState8 = (0, _react.useState)('1'),
-      currentNumber = _useState8[0],
-      setCurrentNumber = _useState8[1];
-
-  var _useState9 = (0, _react.useState)(null),
-      bulkChange = _useState9[0],
-      setBulkChange = _useState9[1];
-
-  var _useState10 = (0, _react.useState)([]),
-      checkQueue = _useState10[0],
-      setCheckQueue = _useState10[1];
-
-  var _useState11 = (0, _react.useState)(false),
-      crosswordCorrect = _useState11[0],
-      setCrosswordCorrect = _useState11[1];
-
-  var inputRef = (0, _react.useRef)();
-  var contextTheme = (0, _react.useContext)(_styledComponents.ThemeContext);
-  var getCellData = (0, _react.useCallback)(function (row, col) {
-    if (row >= 0 && row < size && col >= 0 && col < size) {
-      return gridData[row][col];
-    } // fake cellData to represent "out of bounds"
-
-
-    return {
-      row: row,
-      col: col,
-      used: false,
-      outOfBounds: true
-    };
-  }, [size, gridData]);
-  var setCellCharacter = (0, _react.useCallback)(function (row, col, _char) {
-    var cell = getCellData(row, col);
-
-    if (!cell.used) {
-      return;
-    } // If the character is already the cell's guess, there's nothing to do.
-
-
-    if (cell.guess === _char) {
-      return;
-    } // update the gridData with the guess
-
-
-    var tsGridData = (0, _lodash.cloneDeep)(gridData);
-    tsGridData[row][col].guess = _char;
-    tsGridData[row][col].guessIsRemote = false;
-    setGridData(tsGridData); // push the row/col for checking!
-
-    setCheckQueue((0, _immer["default"])(function (draft) {
-      draft.push({
-        row: row,
-        col: col
-      });
-    }));
-
-    if (onCellChange) {
-      onCellChange(row, col, _char, true);
-    }
-
-    refreshCompletedAnswers(tsGridData);
-  }, [getCellData, onCellChange]);
-
-  var remoteSetCellCharacter = function (row, col, _char2) {
-    var cell = getCellData(row, col);
-
-    if (!cell.used) {
-      return;
-    } // If the character is already the cell's guess, there's nothing to do.
-    // hack workaround
-    // if (cell.guess === char) {
-    //   return;
-    // }
-    // update the gridData with the guess
-
-
-    setGridData((0, _immer["default"])(function (draft) {
-      draft[row][col].guess = _char2;
-      draft[row][col].guessIsRemote = true;
-    })); // push the row/col for checking!
-
-    setCheckQueue((0, _immer["default"])(function (draft) {
-      draft.push({
-        row: row,
-        col: col
-      });
-    })); // const cellAfterChange = getCellData(row, col);
-    // console.log('cellAfterChange');
-    // console.log(cellAfterChange);
-
-    if (onCellChange) {
-      onCellChange(row, col, _char2, false);
-    }
-  };
-
-  var notifyCorrect = (0, _react.useCallback)(function (direction, number, answer) {
-    if (onCorrect) {
-      // We *used* to need a timeout workaround to ensure this happened
-      // *after* the state had updated and the DOM rendered.... do we still?
-      onCorrect(direction, number, answer); // For future reference, the call looked like:
-      //
-      // setTimeout(() => {
-      //   window.requestAnimationFrame(() => {
-      //     onCorrect(direction, number, answer);
-      //   });
-      // });
-    }
-  }, [onCorrect]);
-  var checkCorrectness = (0, _react.useCallback)(function (row, col) {
-    var cell = getCellData(row, col); // check all the cells for both across and down answers that use this
-    // cell
-
-    _util.bothDirections.forEach(function (direction) {
-      var across = (0, _util.isAcross)(direction);
-      var number = cell[direction];
-
-      if (!number) {
-        return;
-      }
-
-      var info = data[direction][number]; // We start by looking at the current cell... if it's not correct, we
-      // don't need to check anything else!
-
-      var correct = cell.guess === cell.answer;
-
-      if (correct) {
-        // We *could* compare cell.guess against cell.answer for all the
-        // cells, but info.answer is a simple string and gets us the length
-        // as well (and we only have to calulate row/col math once).
-        for (var i = 0; i < info.answer.length; i++) {
-          var checkCell = getCellData(info.row + (across ? 0 : i), info.col + (across ? i : 0));
-
-          if (checkCell.guess !== info.answer[i]) {
-            correct = false;
-            break;
-          }
-        }
-      } // update the clue state
-
-
-      setClues((0, _immer["default"])(function (draft) {
-        var clueInfo = draft[direction].find(function (i) {
-          return i.number === number;
-        });
-        clueInfo.correct = correct;
-      }));
-
-      if (correct) {
-        notifyCorrect(direction, number, info.answer);
-      }
-    });
-  }, [getCellData]); // Any time the checkQueue changes, call checkCorrectness!
-
-  (0, _react.useEffect)(function () {
-    if (checkQueue.length === 0) {
-      return;
-    }
-
-    checkQueue.forEach(function (_ref2) {
-      var row = _ref2.row,
-          col = _ref2.col;
-      return checkCorrectness(row, col);
-    });
-    setCheckQueue([]);
-  }, [checkQueue, checkCorrectness]); // Any time the clues change, determine if they are all correct or not.
-
-  (0, _react.useEffect)(function () {
-    setCrosswordCorrect(clues && _util.bothDirections.every(function (direction) {
-      return clues[direction].every(function (clueInfo) {
-        return clueInfo.correct;
-      });
-    }));
-  }, [clues]); // Let the consumer know everything's correct (or not) if they've asked to
-  // be informed.
-
-  (0, _react.useEffect)(function () {
-    if (onCrosswordCorrect) {
-      onCrosswordCorrect(crosswordCorrect);
-    }
-  }, [crosswordCorrect, onCrosswordCorrect]);
-
-  var refreshCompletedAnswers = function (tsGridData) {
-    resetCompletedAnswers(tsGridData);
-    getCompletedAnswers(tsGridData, 'across');
-    getCompletedAnswers(tsGridData, 'down');
-    setGridData(tsGridData);
-  };
-
-  var resetCompletedAnswers = function (myGridData) {
-    for (var rowIndex = 0; rowIndex < myGridData.length; rowIndex++) {
-      var row = myGridData[rowIndex];
-
-      for (var colIndex = 0; colIndex < row.length; colIndex++) {
-        var cellData = row[colIndex];
-        cellData.inFullAnswer = false;
-      }
-    }
-  };
-
-  var getCompletedAnswers = function (myGridData, direction) {
-    // data AKA cluesByDirection
-    // gridData is a two dimensional array of rows & columns and reflects the cells in the board
-    var tsDirection = data[direction];
-    var keys = Object.keys(tsDirection);
-
-    for (var i = 0; i < keys.length; i++) {
-      var tsKey = keys[i];
-      var tsDirectionalEntry = tsDirection[tsKey];
-      var tsAnswer = tsDirectionalEntry.answer;
-      var tsAnswerLength = tsAnswer.length;
-      var row = tsDirectionalEntry.row,
-          col = tsDirectionalEntry.col;
-      var completelyFilledIn = true;
-
-      if (direction === 'across') {
-        var startingCol = col;
-
-        for (var j = 0; j < tsAnswerLength; j++) {
-          var tsCell = myGridData[row][startingCol + j];
-
-          if (tsCell.guess === '') {
-            completelyFilledIn = false;
-            break;
-          }
-        }
-
-        if (completelyFilledIn) {
-          for (var _j = 0; _j < tsAnswerLength; _j++) {
-            var _tsCell = myGridData[row][startingCol + _j];
-            _tsCell.inFullAnswer = true;
-          }
-        }
-      } else {
-        var startingRow = row;
-
-        for (var _j2 = 0; _j2 < tsAnswerLength; _j2++) {
-          var _tsCell2 = myGridData[startingRow + _j2][col];
-
-          if (_tsCell2.guess === '') {
-            completelyFilledIn = false;
-            break;
-          }
-        }
-
-        if (completelyFilledIn) {
-          for (var _j3 = 0; _j3 < tsAnswerLength; _j3++) {
-            var _tsCell3 = myGridData[startingRow + _j3][col];
-            _tsCell3.inFullAnswer = true;
-          }
-        }
-      }
-    } // TEDTODO - I think the following is inconsistent with calling setGridData at the end of refreshCompletedAnswers
-
-
-    setGridData(myGridData);
-  }; // focus and movement
-
-
-  var _focus = (0, _react.useCallback)(function () {
-    if (inputRef.current) {
-      inputRef.current.focus();
-      setFocused(true);
-    }
-  }, []);
-
-  var moveTo = (0, _react.useCallback)(function (row, col, directionOverride) {
-    var direction = directionOverride != null ? directionOverride : currentDirection;
-    var candidate = getCellData(row, col);
-
-    if (!candidate.used) {
-      return false;
-    }
-
-    if (!candidate[direction]) {
-      direction = (0, _util.otherDirection)(direction);
-    }
-
-    if (onFocusedCellChange) {
-      onFocusedCellChange(row, col, direction);
-    }
-
-    setFocusedRow(row);
-    setFocusedCol(col);
-    setCurrentDirection(direction);
-    setCurrentNumber(candidate[direction]);
-    return candidate;
-  }, [getCellData]);
-  var moveRelative = (0, _react.useCallback)(function (dRow, dCol) {
-    // We expect *only* one of dRow or dCol to have a non-zero value, and
-    // that's the direction we will "prefer".  If *both* are set (or zero),
-    // we don't change the direction.
-    var direction;
-
-    if (dRow !== 0 && dCol === 0) {
-      direction = 'down';
-    } else if (dRow === 0 && dCol !== 0) {
-      direction = 'across';
-    }
-
-    var cell = moveTo(focusedRow + dRow, focusedCol + dCol, direction);
-    return cell;
-  }, [focusedRow, focusedCol, moveTo]);
-  var moveForward = (0, _react.useCallback)(function () {
-    var across = (0, _util.isAcross)(currentDirection);
-    moveRelative(across ? 0 : 1, across ? 1 : 0);
-  }, [currentDirection, moveRelative]);
-  var moveBackward = (0, _react.useCallback)(function () {
-    var across = (0, _util.isAcross)(currentDirection);
-    moveRelative(across ? 0 : -1, across ? -1 : 0);
-  }, [currentDirection, moveRelative]); // keyboard handling
-
-  var handleSingleCharacter = (0, _react.useCallback)(function (_char3) {
-    setCellCharacter(focusedRow, focusedCol, _char3.toUpperCase());
-    moveForward();
-  }, [focusedRow, focusedCol, setCellCharacter, moveForward]); // We use the keydown event for control/arrow keys, but not for textual
-  // input, because it's hard to suss out when a key is "regular" or not.
-
-  var handleInputKeyDown = (0, _react.useCallback)(function (event) {
-    // if ctrl, alt, or meta are down, ignore the event (let it bubble)
-    if (event.ctrlKey || event.altKey || event.metaKey) {
-      return;
-    }
-
-    var preventDefault = true;
-    var key = event.key; // console.log('CROSSWORD KEYDOWN', event.key);
-    // FUTURE: should we "jump" over black space?  That might help some for
-    // keyboard users.
-
-    switch (key) {
-      case 'ArrowUp':
-        moveRelative(-1, 0);
-        break;
-
-      case 'ArrowDown':
-        moveRelative(1, 0);
-        break;
-
-      case 'ArrowLeft':
-        moveRelative(0, -1);
-        break;
-
-      case 'ArrowRight':
-        moveRelative(0, 1);
-        break;
-
-      case ' ': // treat space like tab?
-
-      case 'Tab':
-        {
-          var other = (0, _util.otherDirection)(currentDirection);
-          var cellData = getCellData(focusedRow, focusedCol);
-
-          if (cellData[other]) {
-            setCurrentDirection(other);
-            setCurrentNumber(cellData[other]);
-          }
-
-          break;
-        }
-      // Backspace: delete the current cell, and move to the previous cell
-      // Delete:    delete the current cell, but don't move
-
-      case 'Backspace':
-      case 'Delete':
-        {
-          setCellCharacter(focusedRow, focusedCol, '');
-
-          if (key === 'Backspace') {
-            moveBackward();
-          }
-
-          break;
-        }
-
-      case 'Home':
-      case 'End':
-        {
-          // move to beginning/end of this entry?
-          var info = data[currentDirection][currentNumber];
-          var length = info.answer.length;
-          var row = info.row,
-              col = info.col;
-
-          if (key === 'End') {
-            var across = (0, _util.isAcross)(currentDirection);
-
-            if (across) {
-              col += length - 1;
-            } else {
-              row += length - 1;
-            }
-          }
-
-          moveTo(row, col);
-          break;
-        }
-
-      default:
-        // It would be nice to handle "regular" characters with onInput, but
-        // that is still experimental, so we can't count on it.  Instead, we
-        // assume that only "length 1" values are regular.
-        if (key.length !== 1) {
-          preventDefault = false;
-          break;
-        }
-
-        handleSingleCharacter(key);
-        break;
-    }
-
-    if (preventDefault) {
-      event.preventDefault();
-    }
-  }, [data, focusedRow, focusedCol, currentDirection, currentNumber, getCellData, setCellCharacter, moveRelative]);
-  var handleInputChange = (0, _react.useCallback)(function (event) {
-    event.preventDefault();
-    setBulkChange(event.target.value);
-  }, []);
-  (0, _react.useEffect)(function () {
-    if (!bulkChange) {
-      return;
-    } // handle bulkChange by updating a character at a time (this lets us
-    // leverage the existing character-entry logic).
-
-
-    handleSingleCharacter(bulkChange[0]);
-    setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
-  }, [bulkChange, handleSingleCharacter]); // When the data changes, recalculate the gridData, size, etc.
-
-  (0, _react.useEffect)(function () {
-    // console.log('Crossword:useEffect');
-    // console.log(tedGuesses);
-    // eslint-disable-next-line no-shadow
-    var _createGridData = (0, _util.createGridData)(data),
-        size = _createGridData.size,
-        gridData = _createGridData.gridData,
-        clues = _createGridData.clues;
-
-    var loadedCorrect;
-
-    if (useStorage) {
-      (0, _util.loadGuesses)(gridData, defaultStorageKey, tedGuesses);
-      loadedCorrect = (0, _util.findCorrectAnswers)(data, gridData);
-      loadedCorrect.forEach(function (_ref3) {
-        var direction = _ref3[0],
-            num = _ref3[1];
-        var clueInfo = clues[direction].find(function (i) {
-          return i.number === num;
-        });
-        clueInfo.correct = true;
-      });
-    }
-
-    setSize(size);
-    setGridData(gridData);
-    setClues(clues); // Should we start with 1-across highlighted/focused?
-    // TODO: track input-field focus so we don't draw highlight when we're not
-    // really focused, *and* use first actual clue (whether across or down?)
-
-    if (onFocusedCellChange) {
-      onFocusedCellChange(0, 0, 'across');
-    }
-
-    setFocusedRow(0);
-    setFocusedCol(0);
-    setCurrentDirection('across');
-    setCurrentNumber('1');
-    refreshCompletedAnswers(gridData);
-    setBulkChange(null); // trigger any "loaded correct" guesses...
-
-    if (loadedCorrect && loadedCorrect.length > 0 && onLoadedCorrect) {
-      onLoadedCorrect(loadedCorrect);
-    }
-  }, [data, onLoadedCorrect, useStorage]);
-  (0, _react.useEffect)(function () {
-    if (gridData === null || !useStorage) {
-      return;
-    }
-
-    (0, _util.saveGuesses)(gridData, defaultStorageKey);
-  }, [gridData, useStorage]);
-  var handleCellClick = (0, _react.useCallback)(function (cellData) {
-    var row = cellData.row,
-        col = cellData.col;
-    var other = (0, _util.otherDirection)(currentDirection); // should this use moveTo?
-
-    setFocusedRow(row);
-    setFocusedCol(col);
-    var direction = currentDirection; // We switch to the "other" direction if (a) the current direction isn't
-    // available in the clicked cell, or (b) we're already focused and the
-    // clicked cell is the focused cell, *and* the other direction is
-    // available.
-
-    if (!cellData[currentDirection] || focused && row === focusedRow && col === focusedCol && cellData[other]) {
-      setCurrentDirection(other);
-      direction = other;
-    }
-
-    setCurrentNumber(cellData[direction]);
-
-    if (onFocusedCellChange) {
-      onFocusedCellChange(row, col, direction);
-    }
-
-    _focus();
-  }, [focused, focusedRow, focusedCol, currentDirection, _focus]);
-  var handleInputClick = (0, _react.useCallback)(function () {
-    // *don't* event.preventDefault(), because we want the input to actually
-    // take focus
-    // Like general cell-clicks, cliking on the input can change direction.
-    // Unlike cell clicks, we *know* we're clicking on the already-focused
-    // cell!
-    var other = (0, _util.otherDirection)(currentDirection);
-    var cellData = getCellData(focusedRow, focusedCol);
-    var direction = currentDirection;
-
-    if (focused && cellData[other]) {
-      setCurrentDirection(other);
-      direction = other;
-    }
-
-    setCurrentNumber(cellData[direction]);
-
-    _focus();
-  }, [currentDirection, focusedRow, focusedCol, getCellData, _focus]);
-  var handleClueSelected = (0, _react.useCallback)(function (direction, number) {
-    var info = data[direction][number]; // TODO: sanity-check info?
-
-    moveTo(info.row, info.col, direction);
-
-    _focus();
-  }, [data, moveTo, _focus]); // expose some imperative methods
-
-  (0, _react.useImperativeHandle)(ref, function () {
-    return {
-      /**
-       * Sets focus to the crossword component.
-       */
-      focus: function focus() {
-        _focus();
-      },
-
-      /**
-       * Resets the entire crossword; clearing all answers in the grid and
-       * also any persisted data.
-       */
-      reset: function reset() {
-        setGridData((0, _immer["default"])(function (draft) {
-          draft.forEach(function (rowData) {
-            rowData.forEach(function (cellData) {
-              if (cellData.used) {
-                cellData.guess = '';
-                cellData.guessIsRemote = false;
-                cellData.inFullAnswer = false;
-              }
-            });
-          });
-        }));
-        setClues((0, _immer["default"])(function (draft) {
-          _util.bothDirections.forEach(function (direction) {
-            draft[direction].forEach(function (clueInfo) {
-              delete clueInfo.correct;
-            });
-          });
-        }));
-
-        if (useStorage) {
-          (0, _util.clearGuesses)(defaultStorageKey);
-        }
-      },
-
-      /**
-       * Remotely set a call
-       */
-      remoteSetCell: function remoteSetCell(row, col, _char4) {
-        console.log('remoteSetCell invoked');
-        console.log('row: ', row);
-        console.log('col: ', col);
-        console.log('char: ', _char4);
-        remoteSetCellCharacter(row, col, _char4);
-      },
-
-      /**
-       * Fills all the answers in the grid and calls the `onLoadedCorrect`
-       * callback with _**every**_ answer.
-       */
-      fillAllAnswers: function fillAllAnswers() {
-        console.log('fillAllAnswers invoked');
-        setGridData((0, _immer["default"])(function (draft) {
-          draft.forEach(function (rowData) {
-            rowData.forEach(function (cellData) {
-              if (cellData.used) {
-                cellData.guess = cellData.answer;
-              }
-            });
-          });
-        }));
-        setClues((0, _immer["default"])(function (draft) {
-          _util.bothDirections.forEach(function (direction) {
-            draft[direction].forEach(function (clueInfo) {
-              clueInfo.correct = true;
-            });
-          });
-        })); // trigger onLoadedCorrect with every clue!
-
-        if (onLoadedCorrect) {
-          var loadedCorrect = [];
-
-          _util.bothDirections.forEach(function (direction) {
-            Object.entries(data[direction]).forEach(function (_ref4) {
-              var number = _ref4[0],
-                  info = _ref4[1];
-              loadedCorrect.push([direction, number, info.answer]);
-            });
-          });
-
-          onLoadedCorrect(loadedCorrect);
-        }
-      },
-
-      /**
-       * Returns whether the crossword is entirely correct or not.
-       *
-       * @since 2.2.0
-       */
-      isCrosswordCorrect: function isCrosswordCorrect() {
-        return crosswordCorrect;
-      }
-    };
-  }, [data, onLoadedCorrect, useStorage, _focus, crosswordCorrect]); // constants for rendering...
-  // We have several properties that we bundle together as context for the
-  // cells, rather than have them as independent properties.  (Or should they
-  // stay separate? Or be passed as "spread" values?)
-
-  var cellSize = 100 / size;
-  var cellPadding = 0.125;
-  var cellInner = cellSize - cellPadding * 2;
-  var fontSize = cellInner * 0.7;
-  // The final theme is the merger of three values: the "theme" property
-  // passed to the component (which takes precedence), any values from
-  // ThemeContext, and finally the "defaultTheme" values fill in for any
-  // needed ones that are missing.  (We create this in standard last-one-wins
-  // order in Javascript, of course.)
-  var finalTheme = (0, _extends2["default"])({}, defaultTheme, contextTheme, theme); // REVIEW: do we want to recalc this all the time, or cache in state?
-
-  var cells = [];
-
-  if (gridData) {
-    _util.bothDirections.every(function (direction) {
-      return clues[direction].every(function (clueInfo) {
-        return clueInfo.correct;
-      });
-    }); // console.log('render, gridData: ');
-    // console.log(gridData);
-
-
-    gridData.forEach(function (rowData, row) {
-      rowData.forEach(function (cellData, col) {
-        // console.log('row ', row, ', col ', col);
-        // console.log(' cellData:');
-        // console.log(cellData);
-        if (!cellData.used) {
-          // console.log('unused cell: row ', row, ', col ', col);
-          return;
-        }
-
-        cells.push( /*#__PURE__*/_react["default"].createElement(_Cell["default"] // eslint-disable-next-line react/no-array-index-key
-        , {
-          key: "R" + row + "C" + col,
-          cellData: cellData,
-          focus: focused && row === focusedRow && col === focusedCol,
-          highlight: focused && currentNumber && cellData[currentDirection] === currentNumber,
-          onClick: handleCellClick
-        }));
-      });
-    });
-  }
-
-  return /*#__PURE__*/_react["default"].createElement(_context.CrosswordContext.Provider, {
-    value: {
-      focused: focused,
-      selectedDirection: currentDirection,
-      selectedNumber: currentNumber,
-      onClueSelected: handleClueSelected
-    }
-  }, /*#__PURE__*/_react["default"].createElement(_context.CrosswordSizeContext.Provider, {
-    value: {
-      cellSize: cellSize,
-      cellPadding: cellPadding,
-      cellInner: cellInner,
-      cellHalf: cellSize / 2,
-      fontSize: fontSize
-    }
-  }, /*#__PURE__*/_react["default"].createElement(_styledComponents.ThemeProvider, {
-    theme: finalTheme
-  }, /*#__PURE__*/_react["default"].createElement(OuterWrapper, {
-    correct: crosswordCorrect
-  }, /*#__PURE__*/_react["default"].createElement(GridWrapper, null, /*#__PURE__*/_react["default"].createElement("div", {
-    style: {
-      margin: 0,
-      padding: 0,
-      position: 'relative'
-    }
-  }, /*#__PURE__*/_react["default"].createElement("svg", {
-    viewBox: "0 0 100 100"
-  }, /*#__PURE__*/_react["default"].createElement("rect", {
-    x: 0,
-    y: 0,
-    width: 100,
-    height: 100,
-    fill: finalTheme.gridBackground
-  }), cells), /*#__PURE__*/_react["default"].createElement("input", {
-    ref: inputRef,
-    "aria-label": "crossword-input",
-    type: "text",
-    onClick: handleInputClick,
-    onKeyDown: handleInputKeyDown,
-    onChange: handleInputChange,
-    value: "" // onInput={this.handleInput}
-    ,
-    autoComplete: "off",
-    spellCheck: "false",
-    autoCorrect: "off",
-    style: {
-      position: 'absolute',
-      // In order to ensure the top/left positioning makes sense,
-      // there is an absolutely-positioned <div> with no
-      // margin/padding that we *don't* expose to consumers.  This
-      // keeps the math much more reliable.  (But we're still
-      // seeing a slight vertical deviation towards the bottom of
-      // the grid!  The "* 0.995" seems to help.)
-      top: "calc(" + focusedRow * cellSize * 0.995 + "% + 2px)",
-      left: "calc(" + focusedCol * cellSize + "% + 2px)",
-      width: "calc(" + cellSize + "% - 4px)",
-      height: "calc(" + cellSize + "% - 4px)",
-      fontSize: fontSize * 6 + "px",
-      // waaay too small...?
-      textAlign: 'center',
-      textAnchor: 'middle',
-      backgroundColor: 'transparent',
-      caretColor: 'transparent',
-      margin: 0,
-      padding: 0,
-      border: 0,
-      cursor: 'default'
-    }
-  }))), /*#__PURE__*/_react["default"].createElement(CluesWrapper, null, clues && _util.bothDirections.map(function (direction) {
-    return /*#__PURE__*/_react["default"].createElement(_DirectionClues["default"], {
-      key: direction,
-      direction: direction,
-      clues: clues[direction]
-    });
-  }))))));
-});
-
-Crossword.displayName = 'Crossword';
-var clueShape =  true ? _propTypes["default"].shape({
-  clue: _propTypes["default"].string.isRequired,
-  answer: _propTypes["default"].string.isRequired,
-  row: _propTypes["default"].number.isRequired,
-  col: _propTypes["default"].number.isRequired
-}) : undefined;
-var tedGuessShape =  true ? _propTypes["default"].shape({
-  typedChar: _propTypes["default"].string.isRequired
-}) : undefined;
- true ? Crossword.propTypes = {
-  /** clue/answer data; see <a href="#cluedata-format">Clue/data format</a> for details. */
-  data: _propTypes["default"].shape({
-    /** "across" clues and answers */
-    across: _propTypes["default"].objectOf(clueShape),
-
-    /** "down" clues and answers */
-    down: _propTypes["default"].objectOf(clueShape)
-  }).isRequired,
-  tedGuesses: _propTypes["default"].shape({
-    ts_guesses: _propTypes["default"].objectOf(tedGuessShape)
-  }).isRequired,
-
-  /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
-  theme: _propTypes["default"].shape({
-    /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */
-    columnBreakpoint: _propTypes["default"].string,
-
-    /** overall background color (fill) for the crossword grid; can be `'transparent'` to show through a page background image */
-    gridBackground: _propTypes["default"].string,
-
-    /**  background for an answer cell */
-    cellBackground: _propTypes["default"].string,
-
-    /** border for an answer cell */
-    cellBorder: _propTypes["default"].string,
-
-    /** color for answer text (entered by the player) */
-    textColor: _propTypes["default"].string,
-    remoteGuessTextColor: _propTypes["default"].string,
-
-    /** color for the across/down numbers in the grid */
-    numberColor: _propTypes["default"].string,
-
-    /** background color for the cell with focus, the one that the player is typing into */
-    focusBackground: _propTypes["default"].string,
-
-    /** background color for the cells in the answer the player is working on,
-     * helps indicate in which direction focus will be moving; also used as a
-     * background on the active clue  */
-    highlightBackground: _propTypes["default"].string
-  }),
-
-  /** whether to use browser storage to persist the player's work-in-progress */
-  useStorage: _propTypes["default"].bool,
-
-  /** callback function that fires when a player answers a clue correctly; called with `(direction, number, answer)` arguments, where `direction` is `'across'` or `'down'`, `number` is the clue number as text (like `'1'`), and `answer` is the answer itself */
-  onCorrect: _propTypes["default"].func,
-
-  /** callback function that's called when a crossword is loaded, to batch up correct answers loaded from storage; passed an array of the same values that `onCorrect` would recieve */
-  onLoadedCorrect: _propTypes["default"].func,
-
-  /** callback function that's called when the overall crossword is completely correct (or not) */
-  onCrosswordCorrect: _propTypes["default"].func,
-
-  /**
-   *  callback function called when a cell changes (e.g. when the user types a
-   *  letter); called with `(row, col, char)` arguments, where the `row` and
-   *  `column` are the 0-based position of the cell, and `char` is the character
-   *  typed (already massaged into upper-case)
-   *
-   *  @since 2.1.0
-   */
-  onCellChange: _propTypes["default"].func,
-  onFocusedCellChange: _propTypes["default"].func
-} : undefined;
-Crossword.defaultProps = {
-  theme: null,
-  useStorage: true,
-  // useStorage: false,
-  onCorrect: null,
-  onLoadedCorrect: null,
-  onCrosswordCorrect: null,
-  onCellChange: null,
-  onFocusedCellChange: null
-};
-var _default = Crossword;
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/dist/es/DirectionClues.js":
-/*!********************************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/dist/es/DirectionClues.js ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = DirectionClues;
-
-var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
-
-var _Clue = _interopRequireDefault(__webpack_require__(/*! ./Clue */ "./node_modules/@jaredreisinger/react-crossword/dist/es/Clue.js"));
-
-// import styled from 'styled-components';
-function DirectionClues(_ref) {
-  var direction = _ref.direction,
-      clues = _ref.clues;
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "direction"
-  }, /*#__PURE__*/_react["default"].createElement("h3", {
-    className: "header"
-  }, direction.toUpperCase()), clues.map(function (_ref2) {
-    var number = _ref2.number,
-        clue = _ref2.clue,
-        correct = _ref2.correct;
-    return /*#__PURE__*/_react["default"].createElement(_Clue["default"], {
-      key: number,
-      direction: direction,
-      number: number,
-      correct: correct
-    }, clue);
-  }));
-}
-
- true ? DirectionClues.propTypes = {
-  /** direction of this list of clues ("across" or "down") */
-  direction: _propTypes["default"].string.isRequired,
-
-  /** clues for this List's direction */
-  clues: _propTypes["default"].arrayOf(_propTypes["default"].shape({
-    /** number of the clue (the label shown) */
-    number: _propTypes["default"].string.isRequired,
-
-    /** clue text */
-    clue: _propTypes["default"].node.isRequired,
-
-    /** whether the answer/guess is correct */
-    correct: _propTypes["default"].bool
-  })).isRequired
-} : undefined;
-DirectionClues.defaultProps = {};
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/dist/es/context.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/dist/es/context.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CrosswordSizeContext = exports.CrosswordContext = void 0;
-
-var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-// To pass focus/highlight/etc., it's cleaner to use a context.
-var CrosswordContext = /*#__PURE__*/_react["default"].createContext({
-  focused: false,
-  selectedDirection: null,
-  selectedNumber: null // correct answers?
-
-});
-
-exports.CrosswordContext = CrosswordContext;
-
-var CrosswordSizeContext = /*#__PURE__*/_react["default"].createContext({
-  cellSize: 0,
-  cellPadding: 0,
-  cellInner: 0,
-  cellHalf: 0,
-  fontSize: 0
-});
-
-exports.CrosswordSizeContext = CrosswordSizeContext;
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/dist/es/index.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/dist/es/index.js ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "ThemeProvider", {
-  enumerable: true,
-  get: function get() {
-    return _styledComponents.ThemeProvider;
-  }
-});
-Object.defineProperty(exports, "Cell", {
-  enumerable: true,
-  get: function get() {
-    return _Cell["default"];
-  }
-});
-Object.defineProperty(exports, "Clue", {
-  enumerable: true,
-  get: function get() {
-    return _Clue["default"];
-  }
-});
-Object.defineProperty(exports, "DirectionClues", {
-  enumerable: true,
-  get: function get() {
-    return _DirectionClues["default"];
-  }
-});
-Object.defineProperty(exports, "Crossword", {
-  enumerable: true,
-  get: function get() {
-    return _Crossword["default"];
-  }
-});
-Object.defineProperty(exports, "CrosswordContext", {
-  enumerable: true,
-  get: function get() {
-    return _context.CrosswordContext;
-  }
-});
-Object.defineProperty(exports, "CrosswordSizeContext", {
-  enumerable: true,
-  get: function get() {
-    return _context.CrosswordSizeContext;
-  }
-});
-exports["default"] = void 0;
-
-var _styledComponents = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-
-var _Cell = _interopRequireDefault(__webpack_require__(/*! ./Cell */ "./node_modules/@jaredreisinger/react-crossword/dist/es/Cell.js"));
-
-var _Clue = _interopRequireDefault(__webpack_require__(/*! ./Clue */ "./node_modules/@jaredreisinger/react-crossword/dist/es/Clue.js"));
-
-var _DirectionClues = _interopRequireDefault(__webpack_require__(/*! ./DirectionClues */ "./node_modules/@jaredreisinger/react-crossword/dist/es/DirectionClues.js"));
-
-var _Crossword = _interopRequireDefault(__webpack_require__(/*! ./Crossword */ "./node_modules/@jaredreisinger/react-crossword/dist/es/Crossword.js"));
-
-var _context = __webpack_require__(/*! ./context */ "./node_modules/@jaredreisinger/react-crossword/dist/es/context.js");
-
-// We re-export ThemeProvider from styled-components so that consumers don't
-// have to pull it in explicitly if we are the only reason.  (This also helps
-// with our style guide!)
-var _default = _Crossword["default"];
-exports["default"] = _default;
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/dist/es/util.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/dist/es/util.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isAcross = isAcross;
-exports.otherDirection = otherDirection;
-exports.calculateExtents = calculateExtents;
-exports.createEmptyGrid = createEmptyGrid;
-exports.fillClues = fillClues;
-exports.createGridData = createGridData;
-exports.byNumber = byNumber;
-exports.clearGuesses = clearGuesses;
-exports.saveGuesses = saveGuesses;
-exports.serializeGuesses = serializeGuesses;
-exports.loadGuesses = loadGuesses;
-exports.deserializeGuesses = deserializeGuesses;
-exports.findCorrectAnswers = findCorrectAnswers;
-exports.bothDirections = void 0;
-
-var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
-
-var directionInfo = {
-  across: {
-    primary: 'col',
-    orthogonal: 'row'
-  },
-  down: {
-    primary: 'row',
-    orthogonal: 'col'
-  }
-};
-var bothDirections = Object.keys(directionInfo);
-exports.bothDirections = bothDirections;
-
-function isAcross(direction) {
-  return direction === 'across';
-}
-
-function otherDirection(direction) {
-  return isAcross(direction) ? 'down' : 'across';
-}
-
-function calculateExtents(data, direction) {
-  var _ref2;
-
-  var dir = directionInfo[direction];
-  var primaryMax = 0;
-  var orthogonalMax = 0;
-  Object.entries(data[direction]).forEach(function (_ref) {
-    var i = _ref[0],
-        info = _ref[1];
-    var primary = info[dir.primary] + info.answer.length - 1;
-
-    if (primary > primaryMax) {
-      primaryMax = primary;
-    }
-
-    var orthogonal = info[dir.orthogonal];
-
-    if (orthogonal > orthogonalMax) {
-      orthogonalMax = orthogonal;
-    }
-  });
-  return _ref2 = {}, _ref2[dir.primary] = primaryMax, _ref2[dir.orthogonal] = orthogonalMax, _ref2;
-}
-
-var emptyCellData = {
-  used: false,
-  number: null,
-  answer: '',
-  guess: '',
-  guessIsRemote: false,
-  locked: false,
-  // row: r,
-  // col: c,
-  across: null,
-  down: null,
-  inFullAnswer: false
-};
-
-function createEmptyGrid(size) {
-  var gridData = Array(size); // Rather than [x][y] in column-major order, the cells are indexed as
-  // [row][col] in row-major order.
-
-  for (var r = 0; r < size; r++) {
-    gridData[r] = Array(size);
-
-    for (var c = 0; c < size; c++) {
-      gridData[r][c] = (0, _extends2["default"])({}, emptyCellData, {
-        row: r,
-        col: c
-      });
-    }
-  }
-
-  return gridData;
-}
-
-function fillClues(gridData, clues, data, direction) {
-  var dir = directionInfo[direction];
-  Object.entries(data[direction]).forEach(function (_ref3) {
-    var number = _ref3[0],
-        info = _ref3[1];
-    var rowStart = info.row,
-        colStart = info.col,
-        clue = info.clue,
-        answer = info.answer;
-
-    for (var i = 0; i < answer.length; i++) {
-      var row = rowStart + (dir.primary === 'row' ? i : 0);
-      var col = colStart + (dir.primary === 'col' ? i : 0);
-      var cellData = gridData[row][col]; // TODO?: check to ensure the answer is the same if it's already set?
-
-      cellData.used = true;
-      cellData.answer = answer[i];
-      cellData[direction] = number;
-
-      if (i === 0) {
-        // TODO?: check to ensure the number is the same if it's already set?
-        cellData.number = number;
-      }
-    }
-
-    clues[direction].push({
-      number: number,
-      clue: clue
-    });
-  });
-  clues[direction].sort(byNumber);
-} // Given the "nice format" for a crossword, generate the usable data optimized
-// for rendering and our interactivity.
-
-
-function createGridData(data) {
-  var acrossMax = calculateExtents(data, 'across');
-  var downMax = calculateExtents(data, 'down');
-  var size = Math.max.apply(Math, Object.values(acrossMax).concat(Object.values(downMax))) + 1;
-  var gridData = createEmptyGrid(size); // Now fill with answers... and also collect the clues
-
-  var clues = {
-    across: [],
-    down: []
-  };
-  fillClues(gridData, clues, data, 'across');
-  fillClues(gridData, clues, data, 'down');
-  return {
-    size: size,
-    gridData: gridData,
-    clues: clues
-  };
-} // sort helper for clues...
-
-
-function byNumber(a, b) {
-  var aNum = Number.parseInt(a.number, 10);
-  var bNum = Number.parseInt(b.number, 10);
-  return aNum - bNum;
-}
-
-function clearGuesses(storageKey) {
-  if (!window.localStorage) {
-    return;
-  }
-
-  window.localStorage.removeItem(storageKey);
-}
-
-function saveGuesses(gridData, storageKey) {
-  var _window = window,
-      localStorage = _window.localStorage;
-
-  if (!localStorage) {
-    return;
-  }
-
-  var guesses = serializeGuesses(gridData);
-  var saveData = {
-    date: Date.now(),
-    guesses: guesses
-  };
-  localStorage.setItem(storageKey, JSON.stringify(saveData));
-}
-
-function serializeGuesses(gridData) {
-  var guesses = gridData.reduce(function (memo, row, r) {
-    return row.reduce(function (memoInner, cellData, c) {
-      var guess = cellData.guess;
-
-      if (guess !== '') {
-        memoInner[r + "_" + c] = cellData.guess;
-      }
-
-      return memoInner;
-    }, memo);
-  }, {});
-  return guesses;
-}
-
-function loadGuesses(gridData, storageKey, tedGuesses) {
-  var _window2 = window,
-      localStorage = _window2.localStorage;
-
-  if (!localStorage) {
-    return;
-  }
-
-  var saveRaw = localStorage.getItem(storageKey);
-
-  if (!saveRaw) {
-    return;
-  } // const saveData = JSON.parse(saveRaw);
-
-
-  var saveData = {
-    date: Date.now(),
-    guesses: tedGuesses
-  }; // TODO: check date for expiration?
-
-  deserializeGuesses(gridData, saveData.guesses);
-}
-
-function deserializeGuesses(gridData, guesses) {
-  Object.entries(guesses).forEach(function (_ref4) {
-    var key = _ref4[0],
-        val = _ref4[1];
-
-    var _key$split = key.split('_'),
-        r = _key$split[0],
-        c = _key$split[1]; // ignore any out-of-bounds guesses!
-
-
-    if (r <= gridData.length - 1 && c <= gridData[0].length - 1) {
-      gridData[r][c].guess = val;
-    }
-  });
-}
-
-function findCorrectAnswers(data, gridData) {
-  var correctAnswers = [];
-  bothDirections.forEach(function (direction) {
-    var across = isAcross(direction);
-    Object.entries(data[direction]).forEach(function (_ref5) {
-      var num = _ref5[0],
-          info = _ref5[1];
-      var row = info.row,
-          col = info.col;
-      var correct = true;
-
-      for (var i = 0; i < info.answer.length; i++) {
-        var r = across ? row : row + i;
-        var c = across ? col + i : col;
-
-        if (gridData[r][c].guess !== info.answer[i]) {
-          correct = false;
-          break;
-        }
-      }
-
-      if (correct) {
-        // same args as notifyCorrect: direction, number, answer
-        correctAnswers.push([direction, num, info.answer]);
-      }
-    });
-  });
-  return correctAnswers;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@jaredreisinger/react-crossword/node_modules/immer/dist/immer.esm.js":
-/*!*******************************************************************************************!*\
-  !*** ./node_modules/@jaredreisinger/react-crossword/node_modules/immer/dist/immer.esm.js ***!
-  \*******************************************************************************************/
-/*! exports provided: default, Immer, applyPatches, castDraft, castImmutable, createDraft, current, enableAllPlugins, enableES5, enableMapSet, enablePatches, finishDraft, immerable, isDraft, isDraftable, nothing, original, produce, produceWithPatches, setAutoFreeze, setUseProxies */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Immer", function() { return on; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyPatches", function() { return vn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "castDraft", function() { return K; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "castImmutable", function() { return $; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createDraft", function() { return pn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "current", function() { return D; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableAllPlugins", function() { return J; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableES5", function() { return T; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enableMapSet", function() { return C; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enablePatches", function() { return F; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "finishDraft", function() { return ln; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "immerable", function() { return L; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDraft", function() { return t; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDraftable", function() { return r; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "nothing", function() { return H; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "original", function() { return e; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "produce", function() { return an; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "produceWithPatches", function() { return fn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAutoFreeze", function() { return cn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUseProxies", function() { return sn; });
-function n(n){for(var t=arguments.length,r=Array(t>1?t-1:0),e=1;e<t;e++)r[e-1]=arguments[e];if(true){var i=Y[n],o=i?"function"==typeof i?i.apply(null,r):i:"unknown error nr: "+n;throw Error("[Immer] "+o)}throw Error("[Immer] minified error nr: "+n+(r.length?" "+r.map((function(n){return"'"+n+"'"})).join(","):"")+". Find the full error at: https://bit.ly/3cXEKWf")}function t(n){return!!n&&!!n[Q]}function r(n){return!!n&&(function(n){if(!n||"object"!=typeof n)return!1;var t=Object.getPrototypeOf(n);return!t||t===Object.prototype}(n)||Array.isArray(n)||!!n[L]||!!n.constructor[L]||s(n)||v(n))}function e(r){return t(r)||n(23,r),r[Q].t}function i(n,t,r){void 0===r&&(r=!1),0===o(n)?(r?Object.keys:Z)(n).forEach((function(e){r&&"symbol"==typeof e||t(e,n[e],n)})):n.forEach((function(r,e){return t(e,r,n)}))}function o(n){var t=n[Q];return t?t.i>3?t.i-4:t.i:Array.isArray(n)?1:s(n)?2:v(n)?3:0}function u(n,t){return 2===o(n)?n.has(t):Object.prototype.hasOwnProperty.call(n,t)}function a(n,t){return 2===o(n)?n.get(t):n[t]}function f(n,t,r){var e=o(n);2===e?n.set(t,r):3===e?(n.delete(t),n.add(r)):n[t]=r}function c(n,t){return n===t?0!==n||1/n==1/t:n!=n&&t!=t}function s(n){return X&&n instanceof Map}function v(n){return q&&n instanceof Set}function p(n){return n.o||n.t}function l(n){if(Array.isArray(n))return Array.prototype.slice.call(n);var t=nn(n);delete t[Q];for(var r=Z(t),e=0;e<r.length;e++){var i=r[e],o=t[i];!1===o.writable&&(o.writable=!0,o.configurable=!0),(o.get||o.set)&&(t[i]={configurable:!0,writable:!0,enumerable:o.enumerable,value:n[i]})}return Object.create(Object.getPrototypeOf(n),t)}function d(n,e){y(n)||t(n)||!r(n)||(o(n)>1&&(n.set=n.add=n.clear=n.delete=h),Object.freeze(n),e&&i(n,(function(n,t){return d(t,!0)}),!0))}function h(){n(2)}function y(n){return null==n||"object"!=typeof n||Object.isFrozen(n)}function b(t){var r=tn[t];return r||n(18,t),r}function m(n,t){tn[n]||(tn[n]=t)}function _(){return false||U||n(0),U}function j(n,t){t&&(b("Patches"),n.u=[],n.s=[],n.v=t)}function g(n){O(n),n.p.forEach(S),n.p=null}function O(n){n===U&&(U=n.l)}function w(n){return U={p:[],l:U,h:n,m:!0,_:0}}function S(n){var t=n[Q];0===t.i||1===t.i?t.j():t.g=!0}function P(t,e){e._=e.p.length;var i=e.p[0],o=void 0!==t&&t!==i;return e.h.O||b("ES5").S(e,t,o),o?(i[Q].P&&(g(e),n(4)),r(t)&&(t=M(e,t),e.l||x(e,t)),e.u&&b("Patches").M(i[Q],t,e.u,e.s)):t=M(e,i,[]),g(e),e.u&&e.v(e.u,e.s),t!==H?t:void 0}function M(n,t,r){if(y(t))return t;var e=t[Q];if(!e)return i(t,(function(i,o){return A(n,e,t,i,o,r)}),!0),t;if(e.A!==n)return t;if(!e.P)return x(n,e.t,!0),e.t;if(!e.I){e.I=!0,e.A._--;var o=4===e.i||5===e.i?e.o=l(e.k):e.o;i(3===e.i?new Set(o):o,(function(t,i){return A(n,e,o,t,i,r)})),x(n,o,!1),r&&n.u&&b("Patches").R(e,r,n.u,n.s)}return e.o}function A(e,i,o,a,c,s){if( true&&c===o&&n(5),t(c)){var v=M(e,c,s&&i&&3!==i.i&&!u(i.D,a)?s.concat(a):void 0);if(f(o,a,v),!t(v))return;e.m=!1}if(r(c)&&!y(c)){if(!e.h.N&&e._<1)return;M(e,c),i&&i.A.l||x(e,c)}}function x(n,t,r){void 0===r&&(r=!1),n.h.N&&n.m&&d(t,r)}function z(n,t){var r=n[Q];return(r?p(r):n)[t]}function I(n,t){if(t in n)for(var r=Object.getPrototypeOf(n);r;){var e=Object.getOwnPropertyDescriptor(r,t);if(e)return e;r=Object.getPrototypeOf(r)}}function E(n){n.P||(n.P=!0,n.l&&E(n.l))}function k(n){n.o||(n.o=l(n.t))}function R(n,t,r){var e=s(t)?b("MapSet").T(t,r):v(t)?b("MapSet").F(t,r):n.O?function(n,t){var r=Array.isArray(n),e={i:r?1:0,A:t?t.A:_(),P:!1,I:!1,D:{},l:t,t:n,k:null,o:null,j:null,C:!1},i=e,o=rn;r&&(i=[e],o=en);var u=Proxy.revocable(i,o),a=u.revoke,f=u.proxy;return e.k=f,e.j=a,f}(t,r):b("ES5").J(t,r);return(r?r.A:_()).p.push(e),e}function D(e){return t(e)||n(22,e),function n(t){if(!r(t))return t;var e,u=t[Q],c=o(t);if(u){if(!u.P&&(u.i<4||!b("ES5").K(u)))return u.t;u.I=!0,e=N(t,c),u.I=!1}else e=N(t,c);return i(e,(function(t,r){u&&a(u.t,t)===r||f(e,t,n(r))})),3===c?new Set(e):e}(e)}function N(n,t){switch(t){case 2:return new Map(n);case 3:return Array.from(n)}return l(n)}function T(){function r(n,t){var r=s[n];return r?r.enumerable=t:s[n]=r={configurable:!0,enumerable:t,get:function(){var t=this[Q];return true&&f(t),rn.get(t,n)},set:function(t){var r=this[Q]; true&&f(r),rn.set(r,n,t)}},r}function e(n){for(var t=n.length-1;t>=0;t--){var r=n[t][Q];if(!r.P)switch(r.i){case 5:a(r)&&E(r);break;case 4:o(r)&&E(r)}}}function o(n){for(var t=n.t,r=n.k,e=Z(r),i=e.length-1;i>=0;i--){var o=e[i];if(o!==Q){var a=t[o];if(void 0===a&&!u(t,o))return!0;var f=r[o],s=f&&f[Q];if(s?s.t!==a:!c(f,a))return!0}}var v=!!t[Q];return e.length!==Z(t).length+(v?0:1)}function a(n){var t=n.k;if(t.length!==n.t.length)return!0;var r=Object.getOwnPropertyDescriptor(t,t.length-1);return!(!r||r.get)}function f(t){t.g&&n(3,JSON.stringify(p(t)))}var s={};m("ES5",{J:function(n,t){var e=Array.isArray(n),i=function(n,t){if(n){for(var e=Array(t.length),i=0;i<t.length;i++)Object.defineProperty(e,""+i,r(i,!0));return e}var o=nn(t);delete o[Q];for(var u=Z(o),a=0;a<u.length;a++){var f=u[a];o[f]=r(f,n||!!o[f].enumerable)}return Object.create(Object.getPrototypeOf(t),o)}(e,n),o={i:e?5:4,A:t?t.A:_(),P:!1,I:!1,D:{},l:t,t:n,k:i,o:null,g:!1,C:!1};return Object.defineProperty(i,Q,{value:o,writable:!0}),i},S:function(n,r,o){o?t(r)&&r[Q].A===n&&e(n.p):(n.u&&function n(t){if(t&&"object"==typeof t){var r=t[Q];if(r){var e=r.t,o=r.k,f=r.D,c=r.i;if(4===c)i(o,(function(t){t!==Q&&(void 0!==e[t]||u(e,t)?f[t]||n(o[t]):(f[t]=!0,E(r)))})),i(e,(function(n){void 0!==o[n]||u(o,n)||(f[n]=!1,E(r))}));else if(5===c){if(a(r)&&(E(r),f.length=!0),o.length<e.length)for(var s=o.length;s<e.length;s++)f[s]=!1;else for(var v=e.length;v<o.length;v++)f[v]=!0;for(var p=Math.min(o.length,e.length),l=0;l<p;l++)void 0===f[l]&&n(o[l])}}}}(n.p[0]),e(n.p))},K:function(n){return 4===n.i?o(n):a(n)}})}function F(){function e(n){if(!r(n))return n;if(Array.isArray(n))return n.map(e);if(s(n))return new Map(Array.from(n.entries()).map((function(n){return[n[0],e(n[1])]})));if(v(n))return new Set(Array.from(n).map(e));var t=Object.create(Object.getPrototypeOf(n));for(var i in n)t[i]=e(n[i]);return t}function f(n){return t(n)?e(n):n}var c="add";m("Patches",{$:function(t,r){return r.forEach((function(r){for(var i=r.path,u=r.op,f=t,s=0;s<i.length-1;s++)"object"!=typeof(f=a(f,i[s]))&&n(15,i.join("/"));var v=o(f),p=e(r.value),l=i[i.length-1];switch(u){case"replace":switch(v){case 2:return f.set(l,p);case 3:n(16);default:return f[l]=p}case c:switch(v){case 1:return f.splice(l,0,p);case 2:return f.set(l,p);case 3:return f.add(p);default:return f[l]=p}case"remove":switch(v){case 1:return f.splice(l,1);case 2:return f.delete(l);case 3:return f.delete(r.value);default:return delete f[l]}default:n(17,u)}})),t},R:function(n,t,r,e){switch(n.i){case 0:case 4:case 2:return function(n,t,r,e){var o=n.t,s=n.o;i(n.D,(function(n,i){var v=a(o,n),p=a(s,n),l=i?u(o,n)?"replace":c:"remove";if(v!==p||"replace"!==l){var d=t.concat(n);r.push("remove"===l?{op:l,path:d}:{op:l,path:d,value:p}),e.push(l===c?{op:"remove",path:d}:"remove"===l?{op:c,path:d,value:f(v)}:{op:"replace",path:d,value:f(v)})}}))}(n,t,r,e);case 5:case 1:return function(n,t,r,e){var i=n.t,o=n.D,u=n.o;if(u.length<i.length){var a=[u,i];i=a[0],u=a[1];var s=[e,r];r=s[0],e=s[1]}for(var v=0;v<i.length;v++)if(o[v]&&u[v]!==i[v]){var p=t.concat([v]);r.push({op:"replace",path:p,value:f(u[v])}),e.push({op:"replace",path:p,value:f(i[v])})}for(var l=i.length;l<u.length;l++){var d=t.concat([l]);r.push({op:c,path:d,value:f(u[l])})}i.length<u.length&&e.push({op:"replace",path:t.concat(["length"]),value:i.length})}(n,t,r,e);case 3:return function(n,t,r,e){var i=n.t,o=n.o,u=0;i.forEach((function(n){if(!o.has(n)){var i=t.concat([u]);r.push({op:"remove",path:i,value:n}),e.unshift({op:c,path:i,value:n})}u++})),u=0,o.forEach((function(n){if(!i.has(n)){var o=t.concat([u]);r.push({op:c,path:o,value:n}),e.unshift({op:"remove",path:o,value:n})}u++}))}(n,t,r,e)}},M:function(n,t,r,e){r.push({op:"replace",path:[],value:t}),e.push({op:"replace",path:[],value:n.t})}})}function C(){function t(n,t){function r(){this.constructor=n}a(n,t),n.prototype=(r.prototype=t.prototype,new r)}function e(n){n.o||(n.D=new Map,n.o=new Map(n.t))}function o(n){n.o||(n.o=new Set,n.t.forEach((function(t){if(r(t)){var e=R(n.A.h,t,n);n.p.set(t,e),n.o.add(e)}else n.o.add(t)})))}function u(t){t.g&&n(3,JSON.stringify(p(t)))}var a=function(n,t){return(a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(n,t){n.__proto__=t}||function(n,t){for(var r in t)t.hasOwnProperty(r)&&(n[r]=t[r])})(n,t)},f=function(){function n(n,t){return this[Q]={i:2,l:t,A:t?t.A:_(),P:!1,I:!1,o:void 0,D:void 0,t:n,k:this,C:!1,g:!1},this}t(n,Map);var o=n.prototype;return Object.defineProperty(o,"size",{get:function(){return p(this[Q]).size}}),o.has=function(n){return p(this[Q]).has(n)},o.set=function(n,t){var r=this[Q];return u(r),p(r).has(n)&&p(r).get(n)===t||(e(r),E(r),r.D.set(n,!0),r.o.set(n,t),r.D.set(n,!0)),this},o.delete=function(n){if(!this.has(n))return!1;var t=this[Q];return u(t),e(t),E(t),t.D.set(n,!1),t.o.delete(n),!0},o.clear=function(){var n=this[Q];u(n),p(n).size&&(e(n),E(n),n.D=new Map,i(n.t,(function(t){n.D.set(t,!1)})),n.o.clear())},o.forEach=function(n,t){var r=this;p(this[Q]).forEach((function(e,i){n.call(t,r.get(i),i,r)}))},o.get=function(n){var t=this[Q];u(t);var i=p(t).get(n);if(t.I||!r(i))return i;if(i!==t.t.get(n))return i;var o=R(t.A.h,i,t);return e(t),t.o.set(n,o),o},o.keys=function(){return p(this[Q]).keys()},o.values=function(){var n,t=this,r=this.keys();return(n={})[V]=function(){return t.values()},n.next=function(){var n=r.next();return n.done?n:{done:!1,value:t.get(n.value)}},n},o.entries=function(){var n,t=this,r=this.keys();return(n={})[V]=function(){return t.entries()},n.next=function(){var n=r.next();if(n.done)return n;var e=t.get(n.value);return{done:!1,value:[n.value,e]}},n},o[V]=function(){return this.entries()},n}(),c=function(){function n(n,t){return this[Q]={i:3,l:t,A:t?t.A:_(),P:!1,I:!1,o:void 0,t:n,k:this,p:new Map,g:!1,C:!1},this}t(n,Set);var r=n.prototype;return Object.defineProperty(r,"size",{get:function(){return p(this[Q]).size}}),r.has=function(n){var t=this[Q];return u(t),t.o?!!t.o.has(n)||!(!t.p.has(n)||!t.o.has(t.p.get(n))):t.t.has(n)},r.add=function(n){var t=this[Q];return u(t),this.has(n)||(o(t),E(t),t.o.add(n)),this},r.delete=function(n){if(!this.has(n))return!1;var t=this[Q];return u(t),o(t),E(t),t.o.delete(n)||!!t.p.has(n)&&t.o.delete(t.p.get(n))},r.clear=function(){var n=this[Q];u(n),p(n).size&&(o(n),E(n),n.o.clear())},r.values=function(){var n=this[Q];return u(n),o(n),n.o.values()},r.entries=function(){var n=this[Q];return u(n),o(n),n.o.entries()},r.keys=function(){return this.values()},r[V]=function(){return this.values()},r.forEach=function(n,t){for(var r=this.values(),e=r.next();!e.done;)n.call(t,e.value,e.value,this),e=r.next()},n}();m("MapSet",{T:function(n,t){return new f(n,t)},F:function(n,t){return new c(n,t)}})}function J(){T(),C(),F()}function K(n){return n}function $(n){return n}var G,U,W="undefined"!=typeof Symbol&&"symbol"==typeof Symbol("x"),X="undefined"!=typeof Map,q="undefined"!=typeof Set,B="undefined"!=typeof Proxy&&void 0!==Proxy.revocable&&"undefined"!=typeof Reflect,H=W?Symbol.for("immer-nothing"):((G={})["immer-nothing"]=!0,G),L=W?Symbol.for("immer-draftable"):"__$immer_draftable",Q=W?Symbol.for("immer-state"):"__$immer_state",V="undefined"!=typeof Symbol&&Symbol.iterator||"@@iterator",Y={0:"Illegal state",1:"Immer drafts cannot have computed properties",2:"This object has been frozen and should not be mutated",3:function(n){return"Cannot use a proxy that has been revoked. Did you pass an object from inside an immer function to an async process? "+n},4:"An immer producer returned a new value *and* modified its draft. Either return a new value *or* modify the draft.",5:"Immer forbids circular references",6:"The first or second argument to `produce` must be a function",7:"The third argument to `produce` must be a function or undefined",8:"First argument to `createDraft` must be a plain object, an array, or an immerable object",9:"First argument to `finishDraft` must be a draft returned by `createDraft`",10:"The given draft is already finalized",11:"Object.defineProperty() cannot be used on an Immer draft",12:"Object.setPrototypeOf() cannot be used on an Immer draft",13:"Immer only supports deleting array indices",14:"Immer only supports setting array indices and the 'length' property",15:function(n){return"Cannot apply patch, path doesn't resolve: "+n},16:'Sets cannot have "replace" patches.',17:function(n){return"Unsupported patch operation: "+n},18:function(n){return"The plugin for '"+n+"' has not been loaded into Immer. To enable the plugin, import and call `enable"+n+"()` when initializing your application."},20:"Cannot use proxies if Proxy, Proxy.revocable or Reflect are not available",21:function(n){return"produce can only be called on things that are draftable: plain objects, arrays, Map, Set or classes that are marked with '[immerable]: true'. Got '"+n+"'"},22:function(n){return"'current' expects a draft, got: "+n},23:function(n){return"'original' expects a draft, got: "+n}},Z="undefined"!=typeof Reflect&&Reflect.ownKeys?Reflect.ownKeys:void 0!==Object.getOwnPropertySymbols?function(n){return Object.getOwnPropertyNames(n).concat(Object.getOwnPropertySymbols(n))}:Object.getOwnPropertyNames,nn=Object.getOwnPropertyDescriptors||function(n){var t={};return Z(n).forEach((function(r){t[r]=Object.getOwnPropertyDescriptor(n,r)})),t},tn={},rn={get:function(n,t){if(t===Q)return n;var e=p(n);if(!u(e,t))return function(n,t,r){var e,i=I(t,r);return i?"value"in i?i.value:null===(e=i.get)||void 0===e?void 0:e.call(n.k):void 0}(n,e,t);var i=e[t];return n.I||!r(i)?i:i===z(n.t,t)?(k(n),n.o[t]=R(n.A.h,i,n)):i},has:function(n,t){return t in p(n)},ownKeys:function(n){return Reflect.ownKeys(p(n))},set:function(n,t,r){var e=I(p(n),t);if(null==e?void 0:e.set)return e.set.call(n.k,r),!0;if(!n.P){var i=z(p(n),t),o=null==i?void 0:i[Q];if(o&&o.t===r)return n.o[t]=r,n.D[t]=!1,!0;if(c(r,i)&&(void 0!==r||u(n.t,t)))return!0;k(n),E(n)}return n.o[t]=r,n.D[t]=!0,!0},deleteProperty:function(n,t){return void 0!==z(n.t,t)||t in n.t?(n.D[t]=!1,k(n),E(n)):delete n.D[t],n.o&&delete n.o[t],!0},getOwnPropertyDescriptor:function(n,t){var r=p(n),e=Reflect.getOwnPropertyDescriptor(r,t);return e?{writable:!0,configurable:1!==n.i||"length"!==t,enumerable:e.enumerable,value:r[t]}:e},defineProperty:function(){n(11)},getPrototypeOf:function(n){return Object.getPrototypeOf(n.t)},setPrototypeOf:function(){n(12)}},en={};i(rn,(function(n,t){en[n]=function(){return arguments[0]=arguments[0][0],t.apply(this,arguments)}})),en.deleteProperty=function(t,r){return true&&isNaN(parseInt(r))&&n(13),rn.deleteProperty.call(this,t[0],r)},en.set=function(t,r,e){return true&&"length"!==r&&isNaN(parseInt(r))&&n(14),rn.set.call(this,t[0],r,e,t[0])};var on=function(){function e(n){this.O=B,this.N="production"!=="development","boolean"==typeof(null==n?void 0:n.useProxies)&&this.setUseProxies(n.useProxies),"boolean"==typeof(null==n?void 0:n.autoFreeze)&&this.setAutoFreeze(n.autoFreeze),this.produce=this.produce.bind(this),this.produceWithPatches=this.produceWithPatches.bind(this)}var i=e.prototype;return i.produce=function(t,e,i){if("function"==typeof t&&"function"!=typeof e){var o=e;e=t;var u=this;return function(n){var t=this;void 0===n&&(n=o);for(var r=arguments.length,i=Array(r>1?r-1:0),a=1;a<r;a++)i[a-1]=arguments[a];return u.produce(n,(function(n){var r;return(r=e).call.apply(r,[t,n].concat(i))}))}}var a;if("function"!=typeof e&&n(6),void 0!==i&&"function"!=typeof i&&n(7),r(t)){var f=w(this),c=R(this,t,void 0),s=!0;try{a=e(c),s=!1}finally{s?g(f):O(f)}return"undefined"!=typeof Promise&&a instanceof Promise?a.then((function(n){return j(f,i),P(n,f)}),(function(n){throw g(f),n})):(j(f,i),P(a,f))}if(!t||"object"!=typeof t){if((a=e(t))===H)return;return void 0===a&&(a=t),this.N&&d(a,!0),a}n(21,t)},i.produceWithPatches=function(n,t){var r,e,i=this;return"function"==typeof n?function(t){for(var r=arguments.length,e=Array(r>1?r-1:0),o=1;o<r;o++)e[o-1]=arguments[o];return i.produceWithPatches(t,(function(t){return n.apply(void 0,[t].concat(e))}))}:[this.produce(n,t,(function(n,t){r=n,e=t})),r,e]},i.createDraft=function(e){r(e)||n(8),t(e)&&(e=D(e));var i=w(this),o=R(this,e,void 0);return o[Q].C=!0,O(i),o},i.finishDraft=function(t,r){var e=t&&t[Q]; true&&(e&&e.C||n(9),e.I&&n(10));var i=e.A;return j(i,r),P(void 0,i)},i.setAutoFreeze=function(n){this.N=n},i.setUseProxies=function(t){t&&!B&&n(20),this.O=t},i.applyPatches=function(n,r){var e;for(e=r.length-1;e>=0;e--){var i=r[e];if(0===i.path.length&&"replace"===i.op){n=i.value;break}}var o=b("Patches").$;return t(n)?o(n,r):this.produce(n,(function(n){return o(n,r.slice(e+1))}))},e}(),un=new on,an=un.produce,fn=un.produceWithPatches.bind(un),cn=un.setAutoFreeze.bind(un),sn=un.setUseProxies.bind(un),vn=un.applyPatches.bind(un),pn=un.createDraft.bind(un),ln=un.finishDraft.bind(un);/* harmony default export */ __webpack_exports__["default"] = (an);
-//# sourceMappingURL=immer.esm.js.map
 
 
 /***/ }),
@@ -72407,14 +70513,53 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var Board = function (props) {
+    var getUserEntry = function (direction, clueNumber) {
+        if (lodash_1.isNil(props.cluesByDirection) || lodash_1.isNil(props.guesses)) {
+            return '';
+        }
+        var cluesByNumber = props.cluesByDirection[direction];
+        var clueAtLocation = cluesByNumber[clueNumber];
+        var clueRow = clueAtLocation.row;
+        var clueColumn = clueAtLocation.col;
+        var clueAnswer = clueAtLocation.answer;
+        var userEntry = '';
+        if (direction === 'across') {
+            for (var j = 0; j < clueAnswer.length; j++) {
+                var guess = props.guesses[clueRow][clueColumn + j];
+                if (guess.value === '') {
+                    userEntry += '_';
+                }
+                else {
+                    userEntry += guess.value;
+                }
+            }
+        }
+        else {
+            for (var j = 0; j < clueAnswer.length; j++) {
+                var guess = props.guesses[clueRow + j][clueColumn];
+                if (guess.value === '') {
+                    userEntry += '_';
+                }
+                else {
+                    userEntry += guess.value;
+                }
+            }
+        }
+        console.log('userEntry:', userEntry, userEntry.length, clueAnswer.length);
+        return userEntry;
+    };
     var acrossClue = '';
+    var acrossUserEntry = '';
     var downClue = '';
+    var downUserEntry = '';
     if (!lodash_1.isNil(props.gameState)) {
         if (!lodash_1.isNil(props.gameState.focusedAcrossClue)) {
             acrossClue = props.gameState.focusedAcrossClue.number.toString() + 'a (' + props.gameState.focusedAcrossClue.length.toString() + ')' + props.gameState.focusedAcrossClue.text;
+            acrossUserEntry = getUserEntry('across', props.gameState.focusedAcrossClue.number.toString());
         }
         if (!lodash_1.isNil(props.gameState.focusedDownClue)) {
             downClue = props.gameState.focusedDownClue.number.toString() + 'd (' + props.gameState.focusedDownClue.length.toString() + ')' + props.gameState.focusedDownClue.text;
+            downUserEntry = getUserEntry('down', props.gameState.focusedDownClue.number.toString());
         }
     }
     if (acrossClue === '') {
@@ -72423,11 +70568,15 @@ var Board = function (props) {
     }
     return (React.createElement("div", null,
         React.createElement("p", null, acrossClue),
-        React.createElement("p", null, downClue)));
+        React.createElement("p", null, acrossUserEntry),
+        React.createElement("p", null, downClue),
+        React.createElement("p", null, downUserEntry)));
 };
 function mapStateToProps(state) {
     return {
         gameState: selectors_1.getGameState(state),
+        cluesByDirection: selectors_1.getCrosswordClues(state),
+        guesses: selectors_1.getGuesses(state),
     };
 }
 var mapDispatchToProps = function (dispatch) {
@@ -72452,36 +70601,27 @@ exports.boardPlayCrossword = void 0;
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var Crossword_1 = __webpack_require__(/*! ./Crossword/Crossword */ "./src/components/Crossword/Crossword.tsx");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-// import Crossword from '@jaredreisinger/react-crossword';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-var Crossword = __webpack_require__(/*! @jaredreisinger/react-crossword */ "./node_modules/@jaredreisinger/react-crossword/dist/es/index.js").Crossword;
 var BoardPlay = function (props) {
     React.useEffect(function () {
         props.onLoadPuzzle(props.appState.puzzleId);
     }, []);
     exports.boardPlayCrossword = React.useRef();
-    var getBoardId = function () {
-        return props.appState.boardId;
-    };
-    var getPuzzleUser = function () {
-        return props.appState.userName;
-    };
-    var handleCellChange = function (row, col, typedChar, localChange) {
-        props.onCellChange(getBoardId(), getPuzzleUser(), row, col, typedChar, localChange);
-    };
-    var handleFocusedCellChange = function (row, col, direction) {
+    var handleFocusedCellChange = function (row, col) {
         props.onUpdateFocusedClues(row, col);
     };
-    var displayedPuzzleData = props.displayedPuzzle;
+    var handleInputEvent = function (row, col, char) {
+        props.onInputEvent(row, col, char);
+    };
     var cellContents = props.cellContents;
     if (lodash_1.isNil(cellContents)) {
         cellContents = {};
     }
     return (React.createElement("div", null,
-        React.createElement(Crossword, { data: displayedPuzzleData, tedGuesses: cellContents, ref: exports.boardPlayCrossword, onCellChange: handleCellChange, onFocusedCellChange: handleFocusedCellChange })));
+        React.createElement(Crossword_1.default, { onInput: handleInputEvent, onFocusedCellChange: handleFocusedCellChange })));
 };
 function mapStateToProps(state, ownProps) {
     return {
@@ -72497,7 +70637,7 @@ var mapDispatchToProps = function (dispatch) {
         onSetPuzzleId: models_1.setPuzzleId,
         onSetUiState: models_1.setUiState,
         onLoadPuzzle: controllers_1.loadPuzzle,
-        onCellChange: controllers_1.cellChange,
+        onInputEvent: controllers_1.processInputEvent,
         onUpdateFocusedClues: controllers_1.updateFocusedClues,
     }, dispatch);
 };
@@ -72586,6 +70726,561 @@ var mapDispatchToProps = function (dispatch) {
     return redux_1.bindActionCreators({}, dispatch);
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(BoardTop);
+
+
+/***/ }),
+
+/***/ "./src/components/Crossword/Cell.tsx":
+/*!*******************************************!*\
+  !*** ./src/components/Crossword/Cell.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var context_1 = __webpack_require__(/*! ./context */ "./src/components/Crossword/context.js");
+var Cell = function (props) {
+    var _a = React.useContext(context_1.CrosswordSizeContext), cellSize = _a.cellSize, cellPadding = _a.cellPadding, cellInner = _a.cellInner, cellHalf = _a.cellHalf, fontSize = _a.fontSize;
+    var _b = React.useContext(styled_components_1.ThemeContext), cellBackground = _b.cellBackground, cellBorder = _b.cellBorder, textColor = _b.textColor, remoteGuessTextColor = _b.remoteGuessTextColor, numberColor = _b.numberColor, focusBackground = _b.focusBackground, highlightBackground = _b.highlightBackground;
+    var row = props.row, col = props.col, guess = props.guess, number = props.number, highlight = props.highlight;
+    var x = col * cellSize;
+    var y = row * cellSize;
+    var cellTextColor;
+    if (guess.guessIsRemote) {
+        cellTextColor = remoteGuessTextColor;
+    }
+    else {
+        cellTextColor = textColor;
+    }
+    var fillStyle = {
+        fill: cellTextColor
+    };
+    var cellStyle = fillStyle;
+    var handleClick = function (event) {
+        event.preventDefault();
+        props.onClick({ row: row, col: col });
+    };
+    return (React.createElement("g", { style: { cursor: 'default', fontSize: fontSize + "px" }, onClick: handleClick },
+        React.createElement("rect", { x: x + cellPadding, y: y + cellPadding, width: cellInner, height: cellInner, fill: props.focus
+                ? focusBackground
+                : highlight
+                    ? highlightBackground
+                    : cellBackground, stroke: cellBorder, strokeWidth: cellSize / 50 }),
+        number && (React.createElement("text", { x: x + cellPadding * 4, y: y + cellPadding * 4, textAnchor: "start", dominantBaseline: "hanging", style: { fontSize: '50%', fill: numberColor } }, number)),
+        React.createElement("text", { x: x + cellHalf, y: y + cellHalf + 1, textAnchor: "middle", dominantBaseline: "middle", style: cellStyle }, guess.value)));
+};
+exports.default = Cell;
+
+
+/***/ }),
+
+/***/ "./src/components/Crossword/Clue.tsx":
+/*!*******************************************!*\
+  !*** ./src/components/Crossword/Clue.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var context_1 = __webpack_require__(/*! ./context */ "./src/components/Crossword/context.js");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var Clue = function (props) {
+    var highlightBackground = React.useContext(styled_components_1.ThemeContext).highlightBackground;
+    var _a = React.useContext(context_1.CrosswordContext), focused = _a.focused, selectedDirection = _a.selectedDirection, selectedNumber = _a.selectedNumber;
+    var handleClick = function (event) {
+        event.preventDefault();
+        if (!lodash_1.isNil(props.onClueSelected)) {
+            props.onClueSelected(props.direction, props.number);
+        }
+    };
+    var isFocused = focused && props.direction === selectedDirection && props.number === selectedNumber;
+    var backgroundColor = isFocused ? highlightBackground : 'transparent';
+    var innerStyle = {
+        cursor: 'default',
+        backgroundColor: backgroundColor,
+        marginTop: '0.5em'
+    };
+    var textDecorationStyle;
+    if (props.completelyFilledIn) {
+        textDecorationStyle = {
+            textDecoration: 'line-through'
+        };
+    }
+    else {
+        textDecorationStyle = {
+            textDecoration: 'none'
+        };
+    }
+    return (React.createElement("div", { style: innerStyle, onClick: handleClick },
+        props.number,
+        ": ",
+        React.createElement("span", { style: textDecorationStyle }, props.clueText)));
+};
+exports.default = Clue;
+
+
+/***/ }),
+
+/***/ "./src/components/Crossword/Crossword.tsx":
+/*!************************************************!*\
+  !*** ./src/components/Crossword/Crossword.tsx ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+var Cell_1 = __webpack_require__(/*! ./Cell */ "./src/components/Crossword/Cell.tsx");
+var DirectionClues_1 = __webpack_require__(/*! ./DirectionClues */ "./src/components/Crossword/DirectionClues.tsx");
+var selectors_1 = __webpack_require__(/*! ../../selectors */ "./src/selectors/index.ts");
+var utilities_1 = __webpack_require__(/*! ../../utilities */ "./src/utilities/index.ts");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var context_1 = __webpack_require__(/*! ./context */ "./src/components/Crossword/context.js");
+var selectors_2 = __webpack_require__(/*! ../../selectors */ "./src/selectors/index.ts");
+var defaultTheme = {
+    columnBreakpoint: '768px',
+    gridBackground: 'rgb(0,0,0)',
+    cellBackground: 'rgb(255,255,255)',
+    cellBorder: 'rgb(0,0,0)',
+    textColor: 'rgb(0,0,0)',
+    remoteGuessTextColor: 'rgb(255, 0, 255)',
+    numberColor: 'rgba(0,0,0, 0.25)',
+    focusBackground: 'rgb(255,255,0)',
+    highlightBackground: 'rgb(255,255,204)',
+};
+var Crossword = function (props) {
+    var _a = react_1.useState(false), focused = _a[0], setFocused = _a[1];
+    var _b = react_1.useState(0), focusedRow = _b[0], setFocusedRow = _b[1];
+    var _c = react_1.useState(0), focusedCol = _c[0], setFocusedCol = _c[1];
+    var _d = react_1.useState('across'), currentDirection = _d[0], setCurrentDirection = _d[1];
+    var _e = react_1.useState('1'), currentNumber = _e[0], setCurrentNumber = _e[1];
+    React.useEffect(function () {
+        if (props.onFocusedCellChange) {
+            props.onFocusedCellChange(0, 0, 'across');
+        }
+        setFocusedRow(0);
+        setFocusedCol(0);
+        setCurrentDirection('across');
+        setCurrentNumber('1');
+    }, [props.size, props.gridData]);
+    var inputRef = React.useRef();
+    var contextTheme = React.useContext(styled_components_1.ThemeContext);
+    var getCellData = function (row, col) {
+        if (row >= 0 && row < props.size && col >= 0 && col < props.size) {
+            return props.gridData[row][col];
+        }
+        // fake cellData to represent "out of bounds"
+        return { row: row, col: col, used: false };
+    };
+    var handleCellClick = function (cellData) {
+        var row = cellData.row, col = cellData.col;
+        var other = utilities_1.otherDirection(currentDirection);
+        // should this use moveTo?
+        setFocusedRow(row);
+        setFocusedCol(col);
+        var direction = currentDirection;
+        // We switch to the "other" direction if (a) the current direction isn't
+        // available in the clicked cell, or (b) we're already focused and the
+        // clicked cell is the focused cell, *and* the other direction is
+        // available.
+        if (!cellData[currentDirection] ||
+            (focused &&
+                row === focusedRow &&
+                col === focusedCol &&
+                cellData[other])) {
+            setCurrentDirection(other);
+            direction = other;
+        }
+        setCurrentNumber(cellData[direction]);
+        if (props.onFocusedCellChange) {
+            props.onFocusedCellChange(row, col, direction);
+        }
+        focus();
+    };
+    // focus and movement
+    var focus = function () {
+        if (!lodash_1.isNil(inputRef) && !lodash_1.isNil(inputRef.current)) {
+            inputRef.current.focus();
+            setFocused(true);
+        }
+        setFocused(true);
+    };
+    var moveTo = function (row, col, directionOverride) {
+        // let direction = directionOverride ?? currentDirection;
+        var direction;
+        if (lodash_1.isNil(directionOverride)) {
+            direction = currentDirection;
+        }
+        else {
+            direction = directionOverride;
+        }
+        var candidate = getCellData(row, col);
+        if (!candidate.used) {
+            return false;
+        }
+        if (!candidate[direction]) {
+            direction = utilities_1.otherDirection(direction);
+        }
+        if (props.onFocusedCellChange) {
+            props.onFocusedCellChange(row, col, direction);
+        }
+        setFocusedRow(row);
+        setFocusedCol(col);
+        setCurrentDirection(direction);
+        setCurrentNumber(candidate[direction]);
+        return candidate;
+    };
+    var moveRelative = function (dRow, dCol) {
+        // We expect *only* one of dRow or dCol to have a non-zero value, and
+        // that's the direction we will "prefer".  If *both* are set (or zero),
+        // we don't change the direction.
+        var direction;
+        if (dRow !== 0 && dCol === 0) {
+            direction = 'down';
+        }
+        else if (dRow === 0 && dCol !== 0) {
+            direction = 'across';
+        }
+        var cell = moveTo(focusedRow + dRow, focusedCol + dCol, direction);
+        return cell;
+    };
+    var moveForward = function () {
+        var across = utilities_1.isAcross(currentDirection);
+        moveRelative(across ? 0 : 1, across ? 1 : 0);
+    };
+    var moveBackward = function () {
+        var across = utilities_1.isAcross(currentDirection);
+        moveRelative(across ? 0 : -1, across ? -1 : 0);
+    };
+    // We use the keydown event for control/arrow keys, but not for textual
+    // input, because it's hard to suss out when a key is "regular" or not.
+    var handleInputKeyDown = function (event) {
+        // if ctrl, alt, or meta are down, ignore the event (let it bubble)
+        if (event.ctrlKey || event.altKey || event.metaKey) {
+            return;
+        }
+        var preventDefault = true;
+        var key = event.key;
+        // FUTURE: should we "jump" over black space?  That might help some for
+        // keyboard users.
+        switch (key) {
+            case 'ArrowUp':
+                moveRelative(-1, 0);
+                break;
+            case 'ArrowDown':
+                moveRelative(1, 0);
+                break;
+            case 'ArrowLeft':
+                moveRelative(0, -1);
+                break;
+            case 'ArrowRight':
+                moveRelative(0, 1);
+                break;
+            case ' ': // treat space like tab?
+            case 'Tab': {
+                var other = utilities_1.otherDirection(currentDirection);
+                var cellData = getCellData(focusedRow, focusedCol);
+                if (cellData[other]) {
+                    setCurrentDirection(other);
+                    setCurrentNumber(cellData[other]);
+                }
+                break;
+            }
+            // Backspace: delete the current cell, and move to the previous cell
+            // Delete:    delete the current cell, but don't move
+            case 'Backspace':
+            case 'Delete': {
+                props.onInput(focusedRow, focusedCol, '');
+                if (key === 'Backspace') {
+                    moveBackward();
+                }
+                break;
+            }
+            case 'Home':
+            case 'End': {
+                // move to beginning/end of this entry?
+                var info = props.cluesByDirection[currentDirection][currentNumber];
+                var length_1 = info.answer.length;
+                var row = info.row, col = info.col;
+                if (key === 'End') {
+                    var across = utilities_1.isAcross(currentDirection);
+                    if (across) {
+                        col += length_1 - 1;
+                    }
+                    else {
+                        row += length_1 - 1;
+                    }
+                }
+                moveTo(row, col, null);
+                break;
+            }
+            default:
+                // It would be nice to handle "regular" characters with onInput, but
+                // that is still experimental, so we can't count on it.  Instead, we
+                // assume that only "length 1" values are regular.
+                if (key.length !== 1) {
+                    preventDefault = false;
+                    break;
+                }
+                props.onInput(focusedRow, focusedCol, key.toUpperCase());
+                moveForward();
+                break;
+        }
+        if (preventDefault) {
+            event.preventDefault();
+        }
+    };
+    var handleInputChange = function () {
+        console.log('handleChange invoked');
+    };
+    var handleInputClick = function () {
+        // *don't* event.preventDefault(), because we want the input to actually
+        // take focus
+        // Like general cell-clicks, cliking on the input can change direction.
+        // Unlike cell clicks, we *know* we're clicking on the already-focused
+        // cell!
+        var other = utilities_1.otherDirection(currentDirection);
+        var cellData = getCellData(focusedRow, focusedCol);
+        var direction = currentDirection;
+        if (focused && cellData[other]) {
+            setCurrentDirection(other);
+            direction = other;
+        }
+        setCurrentNumber(cellData[direction]);
+        focus();
+    };
+    var handleClueSelected = function (direction, number) {
+        var info = props.cluesByDirection[direction][number];
+        // TODO: sanity-check info?
+        moveTo(info.row, info.col, direction);
+        focus();
+    };
+    if (props.size === 0) {
+        return null;
+    }
+    var cellSize = 100 / props.size;
+    var cellPadding = 0.125;
+    var cellInner = cellSize - cellPadding * 2;
+    var cellHalf = cellSize / 2;
+    var fontSize = cellInner * 0.7;
+    var context = {
+        focused: focused,
+        selectedDirection: currentDirection,
+        selectedNumber: currentNumber,
+    };
+    var finalTheme = __assign(__assign({}, defaultTheme), contextTheme);
+    var cells = [];
+    if (props.gridData) {
+        props.gridData.forEach(function (rowData, row) {
+            rowData.forEach(function (gridSquareSpec, col) {
+                var guess;
+                if (!lodash_1.isNil(props.guesses) && props.guesses.length > 0 && row < rowData.length) {
+                    guess = props.guesses[row][col];
+                }
+                else {
+                    guess = {
+                        value: '',
+                        guessIsRemote: false,
+                        remoteUser: null
+                    };
+                }
+                var gridSquare = {
+                    used: gridSquareSpec.used,
+                    number: gridSquareSpec.number,
+                    row: gridSquareSpec.row,
+                    col: gridSquareSpec.col,
+                    across: gridSquareSpec.across,
+                    down: gridSquareSpec.down,
+                    guess: guess,
+                };
+                if (!gridSquare.used) {
+                    return;
+                }
+                cells.push(React.createElement(Cell_1.default
+                // eslint-disable-next-line react/no-array-index-key
+                , { 
+                    // eslint-disable-next-line react/no-array-index-key
+                    key: "R" + row + "C" + col, row: gridSquare.row, col: gridSquare.col, guess: gridSquare.guess, number: gridSquare.number, focus: focused && row === focusedRow && col === focusedCol, highlight: focused &&
+                        currentNumber &&
+                        gridSquare[currentDirection] === currentNumber, onClick: handleCellClick }));
+            });
+        });
+    }
+    return (React.createElement(context_1.CrosswordContext.Provider, { value: context },
+        React.createElement(context_1.CrosswordSizeContext.Provider, { value: { cellSize: cellSize, cellPadding: cellPadding, cellInner: cellInner, cellHalf: cellHalf, fontSize: fontSize } },
+            React.createElement(styled_components_1.ThemeProvider, { theme: finalTheme },
+                React.createElement("div", { style: { margin: 0, padding: 0, border: 0, display: 'flex', flexDirection: 'row' } },
+                    React.createElement("div", { style: { minWidth: '20rem', maxWidth: '60rem', width: 'auto', flex: '2 1 50%' } },
+                        React.createElement("div", { style: { margin: 0, padding: 0, position: 'relative' } },
+                            React.createElement("svg", { viewBox: "0 0 100 100" },
+                                React.createElement("rect", { x: 0, y: 0, width: 100, height: 100, fill: finalTheme.gridBackground }),
+                                cells),
+                            React.createElement("input", { ref: inputRef, "aria-label": "crossword-input", type: "text", onChange: handleInputChange, onClick: handleInputClick, onKeyDown: handleInputKeyDown, value: "", 
+                                // onInput={this.handleInput}
+                                autoComplete: "off", spellCheck: "false", autoCorrect: "off", style: {
+                                    position: 'absolute',
+                                    // In order to ensure the top/left positioning makes sense,
+                                    // there is an absolutely-positioned <div> with no
+                                    // margin/padding that we *don't* expose to consumers.  This
+                                    // keeps the math much more reliable.  (But we're still
+                                    // seeing a slight vertical deviation towards the bottom of
+                                    // the grid!  The "* 0.995" seems to help.)
+                                    top: "calc(" + focusedRow * cellSize * 0.995 + "% + 2px)",
+                                    left: "calc(" + focusedCol * cellSize + "% + 2px)",
+                                    width: "calc(" + cellSize + "% - 4px)",
+                                    height: "calc(" + cellSize + "% - 4px)",
+                                    fontSize: fontSize * 6 + "px",
+                                    textAlign: 'center',
+                                    textAnchor: 'middle',
+                                    backgroundColor: 'transparent',
+                                    caretColor: 'transparent',
+                                    margin: 0,
+                                    padding: 0,
+                                    border: 0,
+                                    cursor: 'default',
+                                } }))),
+                    React.createElement("div", { style: { height: '750px', overflowY: 'auto', padding: '0 1em', flex: '1 2 25%' } }, utilities_1.bothDirections.map(function (direction) { return (React.createElement(DirectionClues_1.default, { key: direction, direction: direction, cluesByNumber: props.cluesByDirection[direction], onClueSelected: handleClueSelected })); })))))));
+};
+function mapStateToProps(state) {
+    return {
+        cluesByDirection: selectors_1.getCrosswordClues(state),
+        guesses: selectors_1.getGuesses(state),
+        size: selectors_2.getSize(state),
+        gridData: selectors_2.getGridData(state),
+    };
+}
+var mapDispatchToProps = function (dispatch) {
+    return redux_1.bindActionCreators({}, dispatch);
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Crossword);
+
+
+/***/ }),
+
+/***/ "./src/components/Crossword/DirectionClues.tsx":
+/*!*****************************************************!*\
+  !*** ./src/components/Crossword/DirectionClues.tsx ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var Clue_1 = __webpack_require__(/*! ./Clue */ "./src/components/Crossword/Clue.tsx");
+var DirectionClues = function (props) {
+    var handleClueSelected = function (direction, number) {
+        props.onClueSelected(direction, number);
+    };
+    var clueData = [];
+    for (var clueNumber in props.cluesByNumber) {
+        if (Object.prototype.hasOwnProperty.call(props.cluesByNumber, clueNumber)) {
+            var clueAtLocation = props.cluesByNumber[clueNumber];
+            clueData.push({
+                number: clueNumber,
+                clue: clueAtLocation.clue,
+                completelyFilledIn: clueAtLocation.completelyFilledIn,
+            });
+        }
+    }
+    return (React.createElement("div", { style: { marginBottom: '2em' } },
+        React.createElement("h3", { style: { marginTop: 0, marginBottom: '0.5em' } }, props.direction.toUpperCase()),
+        clueData.map(function (_a) {
+            var number = _a.number, clue = _a.clue, completelyFilledIn = _a.completelyFilledIn;
+            return (React.createElement(Clue_1.default, { key: number, direction: props.direction, number: number, clueText: clue, completelyFilledIn: completelyFilledIn, onClueSelected: handleClueSelected }));
+        })));
+};
+exports.default = DirectionClues;
+
+
+/***/ }),
+
+/***/ "./src/components/Crossword/context.js":
+/*!*********************************************!*\
+  !*** ./src/components/Crossword/context.js ***!
+  \*********************************************/
+/*! exports provided: CrosswordContext, CrosswordSizeContext */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CrosswordContext", function() { return CrosswordContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CrosswordSizeContext", function() { return CrosswordSizeContext; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+// To pass focus/highlight/etc., it's cleaner to use a context.
+const CrosswordContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext({
+  focused: false,
+  selectedDirection: null,
+  selectedNumber: null,
+
+  // correct answers?
+});
+
+const CrosswordSizeContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext({
+  cellSize: 0,
+  cellPadding: 0,
+  cellInner: 0,
+  cellHalf: 0,
+  fontSize: 0,
+});
+
+
+/***/ }),
+
+/***/ "./src/components/Crossword/index.ts":
+/*!*******************************************!*\
+  !*** ./src/components/Crossword/index.ts ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(/*! ./context */ "./src/components/Crossword/context.js"), exports);
+__exportStar(__webpack_require__(/*! ./Cell */ "./src/components/Crossword/Cell.tsx"), exports);
+__exportStar(__webpack_require__(/*! ./Clue */ "./src/components/Crossword/Clue.tsx"), exports);
+__exportStar(__webpack_require__(/*! ./Crossword */ "./src/components/Crossword/Crossword.tsx"), exports);
+__exportStar(__webpack_require__(/*! ./DirectionClues */ "./src/components/Crossword/DirectionClues.tsx"), exports);
 
 
 /***/ }),
@@ -72777,6 +71472,7 @@ var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
 var NewGames_1 = __webpack_require__(/*! ./NewGames */ "./src/components/NewGames.tsx");
 var ExistingGames_1 = __webpack_require__(/*! ./ExistingGames */ "./src/components/ExistingGames.tsx");
+var PuzzleUpload_1 = __webpack_require__(/*! ./PuzzleUpload */ "./src/components/PuzzleUpload.tsx");
 var GameHome = function (props) {
     var userInGame = function (boardEntity) {
         return boardEntity.users.includes(props.currentUser);
@@ -72816,11 +71512,6 @@ var GameHome = function (props) {
             padding: '14px 16px',
             transition: '0.3s'
         };
-        var handleUploadPuzFiles = function () {
-            var files = fileInputRef.current.files;
-            props.onSetFileUploadStatus('Uploading files...');
-            props.onUploadPuzFiles(files);
-        };
         function handleSelectTab(evt) {
             var selectedTabId = evt.target.id;
             // Hide content divs
@@ -72858,7 +71549,6 @@ var GameHome = function (props) {
         var inProgressGamesContentRef = React.createRef();
         var settingsTabSelectRef = React.createRef();
         var settingsContentRef = React.createRef();
-        var fileInputRef = React.createRef();
         return (React.createElement("div", null,
             React.createElement("div", { style: tab },
                 React.createElement("button", { style: tabLinks, onClick: handleSelectTab, id: 'newGameTabSelect', ref: newGameTabSelectRef }, "New Games"),
@@ -72869,20 +71559,13 @@ var GameHome = function (props) {
             React.createElement("div", { id: 'inProgressGamesContent', style: tabcontent, ref: inProgressGamesContentRef },
                 React.createElement(ExistingGames_1.default, { onSelectBoard: handleOpenBoard })),
             React.createElement("div", { id: 'settingsContent', style: tabcontent, ref: settingsContentRef },
-                React.createElement("div", null,
-                    React.createElement("input", { id: "file", type: "file", multiple: true, name: 'file', ref: fileInputRef }),
-                    React.createElement("p", null,
-                        React.createElement("button", { type: 'button', onClick: handleUploadPuzFiles }, "Upload Files")),
-                    React.createElement("p", null, props.appState.fileUploadStatus)))));
+                React.createElement(PuzzleUpload_1.default, null))));
     };
     return renderGameHome();
 };
 function mapStateToProps(state) {
     return {
-        appState: selectors_1.getAppState(state),
-        boardsMap: selectors_1.getBoards(state),
         currentUser: selectors_1.getCurrentUser(state),
-        puzzlesMetadata: selectors_1.getPuzzlesMetadata(state),
     };
 }
 var mapDispatchToProps = function (dispatch) {
@@ -72894,7 +71577,6 @@ var mapDispatchToProps = function (dispatch) {
         onSetPuzzleId: models_1.setPuzzleId,
         onSetUiState: models_1.setUiState,
         onUpdateLastPlayedDateTime: controllers_1.updateLastPlayedDateTime,
-        onUploadPuzFiles: controllers_1.uploadPuzFiles,
     }, dispatch);
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(GameHome);
@@ -72925,7 +71607,6 @@ var Login_1 = __webpack_require__(/*! ./Login */ "./src/components/Login.tsx");
 var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx");
 var BoardTop_1 = __webpack_require__(/*! ./BoardTop */ "./src/components/BoardTop.tsx");
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var homeProps;
 var Home = function (props) {
     homeProps = props;
@@ -72947,7 +71628,12 @@ var Home = function (props) {
             var user = data.user, row = data.row, col = data.col, typedChar = data.typedChar;
             var externalEvent = homeProps.appState.userName !== user;
             if (externalEvent) {
-                BoardPlay_1.boardPlayCrossword.current.remoteSetCell(row, col, typedChar);
+                var guess = {
+                    value: typedChar,
+                    guessIsRemote: true,
+                    remoteUser: user,
+                };
+                homeProps.onUpdateGuess(row, col, guess);
             }
         });
     };
@@ -72984,7 +71670,7 @@ var mapDispatchToProps = function (dispatch) {
         onLoadBoards: controllers_1.loadBoards,
         onLoadPuzzlesMetadata: controllers_1.loadPuzzlesMetadata,
         onLoadUsers: controllers_1.loadUsers,
-        onCellChange: controllers_1.cellChange,
+        onUpdateGuess: models_1.updateGuess,
     }, dispatch);
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Home);
@@ -73139,6 +71825,147 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(New
 
 /***/ }),
 
+/***/ "./src/components/PuzzleUpload.tsx":
+/*!*****************************************!*\
+  !*** ./src/components/PuzzleUpload.tsx ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
+var controllers_1 = __webpack_require__(/*! ../controllers */ "./src/controllers/index.ts");
+var PuzzleUpload = function (props) {
+    var _a = React.useState([]), files = _a[0], setFiles = _a[1];
+    var _b = React.useState([]), newFiles = _b[0], setNewFiles = _b[1];
+    var _c = React.useState([]), existingFiles = _c[0], setExistingFiles = _c[1];
+    React.useEffect(function () {
+        buildFilesLists();
+    }, [files]);
+    var padded = {
+        margin: '4px',
+    };
+    var displayNone = {
+        display: 'none',
+    };
+    var buildFilesLists = function () {
+        var existingFiles = [];
+        var newFiles = [];
+        for (var _i = 0, files_1 = files; _i < files_1.length; _i++) {
+            var file = files_1[_i];
+            // eslint-disable-next-line no-prototype-builtins
+            if (props.puzzleExistsByFileName.hasOwnProperty(file.name)) {
+                existingFiles.push(file);
+            }
+            else {
+                newFiles.push(file);
+            }
+        }
+        setExistingFiles(existingFiles);
+        setNewFiles(newFiles);
+    };
+    var getNewFilesList = function () {
+        if (newFiles.length === 0) {
+            return null;
+        }
+        var newFilesListItems = newFiles.map(function (newFile) {
+            return React.createElement("li", { key: newFile.name }, newFile.name);
+        });
+        return (React.createElement("div", null,
+            React.createElement("p", null, "New files"),
+            React.createElement("ul", null, newFilesListItems)));
+    };
+    var getExistingFilesList = function () {
+        if (existingFiles.length === 0) {
+            return null;
+        }
+        var existingFilesListItems = existingFiles.map(function (existingFile) {
+            return React.createElement("li", { key: existingFile.name }, existingFile.name);
+        });
+        return (React.createElement("div", null,
+            React.createElement("p", null, "Existing files (will not be uploaded)"),
+            React.createElement("ul", null, existingFilesListItems)));
+    };
+    var handleDisplayFileSelect = function () {
+        fileSelectRef.current.click();
+    };
+    var handleSelectPuzFiles = function (e) {
+        if (!lodash_1.isNil(e.target.files)
+            && e.target.files.length > 0) {
+            var targetFileList = e.target.files;
+            var filesToAdd = [];
+            for (var i = 0; i < targetFileList.length; i++) {
+                var targetFile = e.target.files[i];
+                filesToAdd.push(targetFile);
+            }
+            setFiles(filesToAdd);
+        }
+        e.target.value = '';
+        if (e.target.files.length > 0) {
+            props.onSetFileUploadStatus('Upload pending...');
+        }
+        else {
+            props.onSetFileUploadStatus('');
+        }
+    };
+    var handleUploadPuzFiles = function () {
+        props.onSetFileUploadStatus('Uploading files...');
+        props.onUploadPuzFiles(files);
+    };
+    var renderUploadButton = function (newFiles) {
+        return newFiles.length === 0
+            ? null
+            : (React.createElement("div", null,
+                React.createElement("p", null,
+                    React.createElement("button", { type: 'button', style: padded, onClick: handleUploadPuzFiles }, "Upload Files"))));
+    };
+    var renderFilesList = function () {
+        if (files.length == 0) {
+            return (React.createElement("div", null,
+                React.createElement("p", null, "No files chosen")));
+        }
+        var uploadButton = renderUploadButton(newFiles);
+        var newFilesList = getNewFilesList();
+        var existingFilesList = getExistingFilesList();
+        return (React.createElement("div", null,
+            newFilesList,
+            existingFilesList,
+            uploadButton));
+    };
+    var fileSelectRef = React.createRef();
+    var filesList = renderFilesList();
+    return (React.createElement("div", null,
+        React.createElement("div", null,
+            React.createElement("input", { type: "file", id: "fileElem", multiple: true, style: displayNone, ref: fileSelectRef, onChange: handleSelectPuzFiles }),
+            React.createElement("button", { id: "fileSelect", style: padded, onClick: handleDisplayFileSelect }, "Choose Files")),
+        React.createElement("div", null, filesList),
+        React.createElement("div", null,
+            React.createElement("p", null, props.appState.fileUploadStatus))));
+};
+function mapStateToProps(state) {
+    return {
+        appState: selectors_1.getAppState(state),
+        puzzleExistsByFileName: selectors_1.getPuzzleExistsByFileNameMap(state),
+    };
+}
+var mapDispatchToProps = function (dispatch) {
+    return redux_1.bindActionCreators({
+        onSetFileUploadStatus: models_1.setFileUploadStatus,
+        onUploadPuzFiles: controllers_1.uploadPuzFiles,
+    }, dispatch);
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(PuzzleUpload);
+
+
+/***/ }),
+
 /***/ "./src/components/index.ts":
 /*!*********************************!*\
   !*** ./src/components/index.ts ***!
@@ -73162,6 +71989,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./Board */ "./src/components/Board.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./BoardTop */ "./src/components/BoardTop.tsx"), exports);
+__exportStar(__webpack_require__(/*! ./Crossword */ "./src/components/Crossword/index.ts"), exports);
 __exportStar(__webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./Home */ "./src/components/Home.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./Login */ "./src/components/Login.tsx"), exports);
@@ -73407,24 +72235,105 @@ __exportStar(__webpack_require__(/*! ./user */ "./src/controllers/user.ts"), exp
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadPuzFiles = exports.cellChange = exports.loadPuzzlesMetadata = exports.loadPuzzle = void 0;
+exports.uploadPuzFiles = exports.processInputEvent = exports.loadPuzzlesMetadata = exports.buildDisplayedPuzzle = exports.generateDerivedCrosswordData = exports.loadPuzzle = void 0;
 var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
+var utilities_1 = __webpack_require__(/*! ../utilities */ "./src/utilities/index.ts");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var index_1 = __webpack_require__(/*! ../index */ "./src/index.ts");
+var selectors_2 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 var PuzCrossword = __webpack_require__(/*! @confuzzle/puz-crossword */ "./node_modules/@confuzzle/puz-crossword/puz-crossword.js").PuzCrossword;
 var loadPuzzle = function (id) {
     return (function (dispatch, getState) {
-        // const path = 'http://localhost:8888/api/v1/puzzle?id=' + id;
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'puzzle?id=' + id;
         return axios_1.default.get(path)
             .then(function (puzzleResponse) {
             var puzzleEntity = puzzleResponse.data;
             dispatch(models_1.addPuzzle(id, puzzleEntity));
+            var derivedCrosswordData = exports.generateDerivedCrosswordData(puzzleEntity);
+            // not the correct way to do this, in my opinion. it should be done when the user chooses
+            // to play the game
+            dispatch(models_1.setCrosswordClues(derivedCrosswordData.cluesByDirection));
+            dispatch(models_1.setSize(derivedCrosswordData.size));
+            dispatch(models_1.setGridData(derivedCrosswordData.gridData));
+            var guesses = utilities_1.createEmptyGuessesGrid(derivedCrosswordData.cluesByDirection);
+            dispatch(models_1.initializeGuesses(guesses));
+            var state = getState();
+            console.log('loadPuzzle', state);
+            // TEDTODO - why is this getting loaded here? Shouldn't it get loaded when Board is opened?
+            // maybe it is - why is this called loadPuzzle?
+            var cellContents = selectors_1.getCellContents(state);
+            for (var cellContentsKey in cellContents) {
+                if (Object.prototype.hasOwnProperty.call(cellContents, cellContentsKey)) {
+                    var cellPosition = cellContentsKey.split('_');
+                    var row = parseInt(cellPosition[0], 10);
+                    var col = parseInt(cellPosition[1], 10);
+                    var cellContentsValue = cellContents[cellContentsKey];
+                    var guessValue = cellContentsValue.typedChar;
+                    var user = cellContentsValue.user;
+                    var currentUser = selectors_1.getCurrentUser(state);
+                    var guessIsRemote = user.toString() !== currentUser.toString();
+                    var remoteUser = guessIsRemote
+                        ? cellContentsValue.user
+                        : null;
+                    var guess = {
+                        value: guessValue,
+                        guessIsRemote: guessIsRemote,
+                        remoteUser: remoteUser,
+                    };
+                    dispatch(models_1.updateGuess(row, col, guess));
+                }
+            }
+            dispatch(refreshCompletedClues());
         });
     });
 };
 exports.loadPuzzle = loadPuzzle;
+var generateDerivedCrosswordData = function (puzzleEntity) {
+    var crosswordClues = exports.buildDisplayedPuzzle(puzzleEntity);
+    var _a = utilities_1.createGridData(crosswordClues), size = _a.size, gridData = _a.gridData, clues = _a.clues;
+    return {
+        size: size,
+        gridData: gridData,
+        cluesByDirection: crosswordClues,
+    };
+};
+exports.generateDerivedCrosswordData = generateDerivedCrosswordData;
+var buildDisplayedPuzzle = function (puzzleEntity) {
+    var cluesByDirection = {
+        across: {},
+        down: {},
+    };
+    var parsedClues = puzzleEntity.parsedClues;
+    for (var _i = 0, parsedClues_1 = parsedClues; _i < parsedClues_1.length; _i++) {
+        var parsedClue = parsedClues_1[_i];
+        var col = parsedClue.col, isAcross = parsedClue.isAcross, row = parsedClue.row, solution = parsedClue.solution, text = parsedClue.text;
+        if (isAcross) {
+            cluesByDirection.across[parsedClue.number] = {
+                clue: text,
+                answer: solution,
+                row: row,
+                col: col,
+                completelyFilledIn: false,
+                clueIndex: -1,
+            };
+        }
+        else {
+            cluesByDirection.down[parsedClue.number] = {
+                clue: text,
+                answer: solution,
+                row: row,
+                col: col,
+                completelyFilledIn: false,
+                clueIndex: -1,
+            };
+        }
+    }
+    return cluesByDirection;
+};
+exports.buildDisplayedPuzzle = buildDisplayedPuzzle;
 var loadPuzzlesMetadata = function () {
     return function (dispatch) {
         // const path = 'http://localhost:8888/api/v1/allPuzzlesMetadata';
@@ -73444,17 +72353,20 @@ var loadPuzzlesMetadata = function () {
     };
 };
 exports.loadPuzzlesMetadata = loadPuzzlesMetadata;
-var cellChange = function (boardId, user, row, col, typedChar, localChange) {
-    return function (dispatch) {
-        if (!localChange) {
-            console.log('cellChange - remote change - server update not required');
-            return;
-        }
-        // const path = 'http://localhost:8888/api/v1/cellChange';
+var processInputEvent = function (row, col, typedChar) {
+    return function (dispatch, getState) {
+        var state = getState();
+        var guess = {
+            value: typedChar,
+            guessIsRemote: false,
+            remoteUser: null,
+        };
+        dispatch(models_1.updateGuess(row, col, guess));
+        dispatch(refreshCompletedClues());
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'cellChange';
         var cellChangeBody = {
-            boardId: boardId,
-            user: user,
+            boardId: selectors_1.getBoardId(state),
+            user: selectors_1.getCurrentUser(state),
             row: row,
             col: col,
             typedChar: typedChar,
@@ -73468,7 +72380,64 @@ var cellChange = function (boardId, user, row, col, typedChar, localChange) {
         });
     };
 };
-exports.cellChange = cellChange;
+exports.processInputEvent = processInputEvent;
+var refreshCompletedClues = function () {
+    return (function (dispatch, getState) {
+        var state = getState();
+        var crosswordClues = lodash_1.cloneDeep(selectors_2.getCrosswordClues(state));
+        if (!lodash_1.isNil(crosswordClues)) {
+            var guesses = selectors_2.getGuesses(state);
+            resetCompletedClues(crosswordClues);
+            buildCompletedClues(crosswordClues, guesses);
+            dispatch(models_1.setCrosswordClues(crosswordClues));
+        }
+    });
+};
+var resetCompletedClues = function (cluesByDirection) {
+    resetCluesInDirection(cluesByDirection['across'], 'across');
+    resetCluesInDirection(cluesByDirection['down'], 'down');
+};
+var resetCluesInDirection = function (cluesByNumber, direction) {
+    for (var clueNumber in cluesByNumber) {
+        if (Object.prototype.hasOwnProperty.call(cluesByNumber, clueNumber)) {
+            var clueAtLocation = cluesByNumber[clueNumber];
+            clueAtLocation.completelyFilledIn = false;
+        }
+    }
+};
+var buildCompletedClues = function (cluesByDirection, guesses) {
+    buildCluesInDirection(cluesByDirection, 'across', guesses);
+    buildCluesInDirection(cluesByDirection, 'down', guesses);
+};
+var buildCluesInDirection = function (cluesByDirection, direction, guesses) {
+    var cluesByNumber = cluesByDirection[direction];
+    for (var clueNumber in cluesByNumber) {
+        if (Object.prototype.hasOwnProperty.call(cluesByNumber, clueNumber)) {
+            var clueAtLocation = cluesByNumber[clueNumber];
+            var answer = clueAtLocation.answer, row = clueAtLocation.row, col = clueAtLocation.col;
+            var completelyFilledIn = true;
+            if (direction === 'across') {
+                var startingCol = col;
+                for (var j = 0; j < answer.length; j++) {
+                    var guess = guesses[row][startingCol + j];
+                    if (guess.value === '') {
+                        completelyFilledIn = false;
+                    }
+                }
+            }
+            else {
+                var startingRow = row;
+                for (var j = 0; j < answer.length; j++) {
+                    var guess = guesses[startingRow + j][col];
+                    if (guess.value === '') {
+                        completelyFilledIn = false;
+                    }
+                }
+            }
+            clueAtLocation.completelyFilledIn = completelyFilledIn;
+        }
+    }
+};
 var uploadPuzFiles = function (puzFiles) {
     return function (dispatch) {
         parsePuzzleFiles(puzFiles)
@@ -73756,22 +72725,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rootReducer = void 0;
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-var puzCrosswordSpec_1 = __webpack_require__(/*! ./puzCrosswordSpec */ "./src/models/puzCrosswordSpec.ts");
 var puzzles_1 = __webpack_require__(/*! ./puzzles */ "./src/models/puzzles.ts");
 var users_1 = __webpack_require__(/*! ./users */ "./src/models/users.ts");
 var appState_1 = __webpack_require__(/*! ./appState */ "./src/models/appState.ts");
 var boards_1 = __webpack_require__(/*! ./boards */ "./src/models/boards.ts");
 var gameState_1 = __webpack_require__(/*! ./gameState */ "./src/models/gameState.ts");
+var guessesState_1 = __webpack_require__(/*! ./guessesState */ "./src/models/guessesState.ts");
+var derivedCrosswordData_1 = __webpack_require__(/*! ./derivedCrosswordData */ "./src/models/derivedCrosswordData.ts");
 // -----------------------------------------------------------------------
 // Reducers
 // -----------------------------------------------------------------------
 exports.rootReducer = redux_1.combineReducers({
-    puzCrosswordSpec: puzCrosswordSpec_1.puzCrosswordSpecReducer,
     users: users_1.usersReducer,
     boardsState: boards_1.boardsStateReducer,
     puzzlesState: puzzles_1.puzzlesStateReducer,
     appState: appState_1.appStateReducer,
     gameState: gameState_1.gameStateReducer,
+    derivedCrosswordData: derivedCrosswordData_1.derivedCrosswordDataReducer,
+    guessesState: guessesState_1.guessesStateReducer,
 });
 // -----------------------------------------------------------------------
 // Validators
@@ -73880,6 +72851,91 @@ exports.boardsStateReducer = boardsStateReducer;
 
 /***/ }),
 
+/***/ "./src/models/derivedCrosswordData.ts":
+/*!********************************************!*\
+  !*** ./src/models/derivedCrosswordData.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.derivedCrosswordDataReducer = exports.setCrosswordClues = exports.setGridData = exports.setSize = exports.SET_ACTIVE_PUZZLE = exports.SET_CROSSSWORD_CLUES = exports.SET_SIZE = exports.SET_GRID_DATA = void 0;
+// ------------------------------------
+// Constants
+// ------------------------------------
+exports.SET_GRID_DATA = 'SET_GRID_DATA';
+exports.SET_SIZE = 'SET_SIZE';
+exports.SET_CROSSSWORD_CLUES = 'SET_CROSSSWORD_CLUES';
+exports.SET_ACTIVE_PUZZLE = 'SET_ACTIVE_PUZZLE';
+var setSize = function (size) {
+    return {
+        type: exports.SET_SIZE,
+        payload: {
+            size: size
+        }
+    };
+};
+exports.setSize = setSize;
+var setGridData = function (gridData) {
+    return {
+        type: exports.SET_GRID_DATA,
+        payload: {
+            gridData: gridData,
+        },
+    };
+};
+exports.setGridData = setGridData;
+var setCrosswordClues = function (crosswordClues) {
+    return {
+        type: exports.SET_CROSSSWORD_CLUES,
+        payload: {
+            crosswordClues: crosswordClues,
+        }
+    };
+};
+exports.setCrosswordClues = setCrosswordClues;
+// ------------------------------------
+// Reducer
+// ------------------------------------
+var initialState = {
+    size: 0,
+    gridData: [],
+    cluesByDirection: null,
+};
+var derivedCrosswordDataReducer = function (state, action) {
+    if (state === void 0) { state = initialState; }
+    switch (action.type) {
+        case exports.SET_SIZE: {
+            return __assign(__assign({}, state), { size: action.payload.size });
+        }
+        case exports.SET_GRID_DATA: {
+            return __assign(__assign({}, state), { gridData: action.payload.gridData });
+        }
+        case exports.SET_CROSSSWORD_CLUES: {
+            return __assign(__assign({}, state), { cluesByDirection: action.payload.crosswordClues });
+        }
+        default:
+            return state;
+    }
+};
+exports.derivedCrosswordDataReducer = derivedCrosswordDataReducer;
+
+
+/***/ }),
+
 /***/ "./src/models/gameState.ts":
 /*!*********************************!*\
   !*** ./src/models/gameState.ts ***!
@@ -73937,6 +72993,80 @@ exports.gameStateReducer = gameStateReducer;
 
 /***/ }),
 
+/***/ "./src/models/guessesState.ts":
+/*!************************************!*\
+  !*** ./src/models/guessesState.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.guessesStateReducer = exports.updateGuess = exports.initializeGuesses = exports.UPDATE_GUESS = exports.INITIALIZE_GUESS_GRID = void 0;
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+// ------------------------------------
+// Constants
+// ------------------------------------
+exports.INITIALIZE_GUESS_GRID = 'INITIALIZE_GUESS_GRID';
+exports.UPDATE_GUESS = 'UPDATE_GUESS';
+var initializeGuesses = function (guesses) {
+    return {
+        type: exports.INITIALIZE_GUESS_GRID,
+        payload: {
+            guesses: guesses,
+        },
+    };
+};
+exports.initializeGuesses = initializeGuesses;
+var updateGuess = function (row, col, puzzleGuess) {
+    return {
+        type: exports.UPDATE_GUESS,
+        payload: {
+            row: row,
+            col: col,
+            puzzleGuess: puzzleGuess,
+        },
+    };
+};
+exports.updateGuess = updateGuess;
+// ------------------------------------
+// Reducer
+// ------------------------------------
+var initialState = {
+    guessesGrid: null,
+};
+var guessesStateReducer = function (state, action) {
+    if (state === void 0) { state = initialState; }
+    switch (action.type) {
+        case exports.INITIALIZE_GUESS_GRID: {
+            return __assign(__assign({}, state), { guessesGrid: action.payload.guesses });
+        }
+        case exports.UPDATE_GUESS: {
+            var newState = lodash_1.cloneDeep(state);
+            newState.guessesGrid[action.payload.row][action.payload.col] = action.payload.puzzleGuess;
+            return newState;
+        }
+        default:
+            return state;
+    }
+};
+exports.guessesStateReducer = guessesStateReducer;
+
+
+/***/ }),
+
 /***/ "./src/models/index.ts":
 /*!*****************************!*\
   !*** ./src/models/index.ts ***!
@@ -73961,64 +73091,11 @@ __exportStar(__webpack_require__(/*! ./appState */ "./src/models/appState.ts"), 
 __exportStar(__webpack_require__(/*! ./baseAction */ "./src/models/baseAction.ts"), exports);
 __exportStar(__webpack_require__(/*! ./baseReducer */ "./src/models/baseReducer.ts"), exports);
 __exportStar(__webpack_require__(/*! ./boards */ "./src/models/boards.ts"), exports);
+__exportStar(__webpack_require__(/*! ./derivedCrosswordData */ "./src/models/derivedCrosswordData.ts"), exports);
 __exportStar(__webpack_require__(/*! ./gameState */ "./src/models/gameState.ts"), exports);
+__exportStar(__webpack_require__(/*! ./guessesState */ "./src/models/guessesState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzles */ "./src/models/puzzles.ts"), exports);
-__exportStar(__webpack_require__(/*! ./puzCrosswordSpec */ "./src/models/puzCrosswordSpec.ts"), exports);
 __exportStar(__webpack_require__(/*! ./users */ "./src/models/users.ts"), exports);
-
-
-/***/ }),
-
-/***/ "./src/models/puzCrosswordSpec.ts":
-/*!****************************************!*\
-  !*** ./src/models/puzCrosswordSpec.ts ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.puzCrosswordSpecReducer = exports.setPuzCrosswordSpec = exports.SET_PUZCROSSWORD_SPEC = void 0;
-// ------------------------------------
-// Constants
-// ------------------------------------
-exports.SET_PUZCROSSWORD_SPEC = 'SET_PUZCROSSWORD_SPEC';
-var setPuzCrosswordSpec = function (puzCrosswordSpec) {
-    return {
-        type: exports.SET_PUZCROSSWORD_SPEC,
-        payload: puzCrosswordSpec,
-    };
-};
-exports.setPuzCrosswordSpec = setPuzCrosswordSpec;
-// ------------------------------------
-// Reducer
-// ------------------------------------
-// TEDTODO - initialize
-var initialState = {
-    title: '',
-    author: '',
-    copyright: '',
-    note: '',
-    width: 0,
-    height: 0,
-    clues: [],
-    solution: '',
-    state: '',
-    hasState: false,
-    parsedClues: []
-};
-var puzCrosswordSpecReducer = function (state, action) {
-    if (state === void 0) { state = initialState; }
-    switch (action.type) {
-        case exports.SET_PUZCROSSWORD_SPEC: {
-            return action.payload;
-        }
-        default:
-            return state;
-    }
-};
-exports.puzCrosswordSpecReducer = puzCrosswordSpecReducer;
 
 
 /***/ }),
@@ -74066,6 +73143,7 @@ exports.addPuzzle = addPuzzle;
 var initialState = {
     puzzlesMetadata: {},
     puzzles: {},
+    puzzlesByFileName: {},
 };
 var puzzlesStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
@@ -74073,6 +73151,7 @@ var puzzlesStateReducer = function (state, action) {
         case exports.ADD_PUZZLE_METADATA: {
             var newState = lodash_1.cloneDeep(state);
             newState.puzzlesMetadata[action.payload.id] = action.payload.puzzleMetadata;
+            newState.puzzlesByFileName[action.payload.puzzleMetadata.sourceFileName] = true;
             return newState;
         }
         case exports.ADD_PUZZLE: {
@@ -74200,6 +73279,33 @@ exports.getCellContents = getCellContents;
 
 /***/ }),
 
+/***/ "./src/selectors/derivedCrosswordData.ts":
+/*!***********************************************!*\
+  !*** ./src/selectors/derivedCrosswordData.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCrosswordClues = exports.getGridData = exports.getSize = void 0;
+var getSize = function (state) {
+    return state.derivedCrosswordData.size;
+};
+exports.getSize = getSize;
+var getGridData = function (state) {
+    return state.derivedCrosswordData.gridData;
+};
+exports.getGridData = getGridData;
+var getCrosswordClues = function (state) {
+    return state.derivedCrosswordData.cluesByDirection;
+};
+exports.getCrosswordClues = getCrosswordClues;
+
+
+/***/ }),
+
 /***/ "./src/selectors/gameState.ts":
 /*!************************************!*\
   !*** ./src/selectors/gameState.ts ***!
@@ -74215,6 +73321,25 @@ var getGameState = function (state) {
     return state.gameState;
 };
 exports.getGameState = getGameState;
+
+
+/***/ }),
+
+/***/ "./src/selectors/guesses.ts":
+/*!**********************************!*\
+  !*** ./src/selectors/guesses.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getGuesses = void 0;
+var getGuesses = function (state) {
+    return state.guessesState.guessesGrid;
+};
+exports.getGuesses = getGuesses;
 
 
 /***/ }),
@@ -74241,7 +73366,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./appState */ "./src/selectors/appState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./board */ "./src/selectors/board.ts"), exports);
+__exportStar(__webpack_require__(/*! ./derivedCrosswordData */ "./src/selectors/derivedCrosswordData.ts"), exports);
 __exportStar(__webpack_require__(/*! ./gameState */ "./src/selectors/gameState.ts"), exports);
+__exportStar(__webpack_require__(/*! ./guesses */ "./src/selectors/guesses.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzle */ "./src/selectors/puzzle.ts"), exports);
 __exportStar(__webpack_require__(/*! ./puzzlesMetadata */ "./src/selectors/puzzlesMetadata.ts"), exports);
 __exportStar(__webpack_require__(/*! ./users */ "./src/selectors/users.ts"), exports);
@@ -74317,7 +73444,7 @@ exports.getDisplayedPuzzle = getDisplayedPuzzle;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPuzzlesMap = exports.getPuzzlesMetadata = void 0;
+exports.getPuzzleExistsByFileNameMap = exports.getPuzzlesMap = exports.getPuzzlesMetadata = void 0;
 var getPuzzlesMetadata = function (state) {
     return state.puzzlesState.puzzlesMetadata;
 };
@@ -74326,6 +73453,15 @@ var getPuzzlesMap = function (state) {
     return state.puzzlesState.puzzles;
 };
 exports.getPuzzlesMap = getPuzzlesMap;
+var getPuzzleExistsByFileNameMap = function (state) {
+    return state.puzzlesState.puzzlesByFileName;
+};
+exports.getPuzzleExistsByFileNameMap = getPuzzleExistsByFileNameMap;
+// export const puzzleExists = (state: TedwordState, fileName: string): boolean => {
+//   const puzzlesByFileName: PuzzleExistsByFileNameMap = state.puzzlesState.puzzlesByFileName;
+//   // eslint-disable-next-line no-prototype-builtins
+//   return puzzlesByFileName.hasOwnProperty(fileName);
+// };
 
 
 /***/ }),
@@ -74360,7 +73496,7 @@ exports.getUsers = getUsers;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiState = exports.apiUrlFragment = exports.serverUrl = void 0;
-// export const serverUrl = 'http://localhost:5000';
+// export const serverUrl = 'http://localhost:8000';
 exports.serverUrl = 'https://tedword.herokuapp.com';
 exports.apiUrlFragment = '/api/v1/';
 var UiState;
@@ -74395,6 +73531,189 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./base */ "./src/types/base.ts"), exports);
+
+
+/***/ }),
+
+/***/ "./src/utilities/index.ts":
+/*!********************************!*\
+  !*** ./src/utilities/index.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(/*! ./utils */ "./src/utilities/utils.ts"), exports);
+
+
+/***/ }),
+
+/***/ "./src/utilities/utils.ts":
+/*!********************************!*\
+  !*** ./src/utilities/utils.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createEmptyGuessesGrid = exports.createGridData = exports.createEmptyGrid = exports.calculateExtents = exports.otherDirection = exports.isAcross = exports.bothDirections = void 0;
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+// TEDTODO types
+var directionInfo = {
+    across: {
+        primary: 'col',
+        orthogonal: 'row',
+    },
+    down: {
+        primary: 'row',
+        orthogonal: 'col',
+    },
+};
+exports.bothDirections = Object.keys(directionInfo);
+function isAcross(direction) {
+    return direction === 'across';
+}
+exports.isAcross = isAcross;
+function otherDirection(direction) {
+    return isAcross(direction) ? 'down' : 'across';
+}
+exports.otherDirection = otherDirection;
+// TEDTODO - types for return value
+function calculateExtents(data, direction) {
+    var _a;
+    var dir = directionInfo[direction];
+    var primaryMax = 0;
+    var orthogonalMax = 0;
+    Object.entries(data[direction]).forEach(function (_a) {
+        var i = _a[0], info = _a[1];
+        var primary = info[dir.primary] + info.answer.length - 1;
+        if (primary > primaryMax) {
+            primaryMax = primary;
+        }
+        var orthogonal = info[dir.orthogonal];
+        if (orthogonal > orthogonalMax) {
+            orthogonalMax = orthogonal;
+        }
+    });
+    return _a = {},
+        _a[dir.primary] = primaryMax,
+        _a[dir.orthogonal] = orthogonalMax,
+        _a;
+}
+exports.calculateExtents = calculateExtents;
+var emptyCellData = {
+    used: false,
+    number: null,
+    across: null,
+    down: null,
+    row: null,
+    col: null,
+};
+function createEmptyGrid(size) {
+    var gridData = Array(size);
+    // Rather than [x][y] in column-major order, the cells are indexed as
+    // [row][col] in row-major order.
+    for (var r = 0; r < size; r++) {
+        gridData[r] = Array(size);
+        for (var c = 0; c < size; c++) {
+            gridData[r][c] = __assign(__assign({}, emptyCellData), { row: r, col: c });
+        }
+    }
+    return gridData;
+}
+exports.createEmptyGrid = createEmptyGrid;
+// sort helper for clues...
+function byNumber(a, b) {
+    var aNum = Number.parseInt(a.number, 10);
+    var bNum = Number.parseInt(b.number, 10);
+    return aNum - bNum;
+}
+function fillClues(gridData, data, direction) {
+    // TEDTODO type
+    var dir = directionInfo[direction];
+    Object.entries(data[direction]).forEach(function (_a) {
+        var number = _a[0], info = _a[1];
+        var clueAtLocation = info;
+        var rowStart = clueAtLocation.row, colStart = clueAtLocation.col, answer = clueAtLocation.answer;
+        for (var i = 0; i < answer.length; i++) {
+            var row = rowStart + (dir.primary === 'row' ? i : 0);
+            var col = colStart + (dir.primary === 'col' ? i : 0);
+            var cellData = gridData[row][col];
+            // TODO?: check to ensure the answer is the same if it's already set?
+            cellData.used = true;
+            cellData[direction] = number;
+            if (i === 0) {
+                // TODO?: check to ensure the number is the same if it's already set?
+                cellData.number = number;
+            }
+        }
+    });
+}
+var createGridData = function (data) {
+    // TEDTODO type
+    var acrossMax = calculateExtents(data, 'across');
+    var downMax = calculateExtents(data, 'down');
+    var size = Math.max.apply(Math, __spreadArray(__spreadArray([], Object.values(acrossMax)), Object.values(downMax))) + 1;
+    var gridData = createEmptyGrid(size);
+    fillClues(gridData, data, 'across');
+    fillClues(gridData, data, 'down');
+    return {
+        size: size,
+        gridData: gridData,
+    };
+};
+exports.createGridData = createGridData;
+var createEmptyGuessesGrid = function (displayedPuzzle) {
+    // TEDTODO - type
+    var rowCount = calculateExtents(displayedPuzzle, 'across');
+    var colCount = calculateExtents(displayedPuzzle, 'down');
+    var size = Math.max.apply(Math, __spreadArray(__spreadArray([], Object.values(rowCount)), Object.values(colCount))) + 1;
+    var emptyCellGuess = {
+        value: '',
+        guessIsRemote: false,
+        remoteUser: null,
+    };
+    var guesses = [];
+    for (var row = 0; row < size; row++) {
+        var guessesInRow = [];
+        for (var col = 0; col < size; col++) {
+            guessesInRow.push(lodash_1.cloneDeep(emptyCellGuess));
+        }
+        guesses.push(guessesInRow);
+    }
+    return guesses;
+};
+exports.createEmptyGuessesGrid = createEmptyGuessesGrid;
 
 
 /***/ }),

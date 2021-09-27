@@ -59,9 +59,10 @@ function loadPuzzle(request, response, next) {
         console.log(puzData);
         const pc = PuzCrossword.from(puzData);
         console.log(pc);
-        const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = pc;
+        const { sourceFileName, title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = pc;
         const puzzleEntity = {
             id: uuid_1.v4(),
+            sourceFileName,
             title,
             author,
             copyright,

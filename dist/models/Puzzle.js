@@ -23,6 +23,7 @@ const mongoose = __importStar(require("mongoose"));
 const Schema = mongoose.Schema;
 const PuzzleSchema = new Schema({
     id: { type: String, required: true },
+    sourceFileName: { type: String, required: true },
     title: { type: String },
     author: { type: String },
     copyright: { type: String },

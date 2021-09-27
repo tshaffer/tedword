@@ -21,7 +21,7 @@ export const createPuzzle = (puzzleEntity: PuzzleEntity): Promise<any> => {
 };
 
 export const getBoardsFromDb = (): Promise<BoardEntity[]> => {
-  console.log('getBoardsFromDb');
+
   const query = Board.find({});
   const promise: Promise<Document[]> = query.exec();
   return promise.then((boardDocuments: Document[]) => {
@@ -34,13 +34,6 @@ export const getBoardsFromDb = (): Promise<BoardEntity[]> => {
       const boardDocAsObj: any = boardDocument.toObject();
       const boardEntity: BoardEntity = boardDocument.toObject();
 
-      console.log('boardDocument');
-      console.log(boardDocument);
-      console.log('boardDocAsObj');
-      console.log(boardDocAsObj);
-      console.log('boardEntity');
-      console.log(boardEntity);
-      
       boardEntity.cellContents = {};
 
       const cellContentsMap: Map<string, CellContentsValue> = boardDocAsObj.cellContents;
@@ -83,20 +76,15 @@ export const updateCellContents = (
       if (isArray(boardDocs) && boardDocs.length === 1) {
 
         const boardDoc: any = boardDocs[0];
-        console.log(boardDoc);
 
         dumpCellContents(boardDoc.cellContents);
 
         const key = row.toString() + '_' + col.toString();
-        console.log('key = ' + key);
 
         const cellContentsValue: any = {
           user,
           typedChar
         };
-
-        console.log('cellContentsValue');
-        console.log(cellContentsValue);
 
         boardDoc.cellContents.set(key, cellContentsValue);
         dumpCellContents(boardDoc.cellContents);
@@ -115,31 +103,6 @@ export const updateCellContents = (
     }
   }
 
-  // const filter = { id: boardId };
-
-  // const cellContents: any = {};
-
-  // const update = {
-  //   cellContents
-  // };
-
-  // const query = Board.findOneAndUpdate(
-  //   filter,
-  //   update,
-  // );
-
-  // const promise: Promise<Document> = query.exec();
-  // return promise
-  //   .then((board: Document) => {
-  //     console.log('updated board');
-  //     console.log(board);
-  //     console.log(board.toObject());
-  //     return Promise.resolve(board);
-  //   }).catch((err: any) => {
-  //     console.log(err);
-  //     debugger;
-  //     return Promise.reject(err);
-  //   });
 }
 
 export const addUserToBoardDb = (boardId: string, userName: string): void => {
