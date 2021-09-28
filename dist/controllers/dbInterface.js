@@ -27,12 +27,16 @@ const getBoardsFromDb = () => {
     const promise = query.exec();
     return promise.then((boardDocuments) => {
         console.log('boardDocuments');
-        console.log(boardDocuments);
+        // console.log(boardDocuments);
         const boardEntities = boardDocuments.map((boardDocument) => {
+            console.log('boardDocument', boardDocument);
             const boardDocAsObj = boardDocument.toObject();
+            console.log('boardDocAsObj', boardDocAsObj);
             const boardEntity = boardDocument.toObject();
+            console.log('boardEntity', boardEntity);
             boardEntity.cellContents = {};
             const cellContentsMap = boardDocAsObj.cellContents;
+            console.log('cellContentsMap', cellContentsMap);
             for (const key of cellContentsMap.keys()) {
                 boardEntity.cellContents[key] = cellContentsMap.get(key);
             }

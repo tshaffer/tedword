@@ -27,16 +27,21 @@ export const getBoardsFromDb = (): Promise<BoardEntity[]> => {
   return promise.then((boardDocuments: Document[]) => {
 
     console.log('boardDocuments');
-    console.log(boardDocuments);
+    // console.log(boardDocuments);
 
     const boardEntities: BoardEntity[] = boardDocuments.map((boardDocument: any) => {
 
+      console.log('boardDocument', boardDocument);
       const boardDocAsObj: any = boardDocument.toObject();
+      console.log('boardDocAsObj', boardDocAsObj);
       const boardEntity: BoardEntity = boardDocument.toObject();
+      console.log('boardEntity', boardEntity);
 
       boardEntity.cellContents = {};
 
       const cellContentsMap: Map<string, CellContentsValue> = boardDocAsObj.cellContents;
+      console.log('cellContentsMap', cellContentsMap);
+      
       for (const key of cellContentsMap.keys()) {
         boardEntity.cellContents[key] = cellContentsMap.get(key);
       }
