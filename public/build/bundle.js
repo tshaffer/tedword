@@ -72022,6 +72022,7 @@ var loadBoards = function () {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'boards';
         return axios_1.default.get(path)
             .then(function (boardsResponse) {
+            console.log('loadBoards, response from boards endpoint');
             var boardEntities = boardsResponse.data;
             // // TEDTODO - add all in a single call
             for (var _i = 0, boardEntities_1 = boardEntities; _i < boardEntities_1.length; _i++) {

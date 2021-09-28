@@ -43,6 +43,7 @@ export function getBoards(request: Request, response: Response) {
 
   return getBoardsFromDb()
     .then((boardEntities: BoardEntity[]) => {
+      console.log('return from getBoardsFromDb, invoke response.json');
       response.json(boardEntities);
     });
 }

@@ -37,6 +37,7 @@ function getBoards(request, response) {
     console.log('getBoards handler:');
     return dbInterface_1.getBoardsFromDb()
         .then((boardEntities) => {
+        console.log('return from getBoardsFromDb, invoke response.json');
         response.json(boardEntities);
     });
 }
