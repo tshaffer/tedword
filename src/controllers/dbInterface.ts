@@ -1,4 +1,4 @@
-import { isArray } from 'lodash';
+import { isArray, isNil } from 'lodash';
 import { Document } from 'mongoose';
 
 import { BoardEntity, CellContentsValue, PuzzleEntity, UserEntity } from 'entities';
@@ -41,9 +41,11 @@ export const getBoardsFromDb = (): Promise<BoardEntity[]> => {
 
       const cellContentsMap: Map<string, CellContentsValue> = boardDocAsObj.cellContents;
       console.log('cellContentsMap', cellContentsMap);
-      
-      for (const key of cellContentsMap.keys()) {
-        boardEntity.cellContents[key] = cellContentsMap.get(key);
+
+      if (!isNil(cellContentsMap)) {
+        for (const key of cellContentsMap.keys()) {
+          boardEntity.cellContents[key] = cellContentsMap.get(key);
+        }
       }
 
       return boardEntity;
@@ -131,7 +133,7 @@ export const addUserToBoardDb = (boardId: string, userName: string): void => {
 }
 
 export const updateLastPlayedDateTimeDb = (boardId: string, lastPlayedDateTime: Date): void => {
-  
+
   Board.find(
     {
       id: boardId,

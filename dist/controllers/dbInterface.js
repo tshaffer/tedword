@@ -37,8 +37,10 @@ const getBoardsFromDb = () => {
             boardEntity.cellContents = {};
             const cellContentsMap = boardDocAsObj.cellContents;
             console.log('cellContentsMap', cellContentsMap);
-            for (const key of cellContentsMap.keys()) {
-                boardEntity.cellContents[key] = cellContentsMap.get(key);
+            if (!lodash_1.isNil(cellContentsMap)) {
+                for (const key of cellContentsMap.keys()) {
+                    boardEntity.cellContents[key] = cellContentsMap.get(key);
+                }
             }
             return boardEntity;
         });
