@@ -20,7 +20,8 @@ import {
   getPuzzle, 
   getBoards, 
   uploadPuzzles, 
-  addUserToBoard, 
+  addUserToBoard,
+  updateElapsedTime,
   updateLastPlayedDateTime
  } from './controllers';
 
@@ -71,6 +72,7 @@ class App {
     this.app.post('/api/v1/board', createBoard)
     this.app.post('/api/v1/addUserToBoard', addUserToBoard)
     this.app.post('/api/v1/updateLastPlayedDateTime', updateLastPlayedDateTime)   
+    this.app.post('/api/v1/updateElapsedTime', updateElapsedTime)   
   }
 
   private config(): void {

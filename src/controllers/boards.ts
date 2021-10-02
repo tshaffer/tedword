@@ -2,11 +2,10 @@ import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { BoardEntity } from '../types';
-import { addUserToBoardDb, createBoardDocument, getBoardsFromDb, updateLastPlayedDateTimeDb } from './dbInterface';
+import { addUserToBoardDb, createBoardDocument, getBoardsFromDb, updateElapsedTimeDb, updateLastPlayedDateTimeDb } from './dbInterface';
 
 export function createBoard(request: Request, response: Response, next: any) {
-  console.log('createBoard');
-  // console.log(request.body);
+
   const { puzzleId, title, users, startDateTime, lastPlayedDateTime, elapsedTime, solved, difficulty } = request.body;
 
   const boardEntity: BoardEntity = {
@@ -26,10 +25,6 @@ export function createBoard(request: Request, response: Response, next: any) {
   createBoardDocument(boardEntity)
     .then((boardDoc) => {
       const boardDocument = boardDoc as Document;
-      console.log('added boardDocument');
-      // console.log(boardDocument);
-      // console.log(boardDocument.toObject());
-
       response.status(201).json({
         success: true,
         data: boardDocument,
@@ -38,9 +33,6 @@ export function createBoard(request: Request, response: Response, next: any) {
 }
 
 export function getBoards(request: Request, response: Response) {
-
-  console.log('getBoards handler:');
-
   return getBoardsFromDb()
     .then((boardEntities: BoardEntity[]) => {
       console.log('return from getBoardsFromDb, invoke response.json');
@@ -69,6 +61,18 @@ export function updateLastPlayedDateTime(request: Request, response: Response, n
   const { boardId, lastPlayedDateTime } = request.body;
 
   updateLastPlayedDateTimeDb(boardId, lastPlayedDateTime);
+
+  response.sendStatus(200);
+}
+
+export function updateElapsedTime(request: Request, response: Response, next: any) {
+
+  console.log('updateElapsedTime');
+  console.log(request.body);
+
+  const { boardId, elapsedTime } = request.body;
+
+  updateElapsedTimeDb(boardId, elapsedTime);
 
   response.sendStatus(200);
 }
