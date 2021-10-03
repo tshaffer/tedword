@@ -1,17 +1,41 @@
 import { Request, Response } from 'express';
 import * as path from 'path';
-import * as fs from 'fs';
 
 import { pusher } from '../app';
 import { updateCellContents } from './dbInterface';
+import { isNil } from 'lodash';
 
 export function getIndex(request: Request, response: Response) {
   console.log('getIndex invoked');
-  const pathToIndex = path.join(__dirname, '../../public', 'index.html');
+
+  const { user, boardId } = request.query;
+  console.log('getIndex', user, typeof (user), boardId);
+
+  if (isNil(user)) {
+    const pathToIndex = path.join(__dirname, '../../public', 'index.html');
+    console.log('pathToIndex');
+    console.log(pathToIndex);
+    response.sendFile(pathToIndex);
+  } else {
+    const pathToIndex = path.join(__dirname, '../../public', 'indexJoinGame.html');
+    console.log('pathToIndex');
+    console.log(pathToIndex);
+    response.sendFile(pathToIndex);
+  }
+}
+
+export function getJoinGameIndex(request: Request, response: Response) {
+  console.log('getJoinGameIndex invoked');
+
+  // const { user, boardId } = request.query;
+  // console.log('getIndex', user, typeof(user), boardId);
+
+  const pathToIndex = path.join(__dirname, '../../public', 'indexJoinGame.html');
   console.log('pathToIndex');
   console.log(pathToIndex);
   response.sendFile(pathToIndex);
 }
+
 
 export function getCSS(request: Request, response: Response) {
   const pathToCSS = path.join(__dirname, '../../public', 'css', 'app.css');

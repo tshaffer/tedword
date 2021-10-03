@@ -22,7 +22,8 @@ import {
   uploadPuzzles, 
   addUserToBoard,
   updateElapsedTime,
-  updateLastPlayedDateTime
+  updateLastPlayedDateTime,
+  joinGame
  } from './controllers';
 
 export let pusher: any;
@@ -69,6 +70,7 @@ class App {
 
     // board routes
     this.app.get('/api/v1/boards', getBoards);
+    // this.app.get('/api/v1/joinGame', joinGame);
     this.app.post('/api/v1/board', createBoard)
     this.app.post('/api/v1/addUserToBoard', addUserToBoard)
     this.app.post('/api/v1/updateLastPlayedDateTime', updateLastPlayedDateTime)   

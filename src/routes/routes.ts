@@ -4,6 +4,7 @@ import {
   getCSS,
   getBundle,
   getBundleMap,
+  getJoinGameIndex,
   cellChange,
  } from '../controllers';
 
@@ -16,6 +17,7 @@ export class Routes {
   createRoutes(app: express.Application) {
     app.get('/', getIndex);
     app.get('/index.html', getIndex);
+    app.get('/joinGameIndex.html', getJoinGameIndex);
     app.get('/css/app.css', getCSS);
     app.get('/build/bundle.js', getBundle);
     app.get('/build/bundle.js.map', getBundleMap);

@@ -40,6 +40,12 @@ export function getBoards(request: Request, response: Response) {
     });
 }
 
+export function joinGame(request: Request, response: Response) {
+  const { user, boardId } = request.query;
+  console.log('joinGame', user, typeof(user), boardId);
+  response.sendStatus(200);
+}
+
 export function addUserToBoard(request: Request, response: Response, next: any) {
 
   console.log('addUserToBoard');
