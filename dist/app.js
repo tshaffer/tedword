@@ -47,6 +47,7 @@ class App {
         this.app.post('/api/v1/board', controllers_1.createBoard);
         this.app.post('/api/v1/addUserToBoard', controllers_1.addUserToBoard);
         this.app.post('/api/v1/updateLastPlayedDateTime', controllers_1.updateLastPlayedDateTime);
+        this.app.post('/api/v1/updateElapsedTime', controllers_1.updateElapsedTime);
     }
     config() {
         let port = process.env.PORT;

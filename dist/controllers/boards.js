@@ -1,11 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateLastPlayedDateTime = exports.addUserToBoard = exports.getBoards = exports.createBoard = void 0;
+exports.updateElapsedTime = exports.updateLastPlayedDateTime = exports.addUserToBoard = exports.getBoards = exports.createBoard = void 0;
 const uuid_1 = require("uuid");
 const dbInterface_1 = require("./dbInterface");
 function createBoard(request, response, next) {
-    console.log('createBoard');
-    // console.log(request.body);
     const { puzzleId, title, users, startDateTime, lastPlayedDateTime, elapsedTime, solved, difficulty } = request.body;
     const boardEntity = {
         id: uuid_1.v4(),
@@ -23,9 +21,6 @@ function createBoard(request, response, next) {
     dbInterface_1.createBoardDocument(boardEntity)
         .then((boardDoc) => {
         const boardDocument = boardDoc;
-        console.log('added boardDocument');
-        // console.log(boardDocument);
-        // console.log(boardDocument.toObject());
         response.status(201).json({
             success: true,
             data: boardDocument,
@@ -34,7 +29,6 @@ function createBoard(request, response, next) {
 }
 exports.createBoard = createBoard;
 function getBoards(request, response) {
-    console.log('getBoards handler:');
     return dbInterface_1.getBoardsFromDb()
         .then((boardEntities) => {
         console.log('return from getBoardsFromDb, invoke response.json');
@@ -59,4 +53,12 @@ function updateLastPlayedDateTime(request, response, next) {
     response.sendStatus(200);
 }
 exports.updateLastPlayedDateTime = updateLastPlayedDateTime;
+function updateElapsedTime(request, response, next) {
+    console.log('updateElapsedTime');
+    console.log(request.body);
+    const { boardId, elapsedTime } = request.body;
+    dbInterface_1.updateElapsedTimeDb(boardId, elapsedTime);
+    response.sendStatus(200);
+}
+exports.updateElapsedTime = updateElapsedTime;
 //# sourceMappingURL=boards.js.map

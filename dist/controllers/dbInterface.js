@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateLastPlayedDateTimeDb = exports.addUserToBoardDb = exports.updateCellContents = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
+exports.updateElapsedTimeDb = exports.updateLastPlayedDateTimeDb = exports.addUserToBoardDb = exports.updateCellContents = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
 const lodash_1 = require("lodash");
 const Board_1 = __importDefault(require("../models/Board"));
 const Puzzle_1 = __importDefault(require("../models/Puzzle"));
@@ -107,15 +107,11 @@ const addUserToBoardDb = (boardId, userName) => {
 };
 exports.addUserToBoardDb = addUserToBoardDb;
 const updateLastPlayedDateTimeDb = (boardId, lastPlayedDateTime) => {
-    Board_1.default.find({
-        id: boardId,
-    }, (err, boardDocs) => {
+    Board_1.default.find({ id: boardId, }, (err, boardDocs) => {
         if (err) {
             console.log(err);
         }
-        else 
-        // TEDTODO - check for user already exists in .users
-        if (lodash_1.isArray(boardDocs) && boardDocs.length === 1) {
+        else if (lodash_1.isArray(boardDocs) && boardDocs.length === 1) {
             const boardDoc = boardDocs[0];
             boardDoc.lastPlayedDateTime = lastPlayedDateTime;
             boardDoc.save();
@@ -123,6 +119,19 @@ const updateLastPlayedDateTimeDb = (boardId, lastPlayedDateTime) => {
     });
 };
 exports.updateLastPlayedDateTimeDb = updateLastPlayedDateTimeDb;
+const updateElapsedTimeDb = (boardId, elapsedTime) => {
+    Board_1.default.find({ id: boardId, }, (err, boardDocs) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (lodash_1.isArray(boardDocs) && boardDocs.length === 1) {
+            const boardDoc = boardDocs[0];
+            boardDoc.elapsedTime = elapsedTime;
+            boardDoc.save();
+        }
+    });
+};
+exports.updateElapsedTimeDb = updateElapsedTimeDb;
 // export const createUserDocuments = (userDocuments: UserEntity[]): Promise<Document[]> => {
 //   return new Promise((resolve: any, reject: any) => {
 //     User.collection.insert(userDocuments, (err, docs) => {
