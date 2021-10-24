@@ -1,4 +1,6 @@
 import express from 'express';
+import session from 'express-session';
+
 import cors from 'cors';
 import connectDB from './config/db';
 
@@ -22,7 +24,10 @@ import {
   uploadPuzzles, 
   addUserToBoard,
   updateElapsedTime,
-  updateLastPlayedDateTime
+  updateLastPlayedDateTime,
+  joinChat,
+  authenticateChat,
+  sendChatMessage
  } from './controllers';
 
 export let pusher: any;
@@ -54,6 +59,12 @@ class App {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     
+    this.app.use(session({
+      secret: 'somesuperdupersecret',
+      resave: true,
+      saveUninitialized: true
+  }))
+
     this.route.routes(this.app);
 
     // user routes
@@ -72,9 +83,14 @@ class App {
     this.app.post('/api/v1/board', createBoard)
     this.app.post('/api/v1/addUserToBoard', addUserToBoard)
     this.app.post('/api/v1/updateLastPlayedDateTime', updateLastPlayedDateTime)   
-    this.app.post('/api/v1/updateElapsedTime', updateElapsedTime)   
+    this.app.post('/api/v1/updateElapsedTime', updateElapsedTime)
+    
+    // chat routes
+    this.app.post('/join-chat', joinChat);
+    this.app.post('/pusher/auth', authenticateChat);
+    this.app.post('/send-message', sendChatMessage); 
   }
-
+  
   private config(): void {
     let port: any = process.env.PORT;
     if (port === undefined || port === null || port === '') {

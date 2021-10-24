@@ -80608,11 +80608,20 @@ var Board_1 = __webpack_require__(/*! ./Board */ "./src/components/Board.tsx");
 var BoardPlay_1 = __webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx");
 var BoardToolbar_1 = __webpack_require__(/*! ./BoardToolbar */ "./src/components/BoardToolbar.tsx");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var Chat_1 = __webpack_require__(/*! ./Chat */ "./src/components/Chat.tsx");
+/*
+      <div style={{ position: 'absolute', bottom: '0px', left: '0px' }}>
+        <p>line one of pizza</p>
+        <p>line two of pizza</p>
+      </div>
+*/
 var BoardTop = function (props) {
-    return (React.createElement("div", null,
-        React.createElement(BoardToolbar_1.default, null),
-        React.createElement(Board_1.default, null),
-        React.createElement(BoardPlay_1.default, { appState: props.appState, cellContents: props.cellContents, displayedPuzzle: props.displayedPuzzle, puzzlesMetadata: props.puzzlesMetadata, puzzleSpec: props.puzzleSpec })));
+    return (React.createElement("div", { style: { position: 'relative', height: '1080px' } },
+        React.createElement("div", { style: { maxHeight: '800px', overflow: 'auto' } },
+            React.createElement(BoardToolbar_1.default, null),
+            React.createElement(Board_1.default, null),
+            React.createElement(BoardPlay_1.default, { appState: props.appState, cellContents: props.cellContents, displayedPuzzle: props.displayedPuzzle, puzzlesMetadata: props.puzzlesMetadata, puzzleSpec: props.puzzleSpec })),
+        React.createElement(Chat_1.default, null)));
 };
 function mapStateToProps(state) {
     var appState = selectors_1.getAppState(state);
@@ -80631,6 +80640,37 @@ var mapDispatchToProps = function (dispatch) {
     return redux_1.bindActionCreators({}, dispatch);
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(BoardTop);
+
+
+/***/ }),
+
+/***/ "./src/components/Chat.tsx":
+/*!*********************************!*\
+  !*** ./src/components/Chat.tsx ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var Chat = function (props) {
+    return (React.createElement("div", { style: { position: 'absolute', bottom: '0px', left: '0px' } },
+        React.createElement("p", null, "line one of pizza"),
+        React.createElement("p", null, "line two of pizza")));
+};
+function mapStateToProps(state) {
+    return {
+        chatUser: 'Ted',
+    };
+}
+var mapDispatchToProps = function (dispatch) {
+    return redux_1.bindActionCreators({}, dispatch);
+};
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Chat);
 
 
 /***/ }),
@@ -81936,6 +81976,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./Board */ "./src/components/Board.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./BoardPlay */ "./src/components/BoardPlay.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./BoardTop */ "./src/components/BoardTop.tsx"), exports);
+__exportStar(__webpack_require__(/*! ./Chat */ "./src/components/Chat.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./Crossword */ "./src/components/Crossword/index.ts"), exports);
 __exportStar(__webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx"), exports);
 __exportStar(__webpack_require__(/*! ./Home */ "./src/components/Home.tsx"), exports);

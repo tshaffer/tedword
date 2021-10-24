@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import * as path from 'path';
-import * as fs from 'fs';
 
 import { pusher } from '../app';
 import { updateCellContents } from './dbInterface';
