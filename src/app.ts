@@ -86,7 +86,7 @@ class App {
     this.app.post('/api/v1/updateElapsedTime', updateElapsedTime)
     
     // chat routes
-    this.app.post('/join-chat', joinChat);
+    this.app.post('/api/v1/joinChat', joinChat);
     this.app.post('/pusher/auth', authenticateChat);
     this.app.post('/send-message', sendChatMessage); 
   }

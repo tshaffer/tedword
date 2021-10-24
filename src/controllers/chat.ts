@@ -18,7 +18,9 @@ import { pusher } from '../app';
 // }
 
 export function joinChat(request: Request, response: Response) {
-  ((response as any).session as any).username = request.body.username;
+  console.log('joinChat');
+  console.log(request.session);
+  ((request as any).session as any).username = request.body.username;
   response.json('Joined');
 }
 
