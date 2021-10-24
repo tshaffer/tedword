@@ -88,7 +88,7 @@ class App {
     // chat routes
     this.app.post('/api/v1/joinChat', joinChat);
     this.app.post('/pusher/auth', authenticateChat);
-    this.app.post('/send-message', sendChatMessage); 
+    this.app.post('/api/v1/sendMessage', sendChatMessage); 
   }
   
   private config(): void {

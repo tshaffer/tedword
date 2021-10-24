@@ -2,21 +2,6 @@ import { Request, Response } from 'express';
 
 import { pusher } from '../app';
 
-// var session = require('express-session')
-// declare module 'express-session' {
-//   interface SessionData {
-//     user: string;
-//   }
-// }
-
-// declare global {
-//   namespace Express {
-//     interface Session {
-//       _user?: string
-//     }
-//   }
-// }
-
 export function joinChat(request: Request, response: Response) {
   console.log('joinChat');
   console.log(request.session);

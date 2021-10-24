@@ -67,8 +67,8 @@ export function updateLastPlayedDateTime(request: Request, response: Response, n
 
 export function updateElapsedTime(request: Request, response: Response, next: any) {
 
-  console.log('updateElapsedTime');
-  console.log(request.body);
+  // console.log('updateElapsedTime');
+  // console.log(request.body);
 
   const { boardId, elapsedTime } = request.body;
 
