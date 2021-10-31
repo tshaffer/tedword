@@ -54,8 +54,8 @@ function updateLastPlayedDateTime(request, response, next) {
 }
 exports.updateLastPlayedDateTime = updateLastPlayedDateTime;
 function updateElapsedTime(request, response, next) {
-    console.log('updateElapsedTime');
-    console.log(request.body);
+    // console.log('updateElapsedTime');
+    // console.log(request.body);
     const { boardId, elapsedTime } = request.body;
     dbInterface_1.updateElapsedTimeDb(boardId, elapsedTime);
     response.sendStatus(200);

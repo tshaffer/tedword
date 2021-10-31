@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.pusher = void 0;
 const express_1 = __importDefault(require("express"));
+const express_session_1 = __importDefault(require("express-session"));
 const cors_1 = __importDefault(require("cors"));
 const db_1 = __importDefault(require("./config/db"));
 // import cookieParser from 'cookie-parser';
@@ -32,6 +33,11 @@ class App {
         this.app.use(cors_1.default());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(express_session_1.default({
+            secret: 'somesuperdupersecret',
+            resave: true,
+            saveUninitialized: true
+        }));
         this.route.routes(this.app);
         // user routes
         this.app.use('/api/v1', users_1.default);
@@ -48,6 +54,10 @@ class App {
         this.app.post('/api/v1/addUserToBoard', controllers_1.addUserToBoard);
         this.app.post('/api/v1/updateLastPlayedDateTime', controllers_1.updateLastPlayedDateTime);
         this.app.post('/api/v1/updateElapsedTime', controllers_1.updateElapsedTime);
+        // chat routes
+        this.app.post('/api/v1/joinChat', controllers_1.joinChat);
+        this.app.post('/pusher/auth', controllers_1.authenticateChat);
+        this.app.post('/api/v1/sendMessage', controllers_1.sendChatMessage);
     }
     config() {
         let port = process.env.PORT;

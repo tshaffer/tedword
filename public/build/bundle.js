@@ -80657,18 +80657,99 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var chat_1 = __webpack_require__(/*! ../controllers/chat */ "./src/controllers/chat.ts");
+var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
+var chatProps;
 var Chat = function (props) {
+    chatProps = props;
+    var _a = React.useState(''), message = _a[0], setMessage = _a[1];
+    var padded = {
+        margin: '4px',
+    };
+    var handleJoinChat = function () {
+        props.onJoinChat(props.currentUser);
+    };
+    var handleMessageChanged = function (event) {
+        setMessage(event.target.value);
+    };
+    var handleSendMessage = function () {
+        console.log('Send message ' + message);
+        props.onSendMessage(message);
+        setMessage('');
+    };
+    var getNotJoinedChatUI = function () {
+        return (React.createElement("div", null,
+            React.createElement("button", { style: padded, onClick: handleJoinChat }, "Join Chat"),
+            React.createElement("br", null)));
+    };
+    var getChatTo = function () {
+        var chatUsers = [];
+        for (var _i = 0, _a = props.chatMembers; _i < _a.length; _i++) {
+            var chatMember = _a[_i];
+            var userName = chatMember.userName;
+            // filter out duplicates
+            if (chatUsers.indexOf(userName) < 0) {
+                chatUsers.push(userName);
+            }
+        }
+        var indexOfMe = chatUsers.indexOf(props.currentUser);
+        if (indexOfMe >= 0) {
+            chatUsers.splice(indexOfMe, 1);
+        }
+        var memberList = chatUsers.join(', ');
+        var chatTo = 'To: ' + memberList;
+        return chatTo;
+    };
+    var getChatMessage = function (chat) {
+        return (React.createElement("p", null, 'From: ' + chat.sender + '- ' + chat.message));
+    };
+    var getChatHistory = function () {
+        var chatHistoryJsx = props.chats.map(function (chat) {
+            return getChatMessage(chat);
+        });
+        return chatHistoryJsx;
+    };
+    var getChatMessageToSend = function () {
+        return (React.createElement("div", null,
+            React.createElement("span", null, "Message:"),
+            React.createElement("input", { type: 'text', value: message, onChange: handleMessageChanged }),
+            React.createElement("button", { style: padded, onClick: handleSendMessage }, "Send Message")));
+    };
+    var getJoinedChatUI = function () {
+        var chatTo = getChatTo();
+        var chatHistory = getChatHistory();
+        var chatMessageToSend = getChatMessageToSend();
+        return (React.createElement("div", null,
+            React.createElement("p", null, chatTo),
+            React.createElement("div", null, chatHistory),
+            chatMessageToSend));
+    };
+    var getChatJsx = function () {
+        if (!props.joined) {
+            return getNotJoinedChatUI();
+        }
+        else {
+            return getJoinedChatUI();
+        }
+    };
+    var chatJsx = getChatJsx();
     return (React.createElement("div", { style: { position: 'absolute', bottom: '0px', left: '0px' } },
-        React.createElement("p", null, "line one of pizza"),
-        React.createElement("p", null, "line two of pizza")));
+        React.createElement("h3", null, "Chat"),
+        chatJsx));
 };
 function mapStateToProps(state) {
     return {
-        chatUser: 'Ted',
+        currentUser: selectors_1.getCurrentUser(state),
+        joined: selectors_1.getJoinedChat(state),
+        chatMembers: selectors_1.getChatMembers(state),
+        chats: selectors_1.getChats(state),
     };
 }
 var mapDispatchToProps = function (dispatch) {
-    return redux_1.bindActionCreators({}, dispatch);
+    return redux_1.bindActionCreators({
+        onJoinChat: chat_1.joinChat,
+        onSendMessage: chat_1.sendMessage,
+    }, dispatch);
 };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Chat);
 
@@ -81531,6 +81612,7 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Gam
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.pusher = void 0;
 /* eslint-disable @typescript-eslint/no-var-requires */
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var redux_1 = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
@@ -81544,16 +81626,19 @@ var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var Login_1 = __webpack_require__(/*! ./Login */ "./src/components/Login.tsx");
 var GameHome_1 = __webpack_require__(/*! ./GameHome */ "./src/components/GameHome.tsx");
 var BoardTop_1 = __webpack_require__(/*! ./BoardTop */ "./src/components/BoardTop.tsx");
+// import * as Pusher from 'pusher-js';
 var Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 var homeProps;
 var Home = function (props) {
     homeProps = props;
     var initializePusher = function () {
-        var pusher = new Pusher('c6addcc9977bdaa7e8a2', {
+        exports.pusher = new Pusher('c6addcc9977bdaa7e8a2', {
             cluster: 'us3',
             // encrypted: true,
+            encrypted: true,
+            authEndpoint: 'pusher/auth'
         });
-        var channel = pusher.subscribe('puzzle');
+        var channel = exports.pusher.subscribe('puzzle');
         channel.bind('cell-change', function (data) {
             console.log(homeProps);
             if (lodash_1.isNil(homeProps)) {
@@ -82223,6 +82308,79 @@ exports.launchExistingGame = launchExistingGame;
 
 /***/ }),
 
+/***/ "./src/controllers/chat.ts":
+/*!*********************************!*\
+  !*** ./src/controllers/chat.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendMessage = exports.joinChat = void 0;
+var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+var Home_1 = __webpack_require__(/*! ../components/Home */ "./src/components/Home.tsx");
+var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
+var chatMembers;
+var userName = '';
+var joinChat = function (username) {
+    return function (dispatch, getState) {
+        var path = types_1.serverUrl + types_1.apiUrlFragment + 'joinChat';
+        axios_1.default.post(path, { username: username }).then(function (response) {
+            dispatch(models_1.setJoined(true));
+            userName = username;
+            var channel = Home_1.pusher.subscribe('presence-groupChat');
+            channel.bind('pusher:subscription_succeeded', function (members) {
+                chatMembers = channel.members;
+                var chatMemberNames = Object.keys(chatMembers.members);
+                for (var _i = 0, chatMemberNames_1 = chatMemberNames; _i < chatMemberNames_1.length; _i++) {
+                    var chatMemberName = chatMemberNames_1[_i];
+                    dispatch(models_1.addChatMember(chatMemberName));
+                }
+            });
+            // User joins chat
+            channel.bind('pusher:member_added', function (member) {
+                console.log(member.id + " joined the chat");
+                dispatch(models_1.addChatMember(member.id));
+            });
+            // Listen for chat messages
+            dispatch(listen());
+            return;
+        }).catch(function (error) {
+            console.log('error');
+            console.log(error);
+            return;
+        });
+    };
+};
+exports.joinChat = joinChat;
+var sendMessage = function (newMessage) {
+    return function (dispatch) {
+        var path = types_1.serverUrl + types_1.apiUrlFragment + 'sendMessage';
+        axios_1.default.post(path, {
+            username: userName,
+            message: newMessage,
+        }).then(function (response) {
+            console.log('response to sendMessage', response);
+        });
+    };
+};
+exports.sendMessage = sendMessage;
+var listen = function () {
+    return function (dispatch) {
+        var channel = Home_1.pusher.subscribe('presence-groupChat');
+        channel.bind('message_sent', function (data) {
+            console.log('messageReceived', data);
+            dispatch(models_1.addChat(data.username, data.message, new Date()));
+        });
+    };
+};
+
+
+/***/ }),
+
 /***/ "./src/controllers/index.ts":
 /*!**********************************!*\
   !*** ./src/controllers/index.ts ***!
@@ -82782,14 +82940,16 @@ var boards_1 = __webpack_require__(/*! ./boards */ "./src/models/boards.ts");
 var gameState_1 = __webpack_require__(/*! ./gameState */ "./src/models/gameState.ts");
 var guessesState_1 = __webpack_require__(/*! ./guessesState */ "./src/models/guessesState.ts");
 var derivedCrosswordData_1 = __webpack_require__(/*! ./derivedCrosswordData */ "./src/models/derivedCrosswordData.ts");
+var chat_1 = __webpack_require__(/*! ./chat */ "./src/models/chat.ts");
 // -----------------------------------------------------------------------
 // Reducers
 // -----------------------------------------------------------------------
 exports.rootReducer = redux_1.combineReducers({
-    users: users_1.usersReducer,
-    boardsState: boards_1.boardsStateReducer,
-    puzzlesState: puzzles_1.puzzlesStateReducer,
     appState: appState_1.appStateReducer,
+    boardsState: boards_1.boardsStateReducer,
+    chat: chat_1.chatStateReducer,
+    users: users_1.usersReducer,
+    puzzlesState: puzzles_1.puzzlesStateReducer,
     gameState: gameState_1.gameStateReducer,
     derivedCrosswordData: derivedCrosswordData_1.derivedCrosswordDataReducer,
     guessesState: guessesState_1.guessesStateReducer,
@@ -82914,6 +83074,99 @@ var boardsStateReducer = function (state, action) {
     }
 };
 exports.boardsStateReducer = boardsStateReducer;
+
+
+/***/ }),
+
+/***/ "./src/models/chat.ts":
+/*!****************************!*\
+  !*** ./src/models/chat.ts ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.chatStateReducer = exports.addChatMember = exports.addChat = exports.setJoined = exports.ADD_CHAT_MEMBER = exports.ADD_CHAT = exports.SET_JOINED = void 0;
+var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+// ------------------------------------
+// Constants
+// ------------------------------------
+exports.SET_JOINED = 'SET_JOINED';
+exports.ADD_CHAT = 'ADD_CHAT';
+exports.ADD_CHAT_MEMBER = 'ADD_CHAT_MEMBER';
+var setJoined = function (joined) {
+    return {
+        type: exports.SET_JOINED,
+        payload: {
+            joined: joined,
+        },
+    };
+};
+exports.setJoined = setJoined;
+var addChat = function (sender, message, timestamp) {
+    return {
+        type: exports.ADD_CHAT,
+        payload: {
+            sender: sender,
+            message: message,
+            timestamp: timestamp,
+        }
+    };
+};
+exports.addChat = addChat;
+var addChatMember = function (userName) {
+    return {
+        type: exports.ADD_CHAT_MEMBER,
+        payload: {
+            userName: userName,
+        }
+    };
+};
+exports.addChatMember = addChatMember;
+// ------------------------------------
+// Reducer
+// ------------------------------------
+var initialState = {
+    joined: false,
+    members: [],
+    chats: [],
+};
+var chatStateReducer = function (state, action) {
+    if (state === void 0) { state = initialState; }
+    switch (action.type) {
+        case exports.SET_JOINED: {
+            return __assign(__assign({}, state), { joined: action.payload.joined });
+        }
+        case exports.ADD_CHAT: {
+            var newChat = __assign({}, action.payload);
+            var newState = lodash_1.cloneDeep(state);
+            newState.chats.push(newChat);
+            return newState;
+        }
+        case exports.ADD_CHAT_MEMBER: {
+            var newChatMember = __assign({}, action.payload);
+            var newState = lodash_1.cloneDeep(state);
+            newState.members.push(newChatMember);
+            return newState;
+        }
+        default:
+            return state;
+    }
+};
+exports.chatStateReducer = chatStateReducer;
 
 
 /***/ }),
@@ -83158,6 +83411,7 @@ __exportStar(__webpack_require__(/*! ./appState */ "./src/models/appState.ts"), 
 __exportStar(__webpack_require__(/*! ./baseAction */ "./src/models/baseAction.ts"), exports);
 __exportStar(__webpack_require__(/*! ./baseReducer */ "./src/models/baseReducer.ts"), exports);
 __exportStar(__webpack_require__(/*! ./boards */ "./src/models/boards.ts"), exports);
+__exportStar(__webpack_require__(/*! ./chat */ "./src/models/chat.ts"), exports);
 __exportStar(__webpack_require__(/*! ./derivedCrosswordData */ "./src/models/derivedCrosswordData.ts"), exports);
 __exportStar(__webpack_require__(/*! ./gameState */ "./src/models/gameState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./guessesState */ "./src/models/guessesState.ts"), exports);
@@ -83362,6 +83616,37 @@ exports.getElapsedTime = getElapsedTime;
 
 /***/ }),
 
+/***/ "./src/selectors/chat.ts":
+/*!*******************************!*\
+  !*** ./src/selectors/chat.ts ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getChats = exports.getChatMembers = exports.getJoinedChat = exports.getChatState = void 0;
+var getChatState = function (state) {
+    return state.chat;
+};
+exports.getChatState = getChatState;
+var getJoinedChat = function (state) {
+    return exports.getChatState(state).joined;
+};
+exports.getJoinedChat = getJoinedChat;
+var getChatMembers = function (state) {
+    return exports.getChatState(state).members;
+};
+exports.getChatMembers = getChatMembers;
+var getChats = function (state) {
+    return exports.getChatState(state).chats;
+};
+exports.getChats = getChats;
+
+
+/***/ }),
+
 /***/ "./src/selectors/derivedCrosswordData.ts":
 /*!***********************************************!*\
   !*** ./src/selectors/derivedCrosswordData.ts ***!
@@ -83449,6 +83734,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(/*! ./appState */ "./src/selectors/appState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./board */ "./src/selectors/board.ts"), exports);
+__exportStar(__webpack_require__(/*! ./chat */ "./src/selectors/chat.ts"), exports);
 __exportStar(__webpack_require__(/*! ./derivedCrosswordData */ "./src/selectors/derivedCrosswordData.ts"), exports);
 __exportStar(__webpack_require__(/*! ./gameState */ "./src/selectors/gameState.ts"), exports);
 __exportStar(__webpack_require__(/*! ./guesses */ "./src/selectors/guesses.ts"), exports);
@@ -83579,8 +83865,8 @@ exports.getUsers = getUsers;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiState = exports.apiUrlFragment = exports.serverUrl = void 0;
-exports.serverUrl = 'http://localhost:8000';
-// export const serverUrl = 'https://tedword.herokuapp.com';
+// export const serverUrl = 'http://localhost:8000';
+exports.serverUrl = 'https://tedword.herokuapp.com';
 exports.apiUrlFragment = '/api/v1/';
 var UiState;
 (function (UiState) {

@@ -11,6 +11,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./boards"), exports);
+__exportStar(require("./chat"), exports);
 __exportStar(require("./dbInterface"), exports);
 __exportStar(require("./mainController"), exports);
 __exportStar(require("./puzzles"), exports);
