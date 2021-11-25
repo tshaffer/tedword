@@ -17,6 +17,12 @@ export function getCSS(request: Request, response: Response) {
   response.sendFile(pathToCSS);
 }
 
+export function getCloseIcon(request: Request, response: Response) {
+  console.log('invoke getCloseIcon');
+  const pathToCloseIcon = path.join(__dirname, '../../public', 'icons', 'close.svg');
+  response.sendFile(pathToCloseIcon);
+}
+
 export function getBundle(request: Request, response: Response) {
   console.log('getBundle invoked');
   const pathToBundle = path.join(__dirname, '../../public', 'build', 'bundle.js');
