@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cellChange = exports.getBundleMap = exports.getBundle = exports.getCSS = exports.getIndex = void 0;
+exports.cellChange = exports.getBundleMap = exports.getBundle = exports.getCloseIcon = exports.getCSS = exports.getIndex = void 0;
 const path = __importStar(require("path"));
 const app_1 = require("../app");
 const dbInterface_1 = require("./dbInterface");
@@ -36,6 +36,12 @@ function getCSS(request, response) {
     response.sendFile(pathToCSS);
 }
 exports.getCSS = getCSS;
+function getCloseIcon(request, response) {
+    console.log('invoke getCloseIcon');
+    const pathToCloseIcon = path.join(__dirname, '../../public', 'icons', 'close.svg');
+    response.sendFile(pathToCloseIcon);
+}
+exports.getCloseIcon = getCloseIcon;
 function getBundle(request, response) {
     console.log('getBundle invoked');
     const pathToBundle = path.join(__dirname, '../../public', 'build', 'bundle.js');
