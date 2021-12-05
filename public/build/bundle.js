@@ -83220,8 +83220,8 @@ exports.getUsers = function (state) {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UiState = exports.StartPage = exports.apiUrlFragment = exports.serverUrl = void 0;
-// export const serverUrl = 'http://localhost:8000';
-exports.serverUrl = 'https://tedword.herokuapp.com';
+exports.serverUrl = 'http://localhost:8000';
+// export const serverUrl = 'https://tedword.herokuapp.com';
 exports.apiUrlFragment = '/api/v1/';
 var StartPage;
 (function (StartPage) {
