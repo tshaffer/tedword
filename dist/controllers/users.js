@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsers = void 0;
 const lodash_1 = require("lodash");
 const User_1 = __importDefault(require("../models/User"));
-const getUsers = (request, response, next) => {
+exports.getUsers = (request, response, next) => {
     console.log('getUsers');
     getUsersFromDb()
         .then((users) => {
@@ -15,7 +15,6 @@ const getUsers = (request, response, next) => {
         response.json(users);
     });
 };
-exports.getUsers = getUsers;
 const getUsersFromDb = () => {
     const users = [];
     const query = User_1.default.find({});

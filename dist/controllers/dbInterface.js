@@ -8,21 +8,19 @@ const lodash_1 = require("lodash");
 const Board_1 = __importDefault(require("../models/Board"));
 const Puzzle_1 = __importDefault(require("../models/Puzzle"));
 const User_1 = __importDefault(require("../models/User"));
-const createUserDocument = (userEntity) => {
+exports.createUserDocument = (userEntity) => {
     return User_1.default.create(userEntity)
         .then((user) => {
         return Promise.resolve(user);
     });
 };
-exports.createUserDocument = createUserDocument;
-const createPuzzle = (puzzleEntity) => {
+exports.createPuzzle = (puzzleEntity) => {
     return Puzzle_1.default.create(puzzleEntity)
         .then((puzzle) => {
         return Promise.resolve(puzzle);
     });
 };
-exports.createPuzzle = createPuzzle;
-const getBoardsFromDb = () => {
+exports.getBoardsFromDb = () => {
     const query = Board_1.default.find({});
     const promise = query.exec();
     return promise.then((boardDocuments) => {
@@ -47,15 +45,13 @@ const getBoardsFromDb = () => {
         return Promise.resolve(boardEntities);
     });
 };
-exports.getBoardsFromDb = getBoardsFromDb;
-const createBoardDocument = (boardEntity) => {
+exports.createBoardDocument = (boardEntity) => {
     return Board_1.default.create(boardEntity)
         .then((board) => {
         return Promise.resolve(board);
     });
 };
-exports.createBoardDocument = createBoardDocument;
-const updateCellContents = (boardId, user, row, col, typedChar) => {
+exports.updateCellContents = (boardId, user, row, col, typedChar) => {
     console.log('updateCellContents');
     console.log(boardId);
     console.log(user);
@@ -88,8 +84,7 @@ const updateCellContents = (boardId, user, row, col, typedChar) => {
         }
     };
 };
-exports.updateCellContents = updateCellContents;
-const addUserToBoardDb = (boardId, userName) => {
+exports.addUserToBoardDb = (boardId, userName) => {
     Board_1.default.find({
         id: boardId,
     }, (err, boardDocs) => {
@@ -105,8 +100,7 @@ const addUserToBoardDb = (boardId, userName) => {
         }
     });
 };
-exports.addUserToBoardDb = addUserToBoardDb;
-const updateLastPlayedDateTimeDb = (boardId, lastPlayedDateTime) => {
+exports.updateLastPlayedDateTimeDb = (boardId, lastPlayedDateTime) => {
     Board_1.default.find({ id: boardId, }, (err, boardDocs) => {
         if (err) {
             console.log(err);
@@ -118,8 +112,7 @@ const updateLastPlayedDateTimeDb = (boardId, lastPlayedDateTime) => {
         }
     });
 };
-exports.updateLastPlayedDateTimeDb = updateLastPlayedDateTimeDb;
-const updateElapsedTimeDb = (boardId, elapsedTime) => {
+exports.updateElapsedTimeDb = (boardId, elapsedTime) => {
     Board_1.default.find({ id: boardId, }, (err, boardDocs) => {
         if (err) {
             console.log(err);
@@ -131,7 +124,6 @@ const updateElapsedTimeDb = (boardId, elapsedTime) => {
         }
     });
 };
-exports.updateElapsedTimeDb = updateElapsedTimeDb;
 // export const createUserDocuments = (userDocuments: UserEntity[]): Promise<Document[]> => {
 //   return new Promise((resolve: any, reject: any) => {
 //     User.collection.insert(userDocuments, (err, docs) => {

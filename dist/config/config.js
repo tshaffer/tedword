@@ -22,7 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.readConfig = exports.tedwordConfiguration = void 0;
 const dotenv = __importStar(require("dotenv"));
 const lodash_1 = require("lodash");
-const readConfig = (pathToConfigFile) => {
+exports.readConfig = (pathToConfigFile) => {
     try {
         const configOutput = dotenv.config({ path: pathToConfigFile });
         const parsedConfig = configOutput.parsed;
@@ -42,5 +42,4 @@ const readConfig = (pathToConfigFile) => {
         console.log('Dotenv config error: ' + err.message);
     }
 };
-exports.readConfig = readConfig;
 //# sourceMappingURL=config.js.map

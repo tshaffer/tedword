@@ -26,8 +26,6 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     email: { type: String, required: true },
     cellTextColorPartnerBoard: { type: String, required: true },
-    // historical board times
-    // board history
 });
 exports.default = mongoose.model('User', UserSchema);
 //# sourceMappingURL=User.js.map

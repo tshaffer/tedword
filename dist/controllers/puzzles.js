@@ -8,7 +8,7 @@ const uuid_1 = require("uuid");
 const lodash_1 = require("lodash");
 const Puzzle_1 = __importDefault(require("../models/Puzzle"));
 const dbInterface_1 = require("./dbInterface");
-const getAllPuzzlesMetadata = (request, response, next) => {
+exports.getAllPuzzlesMetadata = (request, response, next) => {
     console.log('getAllPuzzlesMetadata');
     getAllPuzzlesMetadataFromDb()
         .then((puzzlesMetadata) => {
@@ -17,8 +17,7 @@ const getAllPuzzlesMetadata = (request, response, next) => {
         response.json(puzzlesMetadata);
     });
 };
-exports.getAllPuzzlesMetadata = getAllPuzzlesMetadata;
-const getPuzzleMetadata = (request, response, next) => {
+exports.getPuzzleMetadata = (request, response, next) => {
     console.log('getPuzzleMetadata');
     console.log('request.query:');
     console.log(request.query);
@@ -30,7 +29,6 @@ const getPuzzleMetadata = (request, response, next) => {
         response.json(puzzleMetadata);
     });
 };
-exports.getPuzzleMetadata = getPuzzleMetadata;
 const getPuzzleMetadataFromDb = (puzzleId) => {
     const query = Puzzle_1.default.find({ id: puzzleId });
     query.select(['id', 'title', 'author', 'sourceFileName']);
@@ -88,7 +86,7 @@ const getAllPuzzlesMetadataFromDb = () => {
         return Promise.reject(err);
     });
 };
-const getPuzzle = (request, response, next) => {
+exports.getPuzzle = (request, response, next) => {
     console.log('getPuzzle');
     console.log('request.query:');
     console.log(request.query);
@@ -100,7 +98,6 @@ const getPuzzle = (request, response, next) => {
         response.json(puzzle);
     });
 };
-exports.getPuzzle = getPuzzle;
 const getPuzzleFromDb = (id) => {
     const query = Puzzle_1.default.find({ id });
     const promise = query.exec();
