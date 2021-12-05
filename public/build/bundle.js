@@ -79964,6 +79964,7 @@ var Cell = function (props) {
         fill: cellTextColor
     };
     var cellStyle = fillStyle;
+    // WHY IS THIS NOT INVOKED IF IT ALREADY HAS FOCUS??
     var handleClick = function (event) {
         event.preventDefault();
         props.onClick({ row: row, col: col });
@@ -79996,8 +79997,15 @@ var styled_components_1 = __webpack_require__(/*! styled-components */ "./node_m
 var context_1 = __webpack_require__(/*! ./context */ "./src/components/Crossword/context.js");
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var Clue = function (props) {
+    var clueRef = React.useRef(null);
     var highlightBackground = React.useContext(styled_components_1.ThemeContext).highlightBackground;
     var _a = React.useContext(context_1.CrosswordContext), focused = _a.focused, selectedDirection = _a.selectedDirection, selectedNumber = _a.selectedNumber;
+    React.useEffect(function () {
+        var becameFocused = focused && props.direction === selectedDirection && props.number === selectedNumber;
+        if (becameFocused && !lodash_1.isNil(clueRef) && !lodash_1.isNil(clueRef.current)) {
+            clueRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        }
+    }, [focused, selectedDirection, selectedNumber]);
     var handleClick = function (event) {
         event.preventDefault();
         if (!lodash_1.isNil(props.onClueSelected)) {
@@ -80022,7 +80030,7 @@ var Clue = function (props) {
             textDecoration: 'none'
         };
     }
-    return (React.createElement("div", { style: innerStyle, onClick: handleClick },
+    return (React.createElement("div", { ref: clueRef, style: innerStyle, onClick: handleClick },
         props.number,
         ": ",
         React.createElement("span", { style: textDecorationStyle }, props.clueText)));
@@ -80099,13 +80107,17 @@ var Crossword = function (props) {
         // fake cellData to represent "out of bounds"
         return { row: row, col: col, used: false };
     };
-    var handleCellClick = function (cellData) {
-        var row = cellData.row, col = cellData.col;
+    var handleCellClick = function (cellCoordinates) {
+        var row = cellCoordinates.row, col = cellCoordinates.col;
         var other = utilities_1.otherDirection(currentDirection);
         // should this use moveTo?
         setFocusedRow(row);
         setFocusedCol(col);
         var direction = currentDirection;
+        var cellData = getCellData(row, col);
+        if (!cellData.used) {
+            return false;
+        }
         // We switch to the "other" direction if (a) the current direction isn't
         // available in the clicked cell, or (b) we're already focused and the
         // clicked cell is the focused cell, *and* the other direction is
@@ -80114,7 +80126,8 @@ var Crossword = function (props) {
             (focused &&
                 row === focusedRow &&
                 col === focusedCol &&
-                cellData[other])) {
+                cellData[other]) // **** How does cellData[other] evaluate to true when it's undefined????
+        ) {
             setCurrentDirection(other);
             direction = other;
         }
@@ -81360,7 +81373,7 @@ var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
 var board_1 = __webpack_require__(/*! ./board */ "./src/controllers/board.ts");
-var setStartupAppState = function () {
+exports.setStartupAppState = function () {
     return function (dispatch, getState) {
         var state = getState();
         var startPage = selectors_1.getStartPage(state);
@@ -81375,7 +81388,6 @@ var setStartupAppState = function () {
         dispatch(models_1.setUiState(types_1.UiState.SelectPuzzleOrBoard));
     };
 };
-exports.setStartupAppState = setStartupAppState;
 
 
 /***/ }),
@@ -81398,7 +81410,7 @@ var selectors_1 = __webpack_require__(/*! ../selectors */ "./src/selectors/index
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var selectors_2 = __webpack_require__(/*! ../selectors */ "./src/selectors/index.ts");
-var loadBoards = function () {
+exports.loadBoards = function () {
     return function (dispatch) {
         // const path = 'http://localhost:8888/api/v1/boards';
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'boards';
@@ -81421,8 +81433,7 @@ var loadBoards = function () {
         });
     };
 };
-exports.loadBoards = loadBoards;
-var createBoard = function () {
+exports.createBoard = function () {
     return (function (dispatch, getState) {
         var state = getState();
         var appState = state.appState;
@@ -81485,8 +81496,7 @@ var createBoard = function () {
         });
     });
 };
-exports.createBoard = createBoard;
-var addUserToExistingBoard = function (id, userName) {
+exports.addUserToExistingBoard = function (id, userName) {
     return (function (dispatch, getState) {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'addUserToBoard';
         var addUserToBoardBody = {
@@ -81503,8 +81513,7 @@ var addUserToExistingBoard = function (id, userName) {
         });
     });
 };
-exports.addUserToExistingBoard = addUserToExistingBoard;
-var updateLastPlayedDateTime = function (id, lastPlayedDateTime) {
+exports.updateLastPlayedDateTime = function (id, lastPlayedDateTime) {
     return (function (dispatch, getState) {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'updateLastPlayedDateTime';
         var updateLastPlayedDateTimeBody = {
@@ -81521,8 +81530,7 @@ var updateLastPlayedDateTime = function (id, lastPlayedDateTime) {
         });
     });
 };
-exports.updateLastPlayedDateTime = updateLastPlayedDateTime;
-var updateElapsedTime = function (id, elapsedTime) {
+exports.updateElapsedTime = function (id, elapsedTime) {
     return (function (dispatch) {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'updateElapsedTime';
         var updateElapsedTimeBody = {
@@ -81539,9 +81547,8 @@ var updateElapsedTime = function (id, elapsedTime) {
         });
     });
 };
-exports.updateElapsedTime = updateElapsedTime;
 // TEDTODO - several ways to improve performance.
-var updateFocusedClues = function (row, col) {
+exports.updateFocusedClues = function (row, col) {
     return (function (dispatch, getState) {
         var state = getState();
         var appState = selectors_2.getAppState(state);
@@ -81593,8 +81600,7 @@ var updateFocusedClues = function (row, col) {
         dispatch(models_1.setFocusedClues(matchedAcrossClue, matchedDownClue));
     });
 };
-exports.updateFocusedClues = updateFocusedClues;
-var launchExistingGame = function (boardId) {
+exports.launchExistingGame = function (boardId) {
     return (function (dispatch, getState) {
         var state = getState();
         var boardsState = state.boardsState;
@@ -81612,7 +81618,6 @@ var launchExistingGame = function (boardId) {
         }
     });
 };
-exports.launchExistingGame = launchExistingGame;
 
 
 /***/ }),
@@ -81633,7 +81638,7 @@ var Home_1 = __webpack_require__(/*! ../components/Home */ "./src/components/Hom
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var chatMembers;
 var userName = '';
-var joinChat = function (username) {
+exports.joinChat = function (username) {
     return function (dispatch, getState) {
         var path = types_1.serverUrl + types_1.apiUrlFragment + 'joinChat';
         axios_1.default.post(path, { username: username }).then(function (response) {
@@ -81663,8 +81668,7 @@ var joinChat = function (username) {
         });
     };
 };
-exports.joinChat = joinChat;
-var sendMessage = function (newMessage) {
+exports.sendMessage = function (newMessage) {
     return function (dispatch) {
         var path = types_1.serverUrl + types_1.apiUrlFragment + 'sendMessage';
         axios_1.default.post(path, {
@@ -81675,7 +81679,6 @@ var sendMessage = function (newMessage) {
         });
     };
 };
-exports.sendMessage = sendMessage;
 var listen = function () {
     return function (dispatch) {
         var channel = Home_1.pusher.subscribe('presence-groupChat');
@@ -81736,7 +81739,7 @@ var selectors_2 = __webpack_require__(/*! ../selectors */ "./src/selectors/index
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 var PuzCrossword = (__webpack_require__(/*! @confuzzle/puz-crossword */ "./node_modules/@confuzzle/puz-crossword/puz-crossword.js").PuzCrossword);
-var loadPuzzle = function (id) {
+exports.loadPuzzle = function (id) {
     return (function (dispatch, getState) {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'puzzle?id=' + id;
         return axios_1.default.get(path)
@@ -81781,8 +81784,7 @@ var loadPuzzle = function (id) {
         });
     });
 };
-exports.loadPuzzle = loadPuzzle;
-var generateDerivedCrosswordData = function (puzzleEntity) {
+exports.generateDerivedCrosswordData = function (puzzleEntity) {
     var crosswordClues = exports.buildDisplayedPuzzle(puzzleEntity);
     var _a = utilities_1.createGridData(crosswordClues), size = _a.size, gridData = _a.gridData, clues = _a.clues;
     return {
@@ -81791,8 +81793,7 @@ var generateDerivedCrosswordData = function (puzzleEntity) {
         cluesByDirection: crosswordClues,
     };
 };
-exports.generateDerivedCrosswordData = generateDerivedCrosswordData;
-var buildDisplayedPuzzle = function (puzzleEntity) {
+exports.buildDisplayedPuzzle = function (puzzleEntity) {
     var cluesByDirection = {
         across: {},
         down: {},
@@ -81824,8 +81825,7 @@ var buildDisplayedPuzzle = function (puzzleEntity) {
     }
     return cluesByDirection;
 };
-exports.buildDisplayedPuzzle = buildDisplayedPuzzle;
-var loadPuzzlesMetadata = function () {
+exports.loadPuzzlesMetadata = function () {
     return function (dispatch) {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'allPuzzlesMetadata';
         return axios_1.default.get(path)
@@ -81842,8 +81842,7 @@ var loadPuzzlesMetadata = function () {
         });
     };
 };
-exports.loadPuzzlesMetadata = loadPuzzlesMetadata;
-var processInputEvent = function (row, col, typedChar) {
+exports.processInputEvent = function (row, col, typedChar) {
     return function (dispatch, getState) {
         var state = getState();
         var guess = {
@@ -81870,7 +81869,6 @@ var processInputEvent = function (row, col, typedChar) {
         });
     };
 };
-exports.processInputEvent = processInputEvent;
 var refreshCompletedClues = function () {
     return (function (dispatch, getState) {
         var state = getState();
@@ -81928,7 +81926,7 @@ var buildCluesInDirection = function (cluesByDirection, direction, guesses) {
         }
     }
 };
-var uploadPuzFiles = function (puzFiles) {
+exports.uploadPuzFiles = function (puzFiles) {
     return function (dispatch) {
         parsePuzzleFiles(puzFiles)
             .then(function (puzzleSpecs) {
@@ -81949,7 +81947,6 @@ var uploadPuzFiles = function (puzFiles) {
         });
     };
 };
-exports.uploadPuzFiles = uploadPuzFiles;
 var parsePuzzleFile = function (puzFile) {
     return new Promise(function (resolve, reject) {
         var fileReader = new FileReader();
@@ -81995,7 +81992,7 @@ var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var models_1 = __webpack_require__(/*! ../models */ "./src/models/index.ts");
 var index_1 = __webpack_require__(/*! ../index */ "./src/index.ts");
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-var loadUsers = function () {
+exports.loadUsers = function () {
     return function (dispatch) {
         var path = index_1.serverUrl + index_1.apiUrlFragment + 'users';
         return axios_1.default.get(path)
@@ -82028,8 +82025,7 @@ var loadUsers = function () {
         });
     };
 };
-exports.loadUsers = loadUsers;
-var loginPersistentUser = function () {
+exports.loginPersistentUser = function () {
     return function (dispatch, getState) {
         var storedUserName = localStorage.getItem('userName');
         if (!lodash_1.isString(storedUserName)) {
@@ -82055,7 +82051,6 @@ var loginPersistentUser = function () {
         return null;
     };
 };
-exports.loginPersistentUser = loginPersistentUser;
 
 
 /***/ }),
@@ -82142,7 +82137,7 @@ var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 // ------------------------------------
 exports.SET_START_PAGE = 'SET_START_PAGE';
 exports.SET_STARTUP_BOARD_ID = 'SET_STARTUP_BOARD_ID';
-var setStartPage = function (startPage) {
+exports.setStartPage = function (startPage) {
     return {
         type: exports.SET_START_PAGE,
         payload: {
@@ -82150,8 +82145,7 @@ var setStartPage = function (startPage) {
         },
     };
 };
-exports.setStartPage = setStartPage;
-var setStartupBoardId = function (boardId) {
+exports.setStartupBoardId = function (boardId) {
     return {
         type: exports.SET_STARTUP_BOARD_ID,
         payload: {
@@ -82159,7 +82153,6 @@ var setStartupBoardId = function (boardId) {
         },
     };
 };
-exports.setStartupBoardId = setStartupBoardId;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -82167,7 +82160,7 @@ var initialState = {
     startPage: types_1.StartPage.Standard,
     startupBoardId: null,
 };
-var appParametersReducer = function (state, action) {
+exports.appParametersReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.SET_START_PAGE: {
@@ -82180,7 +82173,6 @@ var appParametersReducer = function (state, action) {
             return state;
     }
 };
-exports.appParametersReducer = appParametersReducer;
 
 
 /***/ }),
@@ -82216,7 +82208,7 @@ exports.SET_PUZZLE_ID = 'SET_PUZZLE_ID';
 exports.SET_BOARD_ID = 'SET_BOARD_ID';
 exports.SET_FILE_UPLOAD_STATUS = 'SET_FILE_UPLOAD_STATUS';
 exports.SET_PUZZLE_PLAY_ACTIVE = 'SET_PUZZLE_PLAY_ACTIVE';
-var setUiState = function (uiState) {
+exports.setUiState = function (uiState) {
     return {
         type: exports.SET_UI_STATE,
         payload: {
@@ -82224,8 +82216,7 @@ var setUiState = function (uiState) {
         },
     };
 };
-exports.setUiState = setUiState;
-var setUserName = function (userName) {
+exports.setUserName = function (userName) {
     return {
         type: exports.SET_USER_NAME,
         payload: {
@@ -82233,8 +82224,7 @@ var setUserName = function (userName) {
         },
     };
 };
-exports.setUserName = setUserName;
-var setPuzzleId = function (puzzleId) {
+exports.setPuzzleId = function (puzzleId) {
     return {
         type: exports.SET_PUZZLE_ID,
         payload: {
@@ -82242,8 +82232,7 @@ var setPuzzleId = function (puzzleId) {
         },
     };
 };
-exports.setPuzzleId = setPuzzleId;
-var setBoardId = function (boardId) {
+exports.setBoardId = function (boardId) {
     return {
         type: exports.SET_BOARD_ID,
         payload: {
@@ -82251,8 +82240,7 @@ var setBoardId = function (boardId) {
         },
     };
 };
-exports.setBoardId = setBoardId;
-var setFileUploadStatus = function (fileUploadStatus) {
+exports.setFileUploadStatus = function (fileUploadStatus) {
     return {
         type: exports.SET_FILE_UPLOAD_STATUS,
         payload: {
@@ -82260,8 +82248,7 @@ var setFileUploadStatus = function (fileUploadStatus) {
         },
     };
 };
-exports.setFileUploadStatus = setFileUploadStatus;
-var setPuzzlePlayActive = function (puzzlePlayActive) {
+exports.setPuzzlePlayActive = function (puzzlePlayActive) {
     return {
         type: exports.SET_PUZZLE_PLAY_ACTIVE,
         payload: {
@@ -82269,7 +82256,6 @@ var setPuzzlePlayActive = function (puzzlePlayActive) {
         },
     };
 };
-exports.setPuzzlePlayActive = setPuzzlePlayActive;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -82281,7 +82267,7 @@ var initialState = {
     fileUploadStatus: '',
     puzzlePlayActive: false,
 };
-var appStateReducer = function (state, action) {
+exports.appStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.SET_UI_STATE: {
@@ -82306,7 +82292,6 @@ var appStateReducer = function (state, action) {
             return state;
     }
 };
-exports.appStateReducer = appStateReducer;
 
 
 /***/ }),
@@ -82385,7 +82370,7 @@ exports.ADD_USER_TO_BOARD = 'ADD_USER_TO_BOARD';
 exports.SET_CELL_CONTENTS = 'SET_CELL_CONTENTS';
 exports.UPDATE_LAST_PLAYED_DATE_TIME = 'UPDATE_LAST_PLAYED_DATE_TIME';
 exports.UPDATE_ELAPSED_TIME = 'UPDATE_ELAPSED_TIME';
-var addBoard = function (id, board) {
+exports.addBoard = function (id, board) {
     return {
         type: exports.ADD_BOARD,
         payload: {
@@ -82394,8 +82379,7 @@ var addBoard = function (id, board) {
         }
     };
 };
-exports.addBoard = addBoard;
-var addUserToBoard = function (id, userName) {
+exports.addUserToBoard = function (id, userName) {
     return {
         type: exports.ADD_USER_TO_BOARD,
         payload: {
@@ -82404,8 +82388,7 @@ var addUserToBoard = function (id, userName) {
         }
     };
 };
-exports.addUserToBoard = addUserToBoard;
-var setCellContents = function (id, cellContents) {
+exports.setCellContents = function (id, cellContents) {
     return {
         type: exports.SET_CELL_CONTENTS,
         payload: {
@@ -82414,8 +82397,7 @@ var setCellContents = function (id, cellContents) {
         }
     };
 };
-exports.setCellContents = setCellContents;
-var updateLastPlayedDateTimeRedux = function (id, lastPlayedDateTime) {
+exports.updateLastPlayedDateTimeRedux = function (id, lastPlayedDateTime) {
     return {
         type: exports.UPDATE_LAST_PLAYED_DATE_TIME,
         payload: {
@@ -82424,8 +82406,7 @@ var updateLastPlayedDateTimeRedux = function (id, lastPlayedDateTime) {
         }
     };
 };
-exports.updateLastPlayedDateTimeRedux = updateLastPlayedDateTimeRedux;
-var updateElapsedTimeRedux = function (id, elapsedTime) {
+exports.updateElapsedTimeRedux = function (id, elapsedTime) {
     return {
         type: exports.UPDATE_ELAPSED_TIME,
         payload: {
@@ -82434,14 +82415,13 @@ var updateElapsedTimeRedux = function (id, elapsedTime) {
         }
     };
 };
-exports.updateElapsedTimeRedux = updateElapsedTimeRedux;
 // ------------------------------------
 // Reducer
 // ------------------------------------
 var initialState = {
     boards: {},
 };
-var boardsStateReducer = function (state, action) {
+exports.boardsStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.ADD_BOARD: {
@@ -82477,7 +82457,6 @@ var boardsStateReducer = function (state, action) {
             return state;
     }
 };
-exports.boardsStateReducer = boardsStateReducer;
 
 
 /***/ }),
@@ -82510,7 +82489,7 @@ var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.j
 exports.SET_JOINED = 'SET_JOINED';
 exports.ADD_CHAT = 'ADD_CHAT';
 exports.ADD_CHAT_MEMBER = 'ADD_CHAT_MEMBER';
-var setJoined = function (joined) {
+exports.setJoined = function (joined) {
     return {
         type: exports.SET_JOINED,
         payload: {
@@ -82518,8 +82497,7 @@ var setJoined = function (joined) {
         },
     };
 };
-exports.setJoined = setJoined;
-var addChat = function (sender, message, timestamp) {
+exports.addChat = function (sender, message, timestamp) {
     return {
         type: exports.ADD_CHAT,
         payload: {
@@ -82529,8 +82507,7 @@ var addChat = function (sender, message, timestamp) {
         }
     };
 };
-exports.addChat = addChat;
-var addChatMember = function (userName) {
+exports.addChatMember = function (userName) {
     return {
         type: exports.ADD_CHAT_MEMBER,
         payload: {
@@ -82538,7 +82515,6 @@ var addChatMember = function (userName) {
         }
     };
 };
-exports.addChatMember = addChatMember;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -82547,7 +82523,7 @@ var initialState = {
     members: [],
     chats: [],
 };
-var chatStateReducer = function (state, action) {
+exports.chatStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.SET_JOINED: {
@@ -82569,7 +82545,6 @@ var chatStateReducer = function (state, action) {
             return state;
     }
 };
-exports.chatStateReducer = chatStateReducer;
 
 
 /***/ }),
@@ -82602,7 +82577,7 @@ exports.SET_GRID_DATA = 'SET_GRID_DATA';
 exports.SET_SIZE = 'SET_SIZE';
 exports.SET_CROSSSWORD_CLUES = 'SET_CROSSSWORD_CLUES';
 exports.SET_ACTIVE_PUZZLE = 'SET_ACTIVE_PUZZLE';
-var setSize = function (size) {
+exports.setSize = function (size) {
     return {
         type: exports.SET_SIZE,
         payload: {
@@ -82610,8 +82585,7 @@ var setSize = function (size) {
         }
     };
 };
-exports.setSize = setSize;
-var setGridData = function (gridData) {
+exports.setGridData = function (gridData) {
     return {
         type: exports.SET_GRID_DATA,
         payload: {
@@ -82619,8 +82593,7 @@ var setGridData = function (gridData) {
         },
     };
 };
-exports.setGridData = setGridData;
-var setCrosswordClues = function (crosswordClues) {
+exports.setCrosswordClues = function (crosswordClues) {
     return {
         type: exports.SET_CROSSSWORD_CLUES,
         payload: {
@@ -82628,7 +82601,6 @@ var setCrosswordClues = function (crosswordClues) {
         }
     };
 };
-exports.setCrosswordClues = setCrosswordClues;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -82637,7 +82609,7 @@ var initialState = {
     gridData: [],
     cluesByDirection: null,
 };
-var derivedCrosswordDataReducer = function (state, action) {
+exports.derivedCrosswordDataReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.SET_SIZE: {
@@ -82653,7 +82625,6 @@ var derivedCrosswordDataReducer = function (state, action) {
             return state;
     }
 };
-exports.derivedCrosswordDataReducer = derivedCrosswordDataReducer;
 
 
 /***/ }),
@@ -82683,7 +82654,7 @@ exports.gameStateReducer = exports.setFocusedClues = exports.SET_FOCUSED_CLUES =
 // Constants
 // ------------------------------------
 exports.SET_FOCUSED_CLUES = 'SET_FOCUSED_CLUES';
-var setFocusedClues = function (focusedAcrossClue, focusedDownClue) {
+exports.setFocusedClues = function (focusedAcrossClue, focusedDownClue) {
     return {
         type: exports.SET_FOCUSED_CLUES,
         payload: {
@@ -82692,7 +82663,6 @@ var setFocusedClues = function (focusedAcrossClue, focusedDownClue) {
         },
     };
 };
-exports.setFocusedClues = setFocusedClues;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -82700,7 +82670,7 @@ var initialState = {
     focusedAcrossClue: null,
     focusedDownClue: null,
 };
-var gameStateReducer = function (state, action) {
+exports.gameStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.SET_FOCUSED_CLUES:
@@ -82709,7 +82679,6 @@ var gameStateReducer = function (state, action) {
             return state;
     }
 };
-exports.gameStateReducer = gameStateReducer;
 
 
 /***/ }),
@@ -82741,7 +82710,7 @@ var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.j
 // ------------------------------------
 exports.INITIALIZE_GUESS_GRID = 'INITIALIZE_GUESS_GRID';
 exports.UPDATE_GUESS = 'UPDATE_GUESS';
-var initializeGuesses = function (guesses) {
+exports.initializeGuesses = function (guesses) {
     return {
         type: exports.INITIALIZE_GUESS_GRID,
         payload: {
@@ -82749,8 +82718,7 @@ var initializeGuesses = function (guesses) {
         },
     };
 };
-exports.initializeGuesses = initializeGuesses;
-var updateGuess = function (row, col, puzzleGuess) {
+exports.updateGuess = function (row, col, puzzleGuess) {
     return {
         type: exports.UPDATE_GUESS,
         payload: {
@@ -82760,14 +82728,13 @@ var updateGuess = function (row, col, puzzleGuess) {
         },
     };
 };
-exports.updateGuess = updateGuess;
 // ------------------------------------
 // Reducer
 // ------------------------------------
 var initialState = {
     guessesGrid: null,
 };
-var guessesStateReducer = function (state, action) {
+exports.guessesStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.INITIALIZE_GUESS_GRID: {
@@ -82782,7 +82749,6 @@ var guessesStateReducer = function (state, action) {
             return state;
     }
 };
-exports.guessesStateReducer = guessesStateReducer;
 
 
 /***/ }),
@@ -82837,7 +82803,7 @@ var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.j
 // ------------------------------------
 exports.ADD_PUZZLE_METADATA = 'ADD_PUZZLE_METADATA';
 exports.ADD_PUZZLE = 'ADD_PUZZLE';
-var addPuzzleMetadata = function (id, puzzleMetadata) {
+exports.addPuzzleMetadata = function (id, puzzleMetadata) {
     return {
         type: exports.ADD_PUZZLE_METADATA,
         payload: {
@@ -82846,8 +82812,7 @@ var addPuzzleMetadata = function (id, puzzleMetadata) {
         }
     };
 };
-exports.addPuzzleMetadata = addPuzzleMetadata;
-var addPuzzle = function (id, puzzle) {
+exports.addPuzzle = function (id, puzzle) {
     return {
         type: exports.ADD_PUZZLE,
         payload: {
@@ -82856,7 +82821,6 @@ var addPuzzle = function (id, puzzle) {
         }
     };
 };
-exports.addPuzzle = addPuzzle;
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -82865,7 +82829,7 @@ var initialState = {
     puzzles: {},
     puzzlesByFileName: {},
 };
-var puzzlesStateReducer = function (state, action) {
+exports.puzzlesStateReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.ADD_PUZZLE_METADATA: {
@@ -82883,7 +82847,6 @@ var puzzlesStateReducer = function (state, action) {
             return state;
     }
 };
-exports.puzzlesStateReducer = puzzlesStateReducer;
 
 
 /***/ }),
@@ -82903,7 +82866,7 @@ var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.j
 // Constants
 // ------------------------------------
 exports.ADD_USER = 'ADD_USER';
-var addUser = function (userName, user) {
+exports.addUser = function (userName, user) {
     return {
         type: exports.ADD_USER,
         payload: {
@@ -82912,12 +82875,11 @@ var addUser = function (userName, user) {
         },
     };
 };
-exports.addUser = addUser;
 // ------------------------------------
 // Reducer
 // ------------------------------------
 var initialState = {};
-var usersReducer = function (state, action) {
+exports.usersReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case exports.ADD_USER: {
@@ -82929,7 +82891,6 @@ var usersReducer = function (state, action) {
             return state;
     }
 };
-exports.usersReducer = usersReducer;
 
 
 /***/ }),
@@ -82944,18 +82905,15 @@ exports.usersReducer = usersReducer;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getStartupBoardId = exports.getStartPage = exports.getAppParameters = void 0;
-var getAppParameters = function (state) {
+exports.getAppParameters = function (state) {
     return state.appParameters;
 };
-exports.getAppParameters = getAppParameters;
-var getStartPage = function (state) {
+exports.getStartPage = function (state) {
     return exports.getAppParameters(state).startPage;
 };
-exports.getStartPage = getStartPage;
-var getStartupBoardId = function (state) {
+exports.getStartupBoardId = function (state) {
     return exports.getAppParameters(state).startupBoardId;
 };
-exports.getStartupBoardId = getStartupBoardId;
 
 
 /***/ }),
@@ -82970,22 +82928,18 @@ exports.getStartupBoardId = getStartupBoardId;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPuzzlePlayActive = exports.getCurrentUser = exports.getBoardId = exports.getAppState = void 0;
-var getAppState = function (state) {
+exports.getAppState = function (state) {
     return state.appState;
 };
-exports.getAppState = getAppState;
-var getBoardId = function (state) {
+exports.getBoardId = function (state) {
     return state.appState.boardId;
 };
-exports.getBoardId = getBoardId;
-var getCurrentUser = function (state) {
+exports.getCurrentUser = function (state) {
     return state.appState.userName;
 };
-exports.getCurrentUser = getCurrentUser;
-var getPuzzlePlayActive = function (state) {
+exports.getPuzzlePlayActive = function (state) {
     return state.appState.puzzlePlayActive;
 };
-exports.getPuzzlePlayActive = getPuzzlePlayActive;
 
 
 /***/ }),
@@ -83003,19 +82957,17 @@ exports.getElapsedTime = exports.getCellContents = exports.getBoard = exports.ge
 /* eslint-disable no-prototype-builtins */
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var appState_1 = __webpack_require__(/*! ./appState */ "./src/selectors/appState.ts");
-var getBoards = function (state) {
+exports.getBoards = function (state) {
     return state.boardsState.boards;
 };
-exports.getBoards = getBoards;
-var getBoard = function (state, boardId) {
+exports.getBoard = function (state, boardId) {
     var boardsMap = exports.getBoards(state);
     if (boardsMap.hasOwnProperty(boardId)) {
         return boardsMap[boardId];
     }
     return null;
 };
-exports.getBoard = getBoard;
-var getCellContents = function (state) {
+exports.getCellContents = function (state) {
     var boardId = appState_1.getBoardId(state);
     var boardsMap = exports.getBoards(state);
     if (boardsMap.hasOwnProperty(boardId)) {
@@ -83023,8 +82975,7 @@ var getCellContents = function (state) {
     }
     return null;
 };
-exports.getCellContents = getCellContents;
-var getElapsedTime = function (state) {
+exports.getElapsedTime = function (state) {
     var boardEntity = exports.getBoard(state, appState_1.getBoardId(state));
     if (!lodash_1.isNil(boardEntity) && lodash_1.isNumber(boardEntity.elapsedTime)) {
         return boardEntity.elapsedTime;
@@ -83033,7 +82984,6 @@ var getElapsedTime = function (state) {
         return 0;
     }
 };
-exports.getElapsedTime = getElapsedTime;
 
 
 /***/ }),
@@ -83048,22 +82998,18 @@ exports.getElapsedTime = getElapsedTime;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getChats = exports.getChatMembers = exports.getJoinedChat = exports.getChatState = void 0;
-var getChatState = function (state) {
+exports.getChatState = function (state) {
     return state.chat;
 };
-exports.getChatState = getChatState;
-var getJoinedChat = function (state) {
+exports.getJoinedChat = function (state) {
     return exports.getChatState(state).joined;
 };
-exports.getJoinedChat = getJoinedChat;
-var getChatMembers = function (state) {
+exports.getChatMembers = function (state) {
     return exports.getChatState(state).members;
 };
-exports.getChatMembers = getChatMembers;
-var getChats = function (state) {
+exports.getChats = function (state) {
     return exports.getChatState(state).chats;
 };
-exports.getChats = getChats;
 
 
 /***/ }),
@@ -83078,18 +83024,15 @@ exports.getChats = getChats;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getCrosswordClues = exports.getGridData = exports.getSize = void 0;
-var getSize = function (state) {
+exports.getSize = function (state) {
     return state.derivedCrosswordData.size;
 };
-exports.getSize = getSize;
-var getGridData = function (state) {
+exports.getGridData = function (state) {
     return state.derivedCrosswordData.gridData;
 };
-exports.getGridData = getGridData;
-var getCrosswordClues = function (state) {
+exports.getCrosswordClues = function (state) {
     return state.derivedCrosswordData.cluesByDirection;
 };
-exports.getCrosswordClues = getCrosswordClues;
 
 
 /***/ }),
@@ -83103,11 +83046,16 @@ exports.getCrosswordClues = getCrosswordClues;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getGameState = void 0;
-var getGameState = function (state) {
+exports.getFocusedDownClue = exports.getFocusedAcrossClue = exports.getGameState = void 0;
+exports.getGameState = function (state) {
     return state.gameState;
 };
-exports.getGameState = getGameState;
+exports.getFocusedAcrossClue = function (state) {
+    return exports.getGameState(state).focusedAcrossClue;
+};
+exports.getFocusedDownClue = function (state) {
+    return exports.getGameState(state).focusedDownClue;
+};
 
 
 /***/ }),
@@ -83122,10 +83070,9 @@ exports.getGameState = getGameState;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getGuesses = void 0;
-var getGuesses = function (state) {
+exports.getGuesses = function (state) {
     return state.guessesState.guessesGrid;
 };
-exports.getGuesses = getGuesses;
 
 
 /***/ }),
@@ -83173,15 +83120,14 @@ __exportStar(__webpack_require__(/*! ./users */ "./src/selectors/users.ts"), exp
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getDisplayedPuzzle = exports.getPuzzle = void 0;
-var getPuzzle = function (state, puzzleId) {
+exports.getPuzzle = function (state, puzzleId) {
     // eslint-disable-next-line no-prototype-builtins
     if (state.puzzlesState.puzzles.hasOwnProperty(puzzleId)) {
         return state.puzzlesState.puzzles[puzzleId];
     }
     return null;
 };
-exports.getPuzzle = getPuzzle;
-var getDisplayedPuzzle = function (state) {
+exports.getDisplayedPuzzle = function (state) {
     var displayedPuzzle = {
         across: {},
         down: {},
@@ -83215,7 +83161,6 @@ var getDisplayedPuzzle = function (state) {
     }
     return displayedPuzzle;
 };
-exports.getDisplayedPuzzle = getDisplayedPuzzle;
 
 
 /***/ }),
@@ -83230,18 +83175,15 @@ exports.getDisplayedPuzzle = getDisplayedPuzzle;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPuzzleExistsByFileNameMap = exports.getPuzzlesMap = exports.getPuzzlesMetadata = void 0;
-var getPuzzlesMetadata = function (state) {
+exports.getPuzzlesMetadata = function (state) {
     return state.puzzlesState.puzzlesMetadata;
 };
-exports.getPuzzlesMetadata = getPuzzlesMetadata;
-var getPuzzlesMap = function (state) {
+exports.getPuzzlesMap = function (state) {
     return state.puzzlesState.puzzles;
 };
-exports.getPuzzlesMap = getPuzzlesMap;
-var getPuzzleExistsByFileNameMap = function (state) {
+exports.getPuzzleExistsByFileNameMap = function (state) {
     return state.puzzlesState.puzzlesByFileName;
 };
-exports.getPuzzleExistsByFileNameMap = getPuzzleExistsByFileNameMap;
 // export const puzzleExists = (state: TedwordState, fileName: string): boolean => {
 //   const puzzlesByFileName: PuzzleExistsByFileNameMap = state.puzzlesState.puzzlesByFileName;
 //   // eslint-disable-next-line no-prototype-builtins
@@ -83261,10 +83203,9 @@ exports.getPuzzleExistsByFileNameMap = getPuzzleExistsByFileNameMap;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getUsers = void 0;
-var getUsers = function (state) {
+exports.getUsers = function (state) {
     return state.users;
 };
-exports.getUsers = getUsers;
 
 
 /***/ }),
@@ -83365,10 +83306,12 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createEmptyGuessesGrid = exports.createGridData = exports.createEmptyGrid = exports.calculateExtents = exports.otherDirection = exports.isAcross = exports.bothDirections = void 0;
@@ -83464,11 +83407,11 @@ function fillClues(gridData, data, direction) {
         }
     });
 }
-var createGridData = function (data) {
+exports.createGridData = function (data) {
     // TEDTODO type
     var acrossMax = calculateExtents(data, 'across');
     var downMax = calculateExtents(data, 'down');
-    var size = Math.max.apply(Math, __spreadArray(__spreadArray([], Object.values(acrossMax)), Object.values(downMax))) + 1;
+    var size = Math.max.apply(Math, __spreadArrays(Object.values(acrossMax), Object.values(downMax))) + 1;
     var gridData = createEmptyGrid(size);
     fillClues(gridData, data, 'across');
     fillClues(gridData, data, 'down');
@@ -83477,12 +83420,11 @@ var createGridData = function (data) {
         gridData: gridData,
     };
 };
-exports.createGridData = createGridData;
-var createEmptyGuessesGrid = function (displayedPuzzle) {
+exports.createEmptyGuessesGrid = function (displayedPuzzle) {
     // TEDTODO - type
     var rowCount = calculateExtents(displayedPuzzle, 'across');
     var colCount = calculateExtents(displayedPuzzle, 'down');
-    var size = Math.max.apply(Math, __spreadArray(__spreadArray([], Object.values(rowCount)), Object.values(colCount))) + 1;
+    var size = Math.max.apply(Math, __spreadArrays(Object.values(rowCount), Object.values(colCount))) + 1;
     var emptyCellGuess = {
         value: '',
         guessIsRemote: false,
@@ -83498,7 +83440,6 @@ var createEmptyGuessesGrid = function (displayedPuzzle) {
     }
     return guesses;
 };
-exports.createEmptyGuessesGrid = createEmptyGuessesGrid;
 
 
 /***/ }),
