@@ -27,7 +27,8 @@ import {
   updateLastPlayedDateTime,
   joinChat,
   authenticateChat,
-  sendChatMessage
+  sendChatMessage,
+  addChatMessage
  } from './controllers';
 
 export let pusher: any;
@@ -88,7 +89,8 @@ class App {
     // chat routes
     this.app.post('/api/v1/joinChat', joinChat);
     this.app.post('/pusher/auth', authenticateChat);
-    this.app.post('/api/v1/sendMessage', sendChatMessage); 
+    this.app.post('/api/v1/sendMessage', sendChatMessage);
+    this.app.post('/api/v1/addChatMessage', addChatMessage);
   }
   
   private config(): void {

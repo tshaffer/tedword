@@ -1,4 +1,4 @@
-import { PuzzleSpec } from "./baseTypes";
+import { PuzzleSpec } from './baseTypes';
 
 export interface BoardEntity {
   id: string;
@@ -11,6 +11,11 @@ export interface BoardEntity {
   elapsedTime: number;
   solved: boolean;
   difficulty: number;
+}
+
+export interface ChatSessionEntity {
+  id: string;
+  boardId: string;
 }
 
 export interface CellContentsValue {

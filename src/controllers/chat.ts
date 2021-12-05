@@ -1,4 +1,8 @@
+import { ChatSessionEntity } from 'entities';
 import { Request, Response } from 'express';
+import { isNil } from 'lodash';
+import ChatSession from 'src/models/ChatSession';
+import { addChatMessageToDb, getChatSession } from '.';
 
 import { pusher } from '../app';
 
@@ -21,9 +25,32 @@ export function authenticateChat(request: Request, response: Response) {
 }
 
 export function sendChatMessage(request: Request, response: Response) {
+
+  const { boardid, username, message } = request.body;
+
   pusher.trigger('presence-groupChat', 'message_sent', {
-    username: request.body.username,
-    message: request.body.message
+    boardid,
+    username,
+    message
   });
+
+  // add message to db
+
   response.send('Message sent');
+}
+
+export function addChatMessage(request: Request, response: Response) {
+
+  const { boardId, username, message } = request.body;
+
+  getChatSession(boardId).then((chatSessionEntity: ChatSessionEntity | null) => {
+    if (isNil(chatSessionEntity)) {
+      // add chat session
+    }
+    // add message to chat session
+  })
+  // add message to db
+  addChatMessageToDb(boardId, username, message);
+
+  response.send('Message added');
 }

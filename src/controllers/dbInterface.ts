@@ -1,8 +1,9 @@
 import { isArray, isNil } from 'lodash';
 import { Document } from 'mongoose';
 
-import { BoardEntity, CellContentsValue, PuzzleEntity, UserEntity } from 'entities';
+import { BoardEntity, CellContentsValue, ChatSessionEntity, PuzzleEntity, UserEntity } from 'entities';
 import Board from '../models/Board';
+import ChatSession from '../models/ChatSession';
 import Puzzle from '../models/Puzzle';
 import User from '../models/User';
 
@@ -133,8 +134,8 @@ export const addUserToBoardDb = (boardId: string, userName: string): void => {
 }
 
 export const updateLastPlayedDateTimeDb = (boardId: string, lastPlayedDateTime: Date): void => {
-  Board.find( { id: boardId, }
-    ,(err, boardDocs: any) => {
+  Board.find({ id: boardId, }
+    , (err, boardDocs: any) => {
       if (err) {
         console.log(err);
       } else
@@ -147,8 +148,8 @@ export const updateLastPlayedDateTimeDb = (boardId: string, lastPlayedDateTime: 
 }
 
 export const updateElapsedTimeDb = (boardId: string, elapsedTime: number): void => {
-  Board.find( { id: boardId, }
-    ,(err, boardDocs: any) => {
+  Board.find({ id: boardId, }
+    , (err, boardDocs: any) => {
       if (err) {
         console.log(err);
       } else
@@ -180,3 +181,39 @@ export const updateElapsedTimeDb = (boardId: string, elapsedTime: number): void 
 //   });
 // };
 
+// timestamp - passed in or generated here?
+// algorithm
+//    does a ChatSession already exist for this boardId?
+//      if not, create one
+//    get ChatSessionId
+//    append specified chat to this chatSession
+export const addChatMessageToDb = (boardId: string, userName: string, message: string) => {
+  ChatSession.find(
+    {
+      id: boardId
+    },
+    (err, chatSessionDocs: any) => {
+      if (isArray(chatSessionDocs) && chatSessionDocs.length === 1) {
+
+      }
+    }
+  )
+};
+
+export const getChatSession = (boardId: string): Promise<ChatSessionEntity | null> => {
+
+  const query = ChatSession.find({ boardid: boardId });
+  const promise: Promise<Document[]> = query.exec();
+  return promise.then((chatSessionDocuments: Document[]) => {
+    console.log('chatSessionDocuments');
+    if (isArray(chatSessionDocuments) && chatSessionDocuments.length === 1) {
+      const chatSessionDocument = chatSessionDocuments[0];
+      console.log('chatSessionDocument', chatSessionDocument);
+      const chatSessionEntity: ChatSessionEntity = chatSessionDocument.toObject() as ChatSessionEntity;
+      return Promise.resolve(chatSessionEntity);
+    }
+    else {
+      return Promise.resolve(null);
+    }
+  });
+};
