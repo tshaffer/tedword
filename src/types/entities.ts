@@ -16,6 +16,13 @@ export interface BoardEntity {
 export interface ChatSessionEntity {
   id: string;
   boardId: string;
+  chatMessages: Chat[];
+}
+
+export interface Chat {
+  sender: string;
+  message: string;
+  timestamp: Date;
 }
 
 export interface CellContentsValue {

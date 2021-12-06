@@ -1,8 +1,10 @@
-import { ChatSessionEntity } from 'entities';
 import { Request, Response } from 'express';
+import { Document } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 import { isNil } from 'lodash';
-import ChatSession from 'src/models/ChatSession';
-import { addChatMessageToDb, getChatSession } from '.';
+
+import { addChatMessageToDb, getChatSession, createChatSessionDocument } from './dbInterface';
+import { ChatSessionEntity } from 'entities';
 
 import { pusher } from '../app';
 
@@ -41,16 +43,27 @@ export function sendChatMessage(request: Request, response: Response) {
 
 export function addChatMessage(request: Request, response: Response) {
 
-  const { boardId, username, message } = request.body;
+  const { boardId, userName, message } = request.body;
 
-  getChatSession(boardId).then((chatSessionEntity: ChatSessionEntity | null) => {
-    if (isNil(chatSessionEntity)) {
-      // add chat session
+  getChatSession(boardId).then((existingChatSessionEntity: ChatSessionEntity | null) => {
+    if (!isNil(existingChatSessionEntity)) {
+      const chatSessionId: string = existingChatSessionEntity.id;
+      addChatMessageToDb(chatSessionId, userName, message);
+    } else {
+      const chatSessionEntity: ChatSessionEntity = {
+        id: uuidv4(),
+        boardId,
+        chatMessages: []
+      };
+      createChatSessionDocument(chatSessionEntity)
+        .then((chatSessionDoc) => {
+          const chatSessionDocument = chatSessionDoc as Document;
+          console.log('ChatSessionDocument');
+          console.log(chatSessionDocument);
+          const chatSessionId: string = chatSessionDocument.id;
+          addChatMessageToDb(chatSessionId, userName, message);
+        })
     }
-    // add message to chat session
   })
-  // add message to db
-  addChatMessageToDb(boardId, username, message);
-
   response.send('Message added');
 }

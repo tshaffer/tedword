@@ -1,7 +1,7 @@
 import { isArray, isNil } from 'lodash';
 import { Document } from 'mongoose';
 
-import { BoardEntity, CellContentsValue, ChatSessionEntity, PuzzleEntity, UserEntity } from 'entities';
+import { BoardEntity, CellContentsValue, Chat, ChatSessionEntity, PuzzleEntity, UserEntity } from 'entities';
 import Board from '../models/Board';
 import ChatSession from '../models/ChatSession';
 import Puzzle from '../models/Puzzle';
@@ -128,7 +128,6 @@ export const addUserToBoardDb = (boardId: string, userName: string): void => {
           const boardDoc: any = boardDocs[0];
           (boardDoc as BoardEntity).users.push(userName);
           boardDoc.save();
-
         }
     });
 }
@@ -187,22 +186,27 @@ export const updateElapsedTimeDb = (boardId: string, elapsedTime: number): void 
 //      if not, create one
 //    get ChatSessionId
 //    append specified chat to this chatSession
-export const addChatMessageToDb = (boardId: string, userName: string, message: string) => {
+export const addChatMessageToDb = (chatSessionId: string, userName: string, message: string) => {
   ChatSession.find(
     {
-      id: boardId
+      id: chatSessionId,
     },
     (err, chatSessionDocs: any) => {
+      if (err) {
+        console.log(err);
+      } else
       if (isArray(chatSessionDocs) && chatSessionDocs.length === 1) {
-
+        const chatSessionDoc: any = chatSessionDocs[0];
+        const chat: Chat = { sender: userName, message, timestamp: new Date() };
+        (chatSessionDoc as ChatSessionEntity).chatMessages.push(chat);
+        chatSessionDoc.save();
       }
     }
   )
 };
 
 export const getChatSession = (boardId: string): Promise<ChatSessionEntity | null> => {
-
-  const query = ChatSession.find({ boardid: boardId });
+  const query = ChatSession.find({ boardId });
   const promise: Promise<Document[]> = query.exec();
   return promise.then((chatSessionDocuments: Document[]) => {
     console.log('chatSessionDocuments');
@@ -217,3 +221,11 @@ export const getChatSession = (boardId: string): Promise<ChatSessionEntity | nul
     }
   });
 };
+
+export const createChatSessionDocument = (chatSessionEntity: ChatSessionEntity): Promise<Document> => {
+  return ChatSession.create(chatSessionEntity)
+    .then((chatSession: Document) => {
+      return Promise.resolve(chatSession);
+    });
+}
+
