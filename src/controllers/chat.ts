@@ -42,15 +42,20 @@ export function sendChatMessage(request: Request, response: Response) {
   });
 
   // add message to db
+  addChatMessage(boardid, username, message);
 
-  response.send('Message sent');
+  response.send('Message sent and added to db');
 }
 
-export function addChatMessage(request: Request, response: Response) {
-
+export function addChatMessageEndpoint(request: Request, response: Response) {
   const { boardId, userName, message } = request.body;
+  addChatMessage(boardId, userName, message);
+  response.send('Message added');
+}
 
-  getChatSession(boardId).then((existingChatSessionEntity: ChatSessionEntity | null) => {
+export function addChatMessage(boardId: string, userName: string, message: string): Promise<any> {
+
+  return getChatSession(boardId).then((existingChatSessionEntity: ChatSessionEntity | null) => {
     if (!isNil(existingChatSessionEntity)) {
       const chatSessionId: string = existingChatSessionEntity.id;
       addChatMessageToDb(chatSessionId, userName, message);
@@ -60,7 +65,7 @@ export function addChatMessage(request: Request, response: Response) {
         boardId,
         chatMessages: []
       };
-      createChatSessionDocument(chatSessionEntity)
+      return createChatSessionDocument(chatSessionEntity)
         .then((chatSessionDoc) => {
           const chatSessionDocument = chatSessionDoc as Document;
           console.log('ChatSessionDocument');
@@ -70,5 +75,4 @@ export function addChatMessage(request: Request, response: Response) {
         })
     }
   })
-  response.send('Message added');
 }
