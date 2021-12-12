@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { isNil } from 'lodash';
+import { isArray, isNil } from 'lodash';
 
 import { addChatMessageToDb, getChatSession, createChatSessionDocument } from './dbInterface';
-import { ChatSessionEntity } from 'entities';
+import { Chat, ChatSessionEntity } from '../types';
 
 import { pusher } from '../app';
+import ChatSession from '../models/ChatSession';
 
 export function joinChat(request: Request, response: Response) {
   console.log('joinChat');
@@ -30,7 +31,7 @@ export function authenticateChat(request: Request, response: Response) {
 }
 
 export function sendChatMessage(request: Request, response: Response) {
-  
+
   console.log('sendChatMessage');
   const { boardid, username, message } = request.body;
   console.log('presence-' + boardid);
@@ -45,12 +46,6 @@ export function sendChatMessage(request: Request, response: Response) {
   addChatMessage(boardid, username, message);
 
   response.send('Message sent and added to db');
-}
-
-export function addChatMessageEndpoint(request: Request, response: Response) {
-  const { boardId, userName, message } = request.body;
-  addChatMessage(boardId, userName, message);
-  response.send('Message added');
 }
 
 export function addChatMessage(boardId: string, userName: string, message: string): Promise<any> {
@@ -75,4 +70,50 @@ export function addChatMessage(boardId: string, userName: string, message: strin
         })
     }
   })
+}
+
+export const getChatMessages = (request: Request, response: Response, next: any) => {
+
+  console.log('getChatMessages');
+
+  console.log('request.query:');
+  console.log(request.query);
+
+  const boardId: string = request.query.id as string;
+
+  getChatMessagesFromDb(boardId)
+    .then((chatMessages: any) => {
+      console.log('chatMessages');
+      console.log(chatMessages);
+      response.json(chatMessages);
+    })
+};
+
+const getChatMessagesFromDb = (boardId: string): Promise<Chat[]> => {
+  console.log('getChatMessagesFromDb');
+  console.log(boardId);
+  const query = ChatSession.find({ boardId });
+  query.select(['chatMessages']);
+  const promise = query.exec();
+  return promise
+    .then((chatDocs: any) => {
+      console.log('chatDocs')
+      console.log(chatDocs);
+      if (isArray(chatDocs) && chatDocs.length === 1) {
+        const chatDocsData: any = chatDocs[0].toObject();
+        console.log('chatMessages');
+
+        const chatMessages: Chat[] = [];
+        for (const chatMessage of chatDocsData.chatMessages) {
+          const { sender, message, timestamp } = chatMessage;
+          const chat: Chat = { sender, message, timestamp };
+          chatMessages.push(chat);
+        }
+        return Promise.resolve(chatMessages);
+      }
+    }).catch((err: any) => {
+      console.log(err);
+      debugger;
+      return Promise.reject(err);
+    });
 }

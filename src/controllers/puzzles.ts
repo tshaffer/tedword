@@ -7,28 +7,28 @@ import { PuzzleEntity, PuzzleMetadata, PuzzleSpec } from '../types';
 import { createPuzzle } from './dbInterface';
 
 export const getAllPuzzlesMetadata = (request: Request, response: Response, next: any) => {
-  console.log('getAllPuzzlesMetadata');
+  // console.log('getAllPuzzlesMetadata');
 
   getAllPuzzlesMetadataFromDb()
     .then((puzzlesMetadata: PuzzleMetadata[]) => {
-      console.log('puzzlesMetadata');
-      console.log(puzzlesMetadata);
+      // console.log('puzzlesMetadata');
+      // console.log(puzzlesMetadata);
       response.json(puzzlesMetadata);
     })
 };
 
 export const getPuzzleMetadata = (request: Request, response: Response, next: any) => {
 
-  console.log('getPuzzleMetadata');
+  // console.log('getPuzzleMetadata');
 
-  console.log('request.query:');
-  console.log(request.query);
+  // console.log('request.query:');
+  // console.log(request.query);
 
   const id: string = request.query.id as string;
 
   getPuzzleMetadataFromDb(id)
     .then((puzzleMetadata: PuzzleMetadata) => {
-      console.log('puzzleMetadata');
+      // console.log('puzzleMetadata');
       // console.log(puzzleMetadata);
       response.json(puzzleMetadata);
     })
@@ -95,16 +95,16 @@ const getAllPuzzlesMetadataFromDb = (): Promise<PuzzleMetadata[]> => {
 
 export const getPuzzle = (request: Request, response: Response, next: any) => {
 
-  console.log('getPuzzle');
+  // console.log('getPuzzle');
 
-  console.log('request.query:');
-  console.log(request.query);
+  // console.log('request.query:');
+  // console.log(request.query);
 
   const id: string = request.query.id as string;
 
   getPuzzleFromDb(id)
     .then((puzzle: PuzzleSpec) => {
-      console.log('puzzle');
+      // console.log('puzzle');
       // console.log(puzzle);
       response.json(puzzle);
     })

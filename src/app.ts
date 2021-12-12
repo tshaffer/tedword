@@ -28,7 +28,7 @@ import {
   joinChat,
   authenticateChat,
   sendChatMessage,
-  addChatMessageEndpoint,
+  getChatMessages,
  } from './controllers';
 
 export let pusher: any;
@@ -87,10 +87,10 @@ class App {
     this.app.post('/api/v1/updateElapsedTime', updateElapsedTime)
     
     // chat routes
+    this.app.get('/api/v1/chatMessages', getChatMessages);
     this.app.post('/api/v1/joinChat', joinChat);
     this.app.post('/pusher/auth', authenticateChat);
     this.app.post('/api/v1/sendMessage', sendChatMessage);
-    this.app.post('/api/v1/addChatMessage', addChatMessageEndpoint);
   }
   
   private config(): void {
