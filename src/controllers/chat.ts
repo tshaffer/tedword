@@ -11,11 +11,14 @@ import { pusher } from '../app';
 export function joinChat(request: Request, response: Response) {
   console.log('joinChat');
   console.log(request.session);
+  ((request as any).session as any).boardid = request.body.boardid;
   ((request as any).session as any).username = request.body.username;
   response.json('Joined');
 }
 
 export function authenticateChat(request: Request, response: Response) {
+  console.log('authenticateChat');
+  console.log(request.body);
   const socketId = request.body.socket_id;
   const channel = request.body.channel_name;
   // Retrieve username from session and use as presence channel user_id
@@ -27,10 +30,12 @@ export function authenticateChat(request: Request, response: Response) {
 }
 
 export function sendChatMessage(request: Request, response: Response) {
-
+  
+  console.log('sendChatMessage');
   const { boardid, username, message } = request.body;
+  console.log('presence-' + boardid);
 
-  pusher.trigger('presence-groupChat', 'message_sent', {
+  pusher.trigger('presence-' + boardid, 'message_sent', {
     boardid,
     username,
     message

@@ -43,7 +43,7 @@ export function cellChange(request: Request, response: Response) {
   console.log(request.body);
   const { boardId, user, row, col, typedChar } = request.body;
   updateCellContents(boardId, user, row, col, typedChar);
-  pusher.trigger('puzzle', 'cell-change', {
+  pusher.trigger(boardId, 'cell-change', {
     user,
     row,
     col,
