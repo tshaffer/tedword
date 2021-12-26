@@ -55,6 +55,7 @@ class App {
         this.app.post('/api/v1/updateLastPlayedDateTime', controllers_1.updateLastPlayedDateTime);
         this.app.post('/api/v1/updateElapsedTime', controllers_1.updateElapsedTime);
         // chat routes
+        this.app.get('/api/v1/chatMessages', controllers_1.getChatMessages);
         this.app.post('/api/v1/joinChat', controllers_1.joinChat);
         this.app.post('/pusher/auth', controllers_1.authenticateChat);
         this.app.post('/api/v1/sendMessage', controllers_1.sendChatMessage);

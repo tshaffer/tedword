@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateElapsedTimeDb = exports.updateLastPlayedDateTimeDb = exports.addUserToBoardDb = exports.updateCellContents = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
+exports.createChatSessionDocument = exports.getChatSession = exports.addChatMessageToDb = exports.updateElapsedTimeDb = exports.updateLastPlayedDateTimeDb = exports.addUserToBoardDb = exports.updateCellContents = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
 const lodash_1 = require("lodash");
 const Board_1 = __importDefault(require("../models/Board"));
+const ChatSession_1 = __importDefault(require("../models/ChatSession"));
 const Puzzle_1 = __importDefault(require("../models/Puzzle"));
 const User_1 = __importDefault(require("../models/User"));
 exports.createUserDocument = (userEntity) => {
@@ -143,4 +144,47 @@ exports.updateElapsedTimeDb = (boardId, elapsedTime) => {
 //     });
 //   });
 // };
+// timestamp - passed in or generated here?
+// algorithm
+//    does a ChatSession already exist for this boardId?
+//      if not, create one
+//    get ChatSessionId
+//    append specified chat to this chatSession
+exports.addChatMessageToDb = (chatSessionId, userName, message) => {
+    ChatSession_1.default.find({
+        id: chatSessionId,
+    }, (err, chatSessionDocs) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (lodash_1.isArray(chatSessionDocs) && chatSessionDocs.length === 1) {
+            const chatSessionDoc = chatSessionDocs[0];
+            const chat = { sender: userName, message, timestamp: new Date() };
+            chatSessionDoc.chatMessages.push(chat);
+            chatSessionDoc.save();
+        }
+    });
+};
+exports.getChatSession = (boardId) => {
+    const query = ChatSession_1.default.find({ boardId });
+    const promise = query.exec();
+    return promise.then((chatSessionDocuments) => {
+        console.log('chatSessionDocuments');
+        if (lodash_1.isArray(chatSessionDocuments) && chatSessionDocuments.length === 1) {
+            const chatSessionDocument = chatSessionDocuments[0];
+            console.log('chatSessionDocument', chatSessionDocument);
+            const chatSessionEntity = chatSessionDocument.toObject();
+            return Promise.resolve(chatSessionEntity);
+        }
+        else {
+            return Promise.resolve(null);
+        }
+    });
+};
+exports.createChatSessionDocument = (chatSessionEntity) => {
+    return ChatSession_1.default.create(chatSessionEntity)
+        .then((chatSession) => {
+        return Promise.resolve(chatSession);
+    });
+};
 //# sourceMappingURL=dbInterface.js.map

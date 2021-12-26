@@ -9,22 +9,22 @@ const lodash_1 = require("lodash");
 const Puzzle_1 = __importDefault(require("../models/Puzzle"));
 const dbInterface_1 = require("./dbInterface");
 exports.getAllPuzzlesMetadata = (request, response, next) => {
-    console.log('getAllPuzzlesMetadata');
+    // console.log('getAllPuzzlesMetadata');
     getAllPuzzlesMetadataFromDb()
         .then((puzzlesMetadata) => {
-        console.log('puzzlesMetadata');
-        console.log(puzzlesMetadata);
+        // console.log('puzzlesMetadata');
+        // console.log(puzzlesMetadata);
         response.json(puzzlesMetadata);
     });
 };
 exports.getPuzzleMetadata = (request, response, next) => {
-    console.log('getPuzzleMetadata');
-    console.log('request.query:');
-    console.log(request.query);
+    // console.log('getPuzzleMetadata');
+    // console.log('request.query:');
+    // console.log(request.query);
     const id = request.query.id;
     getPuzzleMetadataFromDb(id)
         .then((puzzleMetadata) => {
-        console.log('puzzleMetadata');
+        // console.log('puzzleMetadata');
         // console.log(puzzleMetadata);
         response.json(puzzleMetadata);
     });
@@ -87,13 +87,13 @@ const getAllPuzzlesMetadataFromDb = () => {
     });
 };
 exports.getPuzzle = (request, response, next) => {
-    console.log('getPuzzle');
-    console.log('request.query:');
-    console.log(request.query);
+    // console.log('getPuzzle');
+    // console.log('request.query:');
+    // console.log(request.query);
     const id = request.query.id;
     getPuzzleFromDb(id)
         .then((puzzle) => {
-        console.log('puzzle');
+        // console.log('puzzle');
         // console.log(puzzle);
         response.json(puzzle);
     });
