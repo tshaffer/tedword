@@ -20,7 +20,8 @@ import {
   getUsers, 
   loadPuzzle, 
   getPuzzle, 
-  getBoards, 
+  getBoards,
+  getVersion, 
   uploadPuzzles, 
   addUserToBoard,
   updateElapsedTime,
@@ -67,6 +68,9 @@ class App {
   }))
 
     this.route.routes(this.app);
+
+    // app routes
+    this.app.get('/api/v1/version', getVersion);
 
     // user routes
     this.app.use('/api/v1', usersRouter);

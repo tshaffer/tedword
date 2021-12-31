@@ -1,3 +1,4 @@
+export * from './app';
 export * from './boards';
 export * from './chat';
 export * from './dbInterface';
