@@ -6,6 +6,8 @@ import Puzzle from '../models/Puzzle';
 import { PuzzleEntity, PuzzleMetadata, PuzzleSpec } from '../types';
 import { createPuzzle } from './dbInterface';
 
+const PuzCrossword = require('@confuzzle/puz-crossword').PuzCrossword;
+
 export const getAllPuzzlesMetadata = (request: Request, response: Response, next: any) => {
   // console.log('getAllPuzzlesMetadata');
 
@@ -185,8 +187,53 @@ const getPuzzleFromDb = (id: string): Promise<PuzzleEntity> => {
 //     });
 // }
 
+export function uploadPuzzleBuffer(request: Request, response: Response, next: any) {
+
+  console.log('loadPuzzle');
+
+  console.log('request.query:');
+  console.log(request.query);
+
+  const { puzzleBuffer, sourceFileName } = request.body;
+
+  const pc: PuzzleSpec = PuzCrossword.from(puzzleBuffer);
+  console.log(pc);
+
+  const { title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = pc;
+
+  const puzzleEntity: PuzzleEntity = {
+    id: uuidv4(),
+    sourceFileName,
+    title,
+    author,
+    copyright,
+    note,
+    width,
+    height,
+    clues,
+    solution,
+    state,
+    hasState,
+    parsedClues,
+  };
+
+  // TEDTODO - send response on reject
+  createPuzzle(puzzleEntity)
+    .then((puzzleDoc) => {
+      const puzzleDocument = puzzleDoc as Document;
+      console.log('added userDocument');
+      console.log(puzzleDocument);
+      console.log(puzzleDocument.toObject());
+
+      response.status(201).json({
+        success: true,
+        data: puzzleDocument,
+      });
+    });
+}
+
 export function uploadPuzzles(request: Request, response: Response, next: any) {
-  
+
   console.log('uploadPuzzles');
   console.log(request.body);
 
@@ -196,7 +243,7 @@ export function uploadPuzzles(request: Request, response: Response, next: any) {
     const { sourceFileName, title, author, copyright, note, width, height, clues, solution, state, hasState, parsedClues } = puzzleSpec as PuzzleSpec;
 
     // TEDTODO - don't add a puzzle that already exists.
-    
+
     const puzzleEntity: PuzzleEntity = {
       id: uuidv4(),
       sourceFileName,

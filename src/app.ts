@@ -30,6 +30,7 @@ import {
   authenticateChat,
   sendChatMessage,
   getChatMessages,
+  uploadPuzzleBuffer,
  } from './controllers';
 
 export let pusher: any;
@@ -82,6 +83,7 @@ class App {
     this.app.get('/api/v1/puzzleMetadata', getPuzzleMetadata);
     this.app.get('/api/v1/puzzle', getPuzzle);
     this.app.post('/api/v1/uploadPuzzles', uploadPuzzles)
+    this.app.post('/api/v1/uploadPuzzleBuffer', uploadPuzzleBuffer)
 
     // board routes
     this.app.get('/api/v1/boards', getBoards);
