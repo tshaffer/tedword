@@ -39,6 +39,8 @@ class App {
             saveUninitialized: true
         }));
         this.route.routes(this.app);
+        // app routes
+        this.app.get('/api/v1/version', controllers_1.getVersion);
         // user routes
         this.app.use('/api/v1', users_1.default);
         this.app.get('/api/v1/users', controllers_1.getUsers);
@@ -48,6 +50,7 @@ class App {
         this.app.get('/api/v1/puzzleMetadata', controllers_1.getPuzzleMetadata);
         this.app.get('/api/v1/puzzle', controllers_1.getPuzzle);
         this.app.post('/api/v1/uploadPuzzles', controllers_1.uploadPuzzles);
+        this.app.post('/api/v1/uploadPuzzleBuffer', controllers_1.uploadPuzzleBuffer);
         // board routes
         this.app.get('/api/v1/boards', controllers_1.getBoards);
         this.app.post('/api/v1/board', controllers_1.createBoard);
