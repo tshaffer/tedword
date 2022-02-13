@@ -31,6 +31,7 @@ import {
   sendChatMessage,
   getChatMessages,
   uploadPuzzleBuffer,
+  deleteBoards,
  } from './controllers';
 
 export let pusher: any;
@@ -88,6 +89,7 @@ class App {
     // board routes
     this.app.get('/api/v1/boards', getBoards);
     this.app.post('/api/v1/board', createBoard)
+    this.app.post('/api/v1/deleteGames', deleteBoards);
     this.app.post('/api/v1/addUserToBoard', addUserToBoard)
     this.app.post('/api/v1/updateLastPlayedDateTime', updateLastPlayedDateTime)   
     this.app.post('/api/v1/updateElapsedTime', updateElapsedTime)

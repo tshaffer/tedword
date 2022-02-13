@@ -1,8 +1,16 @@
 import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import { isArray } from 'lodash';
 import { BoardEntity } from '../types';
-import { addUserToBoardDb, createBoardDocument, getBoardsFromDb, updateElapsedTimeDb, updateLastPlayedDateTimeDb } from './dbInterface';
+import {
+  addUserToBoardDb,
+  createBoardDocument,
+  getBoardsFromDb,
+  updateElapsedTimeDb,
+  updateLastPlayedDateTimeDb
+} from './dbInterface';
+import { deleteBoardDocuments } from '.';
 
 export function createBoard(request: Request, response: Response, next: any) {
 
@@ -39,6 +47,20 @@ export function getBoards(request: Request, response: Response) {
       response.json(boardEntities);
     });
 }
+
+export function deleteBoards(request: Request, response: Response) {
+
+  console.log('deleteBoards');
+  console.log(request.body);
+
+  console.log(isArray(request.body));
+
+  const boardIdsToDelete = request.body as string[];
+
+  return deleteBoardDocuments(boardIdsToDelete).then(() => {
+    response.sendStatus(200);
+  });
+};
 
 export function addUserToBoard(request: Request, response: Response, next: any) {
 

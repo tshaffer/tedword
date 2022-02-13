@@ -6,6 +6,7 @@ import Board from '../models/Board';
 import ChatSession from '../models/ChatSession';
 import Puzzle from '../models/Puzzle';
 import User from '../models/User';
+import { resolve } from 'dns';
 
 export const createUserDocument = (userEntity: UserEntity): Promise<any> => {
   return User.create(userEntity)
@@ -61,6 +62,12 @@ export const createBoardDocument = (boardEntity: BoardEntity): Promise<any> => {
       return Promise.resolve(board);
     });
 };
+
+export const deleteBoardDocuments = (boardIds: string[]): Promise<any> => {
+  const query =  Board.deleteMany({ id: { $in: boardIds }});
+  query.exec();
+  return query.exec();
+}
 
 export const updateCellContents = (
   boardId: string,
