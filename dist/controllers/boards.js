@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateElapsedTime = exports.updateLastPlayedDateTime = exports.addUserToBoard = exports.getBoards = exports.createBoard = void 0;
+exports.updateElapsedTime = exports.updateLastPlayedDateTime = exports.addUserToBoard = exports.deleteBoards = exports.getBoards = exports.createBoard = void 0;
 const uuid_1 = require("uuid");
+const lodash_1 = require("lodash");
 const dbInterface_1 = require("./dbInterface");
+const _1 = require(".");
 function createBoard(request, response, next) {
     const { puzzleId, title, users, startDateTime, lastPlayedDateTime, elapsedTime, solved, difficulty } = request.body;
     const boardEntity = {
@@ -36,6 +38,17 @@ function getBoards(request, response) {
     });
 }
 exports.getBoards = getBoards;
+function deleteBoards(request, response) {
+    console.log('deleteBoards');
+    console.log(request.body);
+    console.log(lodash_1.isArray(request.body));
+    const boardIdsToDelete = request.body;
+    return _1.deleteBoardDocuments(boardIdsToDelete).then(() => {
+        response.sendStatus(200);
+    });
+}
+exports.deleteBoards = deleteBoards;
+;
 function addUserToBoard(request, response, next) {
     console.log('addUserToBoard');
     console.log(request.body);

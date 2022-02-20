@@ -54,6 +54,7 @@ class App {
         // board routes
         this.app.get('/api/v1/boards', controllers_1.getBoards);
         this.app.post('/api/v1/board', controllers_1.createBoard);
+        this.app.post('/api/v1/deleteGames', controllers_1.deleteBoards);
         this.app.post('/api/v1/addUserToBoard', controllers_1.addUserToBoard);
         this.app.post('/api/v1/updateLastPlayedDateTime', controllers_1.updateLastPlayedDateTime);
         this.app.post('/api/v1/updateElapsedTime', controllers_1.updateElapsedTime);

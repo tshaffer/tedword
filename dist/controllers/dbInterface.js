@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createChatSessionDocument = exports.getChatSession = exports.addChatMessageToDb = exports.updateElapsedTimeDb = exports.updateLastPlayedDateTimeDb = exports.addUserToBoardDb = exports.updateCellContents = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
+exports.createChatSessionDocument = exports.getChatSession = exports.addChatMessageToDb = exports.updateElapsedTimeDb = exports.updateLastPlayedDateTimeDb = exports.addUserToBoardDb = exports.updateCellContents = exports.deleteBoardDocuments = exports.createBoardDocument = exports.getBoardsFromDb = exports.createPuzzle = exports.createUserDocument = void 0;
 const lodash_1 = require("lodash");
 const Board_1 = __importDefault(require("../models/Board"));
 const ChatSession_1 = __importDefault(require("../models/ChatSession"));
@@ -51,6 +51,11 @@ exports.createBoardDocument = (boardEntity) => {
         .then((board) => {
         return Promise.resolve(board);
     });
+};
+exports.deleteBoardDocuments = (boardIds) => {
+    const query = Board_1.default.deleteMany({ id: { $in: boardIds } });
+    query.exec();
+    return query.exec();
 };
 exports.updateCellContents = (boardId, user, row, col, typedChar) => {
     console.log('updateCellContents');
